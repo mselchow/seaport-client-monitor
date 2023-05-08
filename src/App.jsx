@@ -2,9 +2,9 @@ import {
     ClerkProvider,
     SignedIn,
     SignedOut,
-    UserButton,
     RedirectToSignIn,
 } from "@clerk/clerk-react";
+import Header from "./Header";
 import "./index.css";
 
 if (!import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY) {
@@ -17,7 +17,7 @@ function App() {
     return (
         <ClerkProvider publishableKey={clerkPubKey}>
             <SignedIn>
-                <UserButton />
+                <Header />
             </SignedIn>
             <SignedOut>
                 <RedirectToSignIn />
