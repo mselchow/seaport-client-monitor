@@ -5,6 +5,7 @@ import {
     UserButton,
     RedirectToSignIn,
 } from "@clerk/clerk-react";
+import "./index.css";
 
 if (!import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY) {
     throw new Error("Missing Clerk publishable key.");
