@@ -1,13 +1,24 @@
 import { UserButton } from "@clerk/clerk-react";
+import { Navbar } from "flowbite-react";
+import seaportLogo from "./assets/seaport-logo.png";
 
 const Header = () => {
     return (
-        <div className="container mx-auto p-3">
-            <div className="mb-3 flex place-content-between border-b-2 pb-1">
-                <div className="text-2xl">Client Monitor</div>
+        <Navbar fluid={true} rounded={true}>
+            <Navbar.Brand href="/">
+                <img
+                    src={seaportLogo}
+                    className="mr-3 h-6 sm:h-9"
+                    alt="Seaport Logo"
+                />
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                    Client Monitor
+                </span>
+            </Navbar.Brand>
+            <div className="flex items-center">
                 <UserButton showName="true" />
             </div>
-        </div>
+        </Navbar>
     );
 };
 
