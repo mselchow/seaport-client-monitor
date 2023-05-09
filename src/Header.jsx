@@ -1,11 +1,10 @@
 import { UserButton } from "@clerk/clerk-react";
-import { Navbar } from "flowbite-react";
 import seaportLogo from "./assets/seaport-logo.png";
 
 const Header = () => {
     return (
-        <Navbar fluid={true} rounded={true}>
-            <Navbar.Brand href="/">
+        <div className="flex place-content-between items-center p-4">
+            <div className="flex">
                 <img
                     src={seaportLogo}
                     className="mr-3 h-6 sm:h-9"
@@ -14,11 +13,12 @@ const Header = () => {
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
                     Client Monitor
                 </span>
-            </Navbar.Brand>
-            <div className="flex items-center">
+            </div>
+
+            <div className="flex">
                 <UserButton showName="true" />
             </div>
-        </Navbar>
+        </div>
     );
 };
 
