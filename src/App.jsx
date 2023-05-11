@@ -4,6 +4,7 @@ import {
     SignedOut,
     RedirectToSignIn,
 } from "@clerk/clerk-react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "./Header";
 import Charts from "./Charts";
@@ -28,10 +29,15 @@ function App() {
     return (
         <ClerkProvider publishableKey={clerkPubKey}>
             <SignedIn>
-                <QueryClientProvider client={queryClient}>
-                    <Header />
-                    <Charts />
-                </QueryClientProvider>
+                <BrowserRouter>
+                    <QueryClientProvider client={queryClient}>
+                        <Header />
+
+                        <Routes>
+                            <Route path="/" element={<Charts />} />
+                        </Routes>
+                    </QueryClientProvider>
+                </BrowserRouter>
             </SignedIn>
             <SignedOut>
                 <RedirectToSignIn />
