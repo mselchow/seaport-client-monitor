@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UserButton } from "@clerk/clerk-react";
 import seaportLogo from "./assets/seaport-logo.png";
 
@@ -18,13 +18,37 @@ const Header = () => {
 
             <div className="flex gap-12">
                 <div>
-                    <Link to="/charts">Charts</Link>
+                    <NavLink
+                        to="/charts"
+                        className={({ isActive }) =>
+                            isActive ? "font-bold" : ""
+                        }
+                        end
+                    >
+                        Charts
+                    </NavLink>
                 </div>
                 <div>
-                    <Link to="/tables">Tables</Link>
+                    <NavLink
+                        to="/tables"
+                        className={({ isActive }) =>
+                            isActive ? "font-bold" : ""
+                        }
+                        end
+                    >
+                        Tables
+                    </NavLink>
                 </div>
                 <div>
-                    <Link to="/settings">Settings</Link>
+                    <NavLink
+                        to="/settings"
+                        className={({ isActive }) =>
+                            isActive ? "font-bold" : ""
+                        }
+                        end
+                    >
+                        Settings
+                    </NavLink>
                 </div>
             </div>
 
