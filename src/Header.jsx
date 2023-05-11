@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { UserButton } from "@clerk/clerk-react";
 import seaportLogo from "./assets/seaport-logo.png";
 
@@ -13,6 +14,18 @@ const Header = () => {
                 <span className="self-center whitespace-nowrap text-xl font-semibold">
                     Client Monitor
                 </span>
+            </div>
+
+            <div className="flex gap-12">
+                <div>
+                    <Link to="/">Charts</Link>
+                </div>
+                <div>
+                    <Link to="/">Tables</Link>
+                </div>
+                <div>
+                    <Link to="/">Settings</Link>
+                </div>
             </div>
 
             <div className="flex">
