@@ -34,15 +34,20 @@ function App() {
                 <BrowserRouter>
                     <QueryClientProvider client={queryClient}>
                         <Header />
-                        <Routes>
-                            <Route path="charts" element={<ChartsPage />} />
-                            <Route path="tables" element={<TablesPage />} />
-                            <Route path="settings" element={<SettingsPage />} />
-                            <Route
-                                path=""
-                                element={<Navigate to="/charts" />}
-                            />
-                        </Routes>
+                        <div className="flex justify-center py-5">
+                            <Routes>
+                                <Route path="charts" element={<ChartsPage />} />
+                                <Route path="tables" element={<TablesPage />} />
+                                <Route
+                                    path="settings"
+                                    element={<SettingsPage />}
+                                />
+                                <Route
+                                    path=""
+                                    element={<Navigate to="/charts" />}
+                                />
+                            </Routes>
+                        </div>
                     </QueryClientProvider>
                 </BrowserRouter>
             </SignedIn>
