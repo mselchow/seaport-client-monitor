@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import fetchClockifyData from "./fetchClockifyData";
 
-const Charts = ({ title }) => {
+const ChartsPage = ({ title }) => {
     const results = useQuery(["data"], fetchClockifyData);
 
     if (results.isLoading) {
@@ -74,4 +74,4 @@ const Charts = ({ title }) => {
     );
 };
 
-export default Charts;
+export default ChartsPage;
