@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@material-tailwind/react";
 import {
     BarChart,
     Bar,
@@ -14,11 +15,7 @@ const ChartsPage = ({ title }) => {
     const results = useQuery(["data"], fetchClockifyData);
 
     if (results.isLoading) {
-        return (
-            <div className="container mx-auto pt-2">
-                <h2>Loading...</h2>
-            </div>
-        );
+        return <Spinner className="h-10 w-10" />;
     }
 
     const chartData = [
