@@ -18,13 +18,13 @@ const Header = () => {
 
             <div className="flex gap-12">
                 <div>
-                    <Link to="/">Charts</Link>
+                    <Link to="/charts">Charts</Link>
                 </div>
                 <div>
-                    <Link to="/">Tables</Link>
+                    <Link to="/tables">Tables</Link>
                 </div>
                 <div>
-                    <Link to="/">Settings</Link>
+                    <Link to="/settings">Settings</Link>
                 </div>
             </div>
 

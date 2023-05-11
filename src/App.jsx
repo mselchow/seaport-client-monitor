@@ -4,10 +4,12 @@ import {
     SignedOut,
     RedirectToSignIn,
 } from "@clerk/clerk-react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "./Header";
-import Charts from "./Charts";
+import ChartsPage from "./ChartsPage";
+import TablesPage from "./TablesPage";
+import SettingsPage from "./SettingsPage";
 import "./index.css";
 
 if (!import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY) {
@@ -32,9 +34,14 @@ function App() {
                 <BrowserRouter>
                     <QueryClientProvider client={queryClient}>
                         <Header />
-
                         <Routes>
-                            <Route path="/" element={<Charts />} />
+                            <Route path="charts" element={<ChartsPage />} />
+                            <Route path="tables" element={<TablesPage />} />
+                            <Route path="settings" element={<SettingsPage />} />
+                            <Route
+                                path=""
+                                element={<Navigate to="/charts" />}
+                            />
                         </Routes>
                     </QueryClientProvider>
                 </BrowserRouter>
