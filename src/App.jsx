@@ -34,7 +34,7 @@ function App() {
                 <BrowserRouter>
                     <QueryClientProvider client={queryClient}>
                         <Header />
-                        <div className="flex justify-center py-5">
+                        <div className="container mx-auto flex justify-center px-5 py-5">
                             <Routes>
                                 <Route path="charts" element={<ChartsPage />} />
                                 <Route path="tables" element={<TablesPage />} />
