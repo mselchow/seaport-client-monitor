@@ -23,7 +23,6 @@ const Header = () => {
                         className={({ isActive }) =>
                             isActive ? "font-bold" : ""
                         }
-                        end
                     >
                         Charts
                     </NavLink>
@@ -34,7 +33,6 @@ const Header = () => {
                         className={({ isActive }) =>
                             isActive ? "font-bold" : ""
                         }
-                        end
                     >
                         Tables
                     </NavLink>
@@ -45,7 +43,6 @@ const Header = () => {
                         className={({ isActive }) =>
                             isActive ? "font-bold" : ""
                         }
-                        end
                     >
                         Settings
                     </NavLink>
