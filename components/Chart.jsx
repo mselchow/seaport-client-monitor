@@ -23,6 +23,7 @@ const Chart = ({ title, data }) => {
                 {title}
             </Typography>
             <BarChart
+                id={title}
                 layout="vertical"
                 width={width}
                 height={height}

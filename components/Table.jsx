@@ -11,7 +11,7 @@ const Table = ({ title, data, headers }) => {
             <Typography variant="h4" className="pb-2">
                 {title}
             </Typography>
-            <Card className="overflow-auto">
+            <Card className="overflow-auto" id={title}>
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
