@@ -7,6 +7,7 @@ module.exports = {
         "plugin:react/jsx-runtime",
         "plugin:jsx-a11y/recommended",
         "plugin:react-hooks/recommended",
+        "next/core-web-vitals",
         "prettier",
     ],
     parserOptions: {
@@ -21,6 +22,9 @@ module.exports = {
         "import/resolver": {
             node: {
                 extensions: [".js", ".jsx"],
+            },
+            jsconfig: {
+                config: "jsconfig.json",
             },
         },
     },

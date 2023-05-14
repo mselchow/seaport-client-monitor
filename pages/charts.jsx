@@ -1,9 +1,10 @@
+import Head from "next/head";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@material-tailwind/react";
-import Chart from "./Chart";
-import fetchClockifyData from "./fetchClockifyData";
+import Chart from "@/components/Chart";
+import fetchClockifyData from "@/lib/fetchClockifyData";
 
-const ChartsPage = () => {
+const Charts = () => {
     const results = useQuery(["data"], fetchClockifyData);
 
     if (results.isLoading) {
@@ -20,12 +21,17 @@ const ChartsPage = () => {
     ];
 
     return (
-        <div>
-            <Chart title="Managed Services" data={chartData} />
-            <Chart title="Block Hours" data={chartData} />
-            <Chart title="Projects" data={chartData} />
-        </div>
+        <>
+            <Head>
+                <title>Charts | Seaport Client Monitor</title>
+            </Head>
+            <div className="flex flex-col">
+                <Chart title="Managed Services" data={chartData} />
+                <Chart title="Block Hours" data={chartData} />
+                <Chart title="Projects" data={chartData} />
+            </div>
+        </>
     );
 };
 
-export default ChartsPage;
+export default Charts;

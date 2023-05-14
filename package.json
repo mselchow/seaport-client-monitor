@@ -1,42 +1,41 @@
 {
-  "name": "seaport-client-monitor",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@clerk/clerk-react": "^4.15.4",
-    "@heroicons/react": "^2.0.18",
-    "@material-tailwind/react": "^2.0.0",
-    "@tanstack/react-query": "^4.29.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1",
-    "recharts": "^2.6.2"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^4.0.0",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.38.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "postcss": "^8.4.23",
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.2.8",
-    "tailwindcss": "^3.3.2",
-    "vite": "^4.3.2"
-  }
+    "name": "seaport-client-monitor",
+    "private": true,
+    "version": "0.1.0",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@clerk/nextjs": "^4.17.3",
+        "@heroicons/react": "^2.0.18",
+        "@material-tailwind/react": "^2.0.0",
+        "@tanstack/react-query": "^4.29.5",
+        "next": "^13.4.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "recharts": "^2.6.2"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.28",
+        "@types/react-dom": "^18.0.11",
+        "autoprefixer": "^10.4.14",
+        "eslint": "^8.38.0",
+        "eslint-config-next": "^13.4.2",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-import-resolver-jsconfig": "^1.1.0",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-jsx-a11y": "^6.7.1",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.3.4",
+        "postcss": "^8.4.23",
+        "prettier": "^2.8.8",
+        "prettier-plugin-tailwindcss": "^0.2.8",
+        "tailwindcss": "^3.3.2"
+    }
 }
