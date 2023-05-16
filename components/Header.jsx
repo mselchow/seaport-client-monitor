@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { UserButton } from "@clerk/clerk-react";
+import { UserButton, ClerkLoading, ClerkLoaded } from "@clerk/clerk-react";
 import NavLink from "./NavLink";
 
 const navLinks = [
@@ -10,7 +10,8 @@ const navLinks = [
 
 const Header = () => {
     return (
-        <div className="flex place-content-between items-center border-b p-4">
+        <div className="grid grid-cols-3 items-center border-b p-4">
+            {/* <div className="flex place-content-between items-center border-b p-4"> */}
             <div className="flex">
                 <Image
                     src="/seaport-logo.png"
@@ -24,7 +25,7 @@ const Header = () => {
                 </span>
             </div>
 
-            <div className="flex gap-12">
+            <div className="flex gap-12 justify-self-center">
                 {navLinks.map((link) => (
                     <div key={link.title}>
                         <NavLink title={link.title} path={link.path} />
@@ -32,9 +33,13 @@ const Header = () => {
                 ))}
             </div>
 
-            <div className="flex">
-                <UserButton showName="true" />
+            <div className="flex justify-self-end">
+                <ClerkLoading></ClerkLoading>
+                <ClerkLoaded>
+                    <UserButton showName="true" />
+                </ClerkLoaded>
             </div>
+            {/* </div> */}
         </div>
     );
 };
