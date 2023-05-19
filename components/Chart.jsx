@@ -43,9 +43,9 @@ const Chart = ({ title, data }) => {
                     width={250}
                     tickMargin={8}
                 />
-                <Bar dataKey="value" fill="rgba(255, 159, 64, 0.4)">
+                <Bar dataKey="pctHoursUsed" fill="rgba(255, 159, 64, 0.4)">
                     <LabelList
-                        dataKey="value"
+                        dataKey="pctHoursUsed"
                         position="right"
                         offset={5}
                         formatter={(value) => {
@@ -54,9 +54,9 @@ const Chart = ({ title, data }) => {
                     />
                     {data.map((bar, index) => {
                         let barColor;
-                        if (bar.value < 50) {
+                        if (bar.pctHoursUsed < 50) {
                             barColor = "rgba(255, 159, 64, 1.0)";
-                        } else if (bar.value < 75) {
+                        } else if (bar.pctHoursUsed < 75) {
                             barColor = "rgba(255, 205, 86, 1.0)";
                         } else {
                             barColor = "rgba(255, 99, 132, 1.0)";
