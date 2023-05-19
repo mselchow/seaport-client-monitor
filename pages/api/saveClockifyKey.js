@@ -1,5 +1,5 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { saveClockifyKey } from "@/lib/userMetadata.js";
+import { saveClockifyKey } from "@/lib/clerk.js";
 
 export default async function handler(req, res) {
     const auth = getAuth(req);
