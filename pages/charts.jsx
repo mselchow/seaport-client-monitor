@@ -8,7 +8,10 @@ const Charts = () => {
     const result = useClockifyData();
 
     let clockifyData, msData, blockData, projData;
-    if (!result.isLoading) {
+
+    if (result.isError) {
+        // We had an error, show error message below
+    } else if (!result.isLoading) {
         clockifyData = result.data;
         clockifyData = clockifyData.map((data) => new ClockifyProject(data));
 
@@ -24,7 +27,7 @@ const Charts = () => {
             </Head>
             <div className="flex flex-col">
                 {result.isLoading ? (
-                    <Spinner />
+                    <Spinner className="h-8 w-8" />
                 ) : result.isError ? (
                     "We countered an error fetching Clockify data. Please try again later."
                 ) : (
