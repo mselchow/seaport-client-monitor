@@ -11,7 +11,6 @@ const navLinks = [
 const Header = () => {
     return (
         <div className="grid grid-cols-3 items-center border-b p-4">
-            {/* <div className="flex place-content-between items-center border-b p-4"> */}
             <div className="flex">
                 <Image
                     src="/seaport-logo.png"
@@ -39,7 +38,6 @@ const Header = () => {
                     <UserButton showName="true" />
                 </ClerkLoaded>
             </div>
-            {/* </div> */}
         </div>
     );
 };
