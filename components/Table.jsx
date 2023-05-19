@@ -32,8 +32,8 @@ const Table = ({ title, data, headers }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map(({ name, value }) => (
-                            <tr key={name} className="even:bg-blue-gray-50/50">
+                        {data.map(({ name, uid, hoursRemaining }) => (
+                            <tr key={uid} className="even:bg-blue-gray-50/50">
                                 <td className="p-2 px-4">
                                     <Typography
                                         variant="small"
@@ -49,7 +49,7 @@ const Table = ({ title, data, headers }) => {
                                         color="blue-gray"
                                         className="font-normal"
                                     >
-                                        {value}
+                                        {hoursRemaining}
                                     </Typography>
                                 </td>
                             </tr>

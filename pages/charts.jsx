@@ -1,24 +1,21 @@
 import Head from "next/head";
-import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@material-tailwind/react";
 import Chart from "@/components/Chart";
-import fetchClockifyData from "@/lib/fetchClockifyData";
+import { useClockifyData } from "@/lib/useClockifyData";
+import ClockifyProject from "@/lib/clockifyProject";
 
 const Charts = () => {
-    const results = useQuery(["data"], fetchClockifyData);
+    const result = useClockifyData();
 
-    if (results.isLoading) {
-        return <Spinner className="h-10 w-10" />;
+    let clockifyData, msData, blockData, projData;
+    if (!result.isLoading) {
+        clockifyData = result.data;
+        clockifyData = clockifyData.map((data) => new ClockifyProject(data));
+
+        msData = clockifyData.filter((proj) => proj.type == "Managed Services");
+        blockData = clockifyData.filter((proj) => proj.type == "Block Hours");
+        projData = clockifyData.filter((proj) => proj.type == "Project");
     }
-
-    const chartData = [
-        { name: "3BL Media", value: 63 },
-        { name: "AG Mednet", value: 96 },
-        { name: "C.H. Newton Builders", value: 72 },
-        { name: "Dysis Medical Inc", value: 60 },
-        { name: "Ori, Inc.", value: 44 },
-        { name: "Specified Technologies, Inc.", value: 97 },
-    ];
 
     return (
         <>
@@ -26,9 +23,17 @@ const Charts = () => {
                 <title>Charts | Seaport Client Monitor</title>
             </Head>
             <div className="flex flex-col">
-                <Chart title="Managed Services" data={chartData} />
-                <Chart title="Block Hours" data={chartData} />
-                <Chart title="Projects" data={chartData} />
+                {result.isLoading ? (
+                    <Spinner />
+                ) : result.isError ? (
+                    "We countered an error fetching Clockify data. Please try again later."
+                ) : (
+                    <>
+                        <Chart title="Managed Services" data={msData} />
+                        <Chart title="Block Hours" data={blockData} />
+                        <Chart title="Projects" data={projData} />
+                    </>
+                )}
             </div>
         </>
     );

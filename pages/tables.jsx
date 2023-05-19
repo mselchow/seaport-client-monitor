@@ -1,49 +1,52 @@
 import Head from "next/head";
-import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@material-tailwind/react";
 import Table from "@/components/Table";
-import fetchClockifyData from "@/lib/fetchClockifyData";
+import { useClockifyData } from "@/lib/useClockifyData";
+import ClockifyProject from "@/lib/clockifyProject";
 
 const Tables = () => {
-    const results = useQuery(["data"], fetchClockifyData);
-
-    if (results.isLoading) {
-        return <Spinner className="h-10 w-10" />;
-    }
-
     const tableHeaders = ["Client", "Hours Remaining"];
 
-    const tableData = [
-        { name: "3BL Media", value: 63 },
-        { name: "AG Mednet", value: 96 },
-        { name: "C.H. Newton Builders", value: 72 },
-        { name: "Dysis Medical Inc", value: 60 },
-        { name: "Ori, Inc.", value: 44 },
-        { name: "Specified Technologies, Inc.", value: 97 },
-    ];
+    const result = useClockifyData();
+
+    let clockifyData, msData, blockData, projData;
+    if (!result.isLoading) {
+        clockifyData = result.data;
+        clockifyData = clockifyData.map((data) => new ClockifyProject(data));
+
+        msData = clockifyData.filter((proj) => proj.type == "Managed Services");
+        blockData = clockifyData.filter((proj) => proj.type == "Block Hours");
+        projData = clockifyData.filter((proj) => proj.type == "Project");
+    }
 
     return (
         <>
             <Head>
                 <title>Tables | Seaport Client Monitor</title>
             </Head>
-            <div className="w-full xl:w-2/3">
-                <Table
-                    title="Managed Services"
-                    data={tableData}
-                    headers={tableHeaders}
-                />
-                <Table
-                    title="Block Hours"
-                    data={tableData}
-                    headers={tableHeaders}
-                />
-                <Table
-                    title="Projects"
-                    data={tableData}
-                    headers={tableHeaders}
-                />
-            </div>
+            {result.isLoading ? (
+                <Spinner />
+            ) : result.isError ? (
+                "We countered an error fetching Clockify data. Please try again later."
+            ) : (
+                <div className="w-full xl:w-2/3">
+                    <Table
+                        title="Managed Services"
+                        data={msData}
+                        headers={tableHeaders}
+                    />
+                    <Table
+                        title="Block Hours"
+                        data={blockData}
+                        headers={tableHeaders}
+                    />
+                    <Table
+                        title="Projects"
+                        data={projData}
+                        headers={tableHeaders}
+                    />
+                </div>
+            )}
         </>
     );
 };
