@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { Spinner } from "@material-tailwind/react";
-import Chart from "@/components/Chart";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
+import Chart from "@/components/Chart";
 
 const Charts = () => {
     const result = useClockifyData();
@@ -25,7 +25,7 @@ const Charts = () => {
             <Head>
                 <title>Charts | Seaport Client Monitor</title>
             </Head>
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col xl:w-2/3">
                 {result.isLoading ? (
                     <Spinner className="h-8 w-8" />
                 ) : result.isError ? (
