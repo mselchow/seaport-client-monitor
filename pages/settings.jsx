@@ -59,17 +59,15 @@ const Settings = () => {
     };
 
     return (
-        <div className="flex flex-col gap-3">
-            <div>
+        <div className="lg:place-items-left flex w-full flex-col gap-3 lg:w-fit">
+            <>
                 <Head>
                     <title>Settings | Seaport Client Monitor</title>
                 </Head>
-                <Typography variant="h4" className="pb-4">
-                    User Settings
-                </Typography>
+                <Typography variant="h4">User Settings</Typography>
                 <form onSubmit={handleSubmit}>
                     <div className="flex place-items-center gap-4">
-                        <div className="w-96">
+                        <div className="flex-1 lg:w-96 lg:flex-none">
                             <Input
                                 label="Clockify API Key"
                                 id="clockifyKey"
@@ -94,21 +92,21 @@ const Settings = () => {
                         </Button>
                     </div>
                 </form>
-            </div>
 
-            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
-                <div className="w-6">
-                    {!isLoaded ? (
-                        <Spinner />
-                    ) : userHasClockifyKey ? (
-                        <LockClosedIcon className="h-6 w-6" />
-                    ) : (
-                        <LockOpenIcon className="h-6 w-6" />
-                    )}
+                <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+                    <div className="w-6">
+                        {!isLoaded ? (
+                            <Spinner />
+                        ) : userHasClockifyKey ? (
+                            <LockClosedIcon className="h-6 w-6" />
+                        ) : (
+                            <LockOpenIcon className="h-6 w-6" />
+                        )}
+                    </div>
+
+                    <div>{apiKeyMessage}</div>
                 </div>
-
-                <div>{apiKeyMessage}</div>
-            </div>
+            </>
         </div>
     );
 };
