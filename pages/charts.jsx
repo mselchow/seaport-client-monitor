@@ -27,7 +27,7 @@ const Charts = () => {
             </Head>
             <div className="flex w-full flex-col xl:w-2/3">
                 {result.isLoading ? (
-                    <Spinner className="h-8 w-8" />
+                    <Spinner className="h-8 w-8 place-self-center" />
                 ) : result.isError ? (
                     "We countered an error fetching Clockify data. Please try again later."
                 ) : (
