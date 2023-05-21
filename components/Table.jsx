@@ -1,4 +1,5 @@
 import { Card, Typography } from "@material-tailwind/react";
+import { ChevronUpDownIcon } from "@heroicons/react/24/solid";
 
 // TODO: adjust below code to accommodate any array length for data
 const Table = ({ title, data, headers }) => {
@@ -15,17 +16,21 @@ const Table = ({ title, data, headers }) => {
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
-                            {headers.map((head) => (
+                            {headers.map((head, index) => (
                                 <th
                                     key={head}
-                                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                                    className="cursor-pointer border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:bg-blue-gray-100"
                                 >
                                     <Typography
                                         variant="small"
                                         color="blue-gray"
-                                        className="font-normal leading-none opacity-70"
+                                        className="flex items-center justify-between font-normal leading-none opacity-70"
                                     >
-                                        {head}
+                                        {head}{" "}
+                                        <ChevronUpDownIcon
+                                            strokeWidth={2}
+                                            className="h-4 w-4"
+                                        />
                                     </Typography>
                                 </th>
                             ))}
