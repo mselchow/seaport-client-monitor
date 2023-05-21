@@ -28,7 +28,7 @@ const Tables = () => {
                 <title>Tables | Seaport Client Monitor</title>
             </Head>
             {result.isLoading ? (
-                <Spinner className="h-8 w-8" />
+                <Spinner className="h-8 w-8 place-self-center" />
             ) : result.isError ? (
                 "We countered an error fetching Clockify data. Please try again later."
             ) : (
