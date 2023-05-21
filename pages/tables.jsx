@@ -5,7 +5,10 @@ import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
 
 const Tables = () => {
-    const tableHeaders = ["Client", "Hours Remaining"];
+    const tableHeaders = [
+        { label: "Client", accessor: "name" },
+        { label: "Hours Remaining", accessor: "hoursRemaining" },
+    ];
 
     const result = useClockifyData();
 
