@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ data: "Clockify key not found." });
     }
 
-    saveClockifyKey(auth, body.clockifyKey);
+    const result = await saveClockifyKey(auth, body.clockifyKey);
 
-    res.status(200).json({ result: "ok" });
+    res.status(200).json(result);
 }

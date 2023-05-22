@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
+import { useQueryClient } from "@tanstack/react-query";
 import { Input, Button, Typography, Spinner } from "@material-tailwind/react";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
 
 const Settings = () => {
+    const queryClient = useQueryClient();
     const { user, isLoaded } = useUser();
     const [key, setKey] = useState("");
     const [formPending, setFormPending] = useState(false);
@@ -53,6 +55,11 @@ const Settings = () => {
         const response = await fetch("/api/saveClockifyKey", options);
         // eslint-disable-next-line no-unused-vars
         const result = await response.json();
+
+        // if save was successful, invalidate "clockifyData" query to refetch
+        if (result) {
+            queryClient.invalidateQueries(["clockifyData"]);
+        }
 
         setFormPending(false);
         setKey("");
