@@ -50,6 +50,8 @@ const Chart = ({ title, data }) => {
                         <LabelList
                             dataKey="pctHoursUsed"
                             position="right"
+                            fill="black"
+                            fontSize="14"
                             offset={5}
                             formatter={(value) => {
                                 return value + "%";
