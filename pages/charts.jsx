@@ -29,7 +29,10 @@ const Charts = () => {
                 {result.isLoading ? (
                     <Spinner className="h-8 w-8 place-self-center" />
                 ) : result.isError ? (
-                    "We countered an error fetching Clockify data. Please try again later."
+                    <div className="place-self-center">
+                        We countered an error fetching Clockify data. Please try
+                        again later.
+                    </div>
                 ) : (
                     <>
                         <Chart title="Managed Services" data={msData} />

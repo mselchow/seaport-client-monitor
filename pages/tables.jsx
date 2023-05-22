@@ -43,7 +43,10 @@ const Tables = () => {
             {result.isLoading ? (
                 <Spinner className="h-8 w-8 place-self-center" />
             ) : result.isError ? (
-                "We countered an error fetching Clockify data. Please try again later."
+                <div className="place-self-center">
+                    We countered an error fetching Clockify data. Please try
+                    again later.
+                </div>
             ) : (
                 <div className="w-full xl:w-2/3">
                     <Table
