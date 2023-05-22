@@ -9,8 +9,8 @@ import {
 // TODO: adjust below code to accommodate any array length for data
 const Table = ({ title, data, headers }) => {
     const [tableData, setTableData] = useState(data);
-    const [, setSortField] = useState("");
-    const [order, setOrder] = useState("asc");
+    const [sortField, setSortField] = useState("");
+    const [order, setOrder] = useState("default");
 
     if (!data.length) {
         return;
@@ -50,6 +50,12 @@ const Table = ({ title, data, headers }) => {
         }
     };
 
+    const ENUM_ICONS = {
+        asc: <ChevronUpIcon strokeWidth={2} className="h-4 w-4" />,
+        desc: <ChevronDownIcon strokeWidth={2} className="h-4 w-4" />,
+        default: <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />,
+    };
+
     return (
         <div className="pb-10">
             <Typography variant="h4" className="pb-2">
@@ -84,10 +90,9 @@ const Table = ({ title, data, headers }) => {
                                             className="flex items-center justify-between font-normal leading-none opacity-70"
                                         >
                                             {label}{" "}
-                                            <ChevronUpDownIcon
-                                                strokeWidth={2}
-                                                className="h-4 w-4"
-                                            />
+                                            {sortable && sortField === accessor
+                                                ? ENUM_ICONS[order]
+                                                : ENUM_ICONS["default"]}
                                         </Typography>
                                     </th>
                                 )
