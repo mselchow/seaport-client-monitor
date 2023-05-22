@@ -50,6 +50,10 @@ const Table = ({ title, data, headers }) => {
             </Typography>
             <Card className="overflow-auto" id={title}>
                 <table className="w-full min-w-max table-auto text-left">
+                    <colgroup>
+                        <col className="w-3/5" />
+                        <col className="w-2/5" />
+                    </colgroup>
                     <thead>
                         <tr>
                             {headers.map(({ label, accessor }) => (
