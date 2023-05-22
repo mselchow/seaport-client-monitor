@@ -6,8 +6,12 @@ import ClockifyProject from "@/lib/clockifyProject";
 
 const Tables = () => {
     const tableHeaders = [
-        { label: "Client", accessor: "name" },
-        { label: "Hours Remaining", accessor: "hoursRemaining" },
+        { label: "Client", accessor: "name", dataType: "string" },
+        {
+            label: "Hours Remaining",
+            accessor: "hoursRemaining",
+            dataType: "number",
+        },
     ];
 
     const result = useClockifyData();
