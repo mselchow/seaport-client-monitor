@@ -15,22 +15,29 @@ const Table = ({ title, data, headers }) => {
     const handleSortingChange = (accessor) => {
         const sortOrder =
             accessor === sortField && order === "asc" ? "desc" : "asc";
-        console.log(accessor);
         setSortField(accessor);
         setOrder(sortOrder);
         handleSorting(accessor, sortOrder);
     };
 
+    // TODO: negative numbers sorting incorrectly
     const handleSorting = (sortField, sortOrder) => {
         if (sortField) {
             const sorted = [...tableData].sort((a, b) => {
-                return (
-                    a[sortField]
-                        .toString()
-                        .localeCompare(b[sortField].toString(), "en", {
-                            numeric: true,
-                        }) * (sortOrder === "asc" ? 1 : -1)
-                );
+                // TODO: hours returning as string
+                if (typeof a[sortField] === "string") {
+                    return (
+                        a[sortField]
+                            .toString()
+                            .localeCompare(b[sortField].toString(), "en", {
+                                numeric: true,
+                            }) * (sortOrder === "asc" ? 1 : -1)
+                    );
+                } else {
+                    return sortOrder === "asc"
+                        ? a[sortField] - b[sortField]
+                        : b[sortField - a[sortField]];
+                }
             });
             setTableData(sorted);
         }
