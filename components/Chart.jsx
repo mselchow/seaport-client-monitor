@@ -50,6 +50,8 @@ const Chart = ({ title, data }) => {
                         <LabelList
                             dataKey="pctHoursUsed"
                             position="right"
+                            fill="black"
+                            fontSize="14"
                             offset={5}
                             formatter={(value) => {
                                 return value + "%";
@@ -58,11 +60,13 @@ const Chart = ({ title, data }) => {
                         {data.map((bar, index) => {
                             let barColor;
                             if (bar.pctHoursUsed < 50) {
-                                barColor = "rgba(255, 159, 64, 1.0)";
+                                barColor = "rgb(53, 229, 145, 0.9)";
                             } else if (bar.pctHoursUsed < 75) {
-                                barColor = "rgba(255, 205, 86, 1.0)";
+                                barColor = "rgb(225, 229, 53, 0.9)";
+                            } else if (bar.pctHoursUsed <= 100) {
+                                barColor = "rgb(229, 145, 53, 0.9)";
                             } else {
-                                barColor = "rgba(255, 99, 132, 1.0)";
+                                barColor = "rgb(229, 57, 53, 0.9)";
                             }
                             return (
                                 <Cell key={`cell-${index}`} fill={barColor} />
