@@ -26,11 +26,9 @@ const Header = () => {
     }, []);
 
     const navList = (
-        <div className="mb-4 mt-6 flex flex-col gap-4 text-blue-gray-900 lg:mb-0 lg:mt-0 lg:flex-row lg:gap-12">
-            {navLinks.map((link) => (
-                <div key={link.title} className="text-md">
-                    <NavLink title={link.title} path={link.path} />
-                </div>
+        <div className="mb-4 mt-6 flex flex-col gap-4 text-blue-gray-900 lg:mb-0 lg:mt-0 lg:flex-row lg:gap-4">
+            {navLinks.map(({ title, path }) => (
+                <NavLink key={title} title={title} path={path} />
             ))}
         </div>
     );
