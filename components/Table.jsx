@@ -5,27 +5,24 @@ import { ChevronUpDownIcon } from "@heroicons/react/24/solid";
 // TODO: adjust below code to accommodate any array length for data
 const Table = ({ title, data, headers }) => {
     const [tableData, setTableData] = useState(data);
-    const [sortField, setSortField] = useState("");
+    const [, setSortField] = useState("");
     const [order, setOrder] = useState("asc");
 
     if (!data.length) {
         return;
     }
 
-    const handleSortingChange = (accessor) => {
-        const sortOrder =
-            accessor === sortField && order === "asc" ? "desc" : "asc";
+    const handleSortingChange = (accessor, dataType) => {
+        const sortOrder = order === "asc" ? "desc" : "asc";
         setSortField(accessor);
         setOrder(sortOrder);
-        handleSorting(accessor, sortOrder);
+        handleSorting(accessor, sortOrder, dataType);
     };
 
-    // TODO: negative numbers sorting incorrectly
-    const handleSorting = (sortField, sortOrder) => {
+    const handleSorting = (sortField, sortOrder, dataType) => {
         if (sortField) {
             const sorted = [...tableData].sort((a, b) => {
-                // TODO: hours returning as string
-                if (typeof a[sortField] === "string") {
+                if (dataType === "string") {
                     return (
                         a[sortField]
                             .toString()
@@ -36,7 +33,7 @@ const Table = ({ title, data, headers }) => {
                 } else {
                     return sortOrder === "asc"
                         ? a[sortField] - b[sortField]
-                        : b[sortField - a[sortField]];
+                        : b[sortField] - a[sortField];
                 }
             });
             setTableData(sorted);
@@ -56,11 +53,11 @@ const Table = ({ title, data, headers }) => {
                     </colgroup>
                     <thead>
                         <tr>
-                            {headers.map(({ label, accessor }) => (
+                            {headers.map(({ label, accessor, dataType }) => (
                                 <th
                                     key={accessor}
                                     onClick={() =>
-                                        handleSortingChange(accessor)
+                                        handleSortingChange(accessor, dataType)
                                     }
                                     className="cursor-pointer border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:bg-blue-gray-100"
                                 >
