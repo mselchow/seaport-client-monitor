@@ -45,7 +45,8 @@ const Tables = () => {
             ) : result.isError ? (
                 <div className="place-self-center">
                     We countered an error fetching Clockify data. Please try
-                    again later.
+                    again later, or make sure that you have saved your Clockify
+                    API in under Settings.
                 </div>
             ) : (
                 <div className="w-full xl:w-2/3">
