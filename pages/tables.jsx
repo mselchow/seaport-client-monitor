@@ -6,11 +6,17 @@ import ClockifyProject from "@/lib/clockifyProject";
 
 const Tables = () => {
     const tableHeaders = [
-        { label: "Client", accessor: "name", dataType: "string" },
+        {
+            label: "Client",
+            accessor: "name",
+            dataType: "string",
+            sortable: true,
+        },
         {
             label: "Hours Remaining",
             accessor: "hoursRemaining",
             dataType: "number",
+            sortable: true,
         },
     ];
 
