@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { UserButton, ClerkLoading, ClerkLoaded } from "@clerk/clerk-react";
+import {
+    UserButton,
+    ClerkLoading,
+    ClerkLoaded,
+    SignedIn,
+    SignedOut,
+    SignInButton,
+    SignUpButton,
+} from "@clerk/clerk-react";
 import {
     Navbar,
     Collapse,
     Typography,
     IconButton,
+    Button,
 } from "@material-tailwind/react";
 import NavLink from "./NavLink";
 
@@ -57,11 +66,24 @@ const Header = () => {
                         {navList}
                     </div>
 
-                    <div className="hidden lg:inline-block lg:justify-self-end">
-                        <ClerkLoading></ClerkLoading>
-                        <ClerkLoaded>
-                            <UserButton showName="true" />
-                        </ClerkLoaded>
+                    <div className="hidden lg:flex lg:gap-4 lg:justify-self-end">
+                        <SignedIn>
+                            <ClerkLoading></ClerkLoading>
+                            <ClerkLoaded>
+                                <UserButton
+                                    showName="true"
+                                    afterSignOutUrl="/"
+                                />
+                            </ClerkLoaded>
+                        </SignedIn>
+                        <SignedOut>
+                            <SignInButton>
+                                <Button variant="outlined">Log in</Button>
+                            </SignInButton>
+                            <SignUpButton>
+                                <Button>Register</Button>
+                            </SignUpButton>
+                        </SignedOut>
                     </div>
 
                     <IconButton
