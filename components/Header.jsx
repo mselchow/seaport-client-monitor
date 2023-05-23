@@ -146,30 +146,6 @@ const Header = () => {
                 </Collapse>
             </Navbar>
         </>
-
-        // <div className="grid grid-cols-3 items-center border-b p-4">
-        //     <div className="flex">
-        //         <Image
-        //             src="/seaport-logo.png"
-        //             alt="Seaport Logo"
-        //             className="mr-3 h-9"
-        //             height="36"
-        //             width="36"
-        //         />
-        //         <span className="self-center whitespace-nowrap text-xl font-semibold">
-        //             Client Monitor
-        //         </span>
-        //     </div>
-
-        //     {navList}
-
-        // <div className="flex justify-self-end">
-        //     <ClerkLoading></ClerkLoading>
-        //     <ClerkLoaded>
-        //         <UserButton showName="true" />
-        //     </ClerkLoaded>
-        // </div>
-        // </div>
     );
 };
 
