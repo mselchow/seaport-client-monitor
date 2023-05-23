@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { UserButton, ClerkLoading, ClerkLoaded } from "@clerk/clerk-react";
+import {
+    UserButton,
+    ClerkLoading,
+    ClerkLoaded,
+    SignedIn,
+    SignedOut,
+    SignInButton,
+    SignUpButton,
+} from "@clerk/clerk-react";
 import {
     Navbar,
     Collapse,
     Typography,
     IconButton,
+    Button,
 } from "@material-tailwind/react";
 import NavLink from "./NavLink";
 
@@ -26,10 +35,23 @@ const Header = () => {
     }, []);
 
     const navList = (
-        <div className="mb-4 mt-6 flex flex-col gap-4 text-blue-gray-900 lg:mb-0 lg:mt-0 lg:flex-row lg:gap-4">
+        <div className="mb-4 mt-6 flex flex-col gap-4 text-blue-gray-900 lg:mb-0 lg:mt-0 lg:flex-row">
             {navLinks.map(({ title, path }) => (
                 <NavLink key={title} title={title} path={path} />
             ))}
+        </div>
+    );
+
+    const clerkLoginRegisterButtons = (
+        <div className="mb-4 mt-6 flex flex-col gap-4 lg:mb-0 lg:mt-0 lg:flex-row">
+            <SignInButton>
+                <Button variant="outlined" className="w-full lg:w-auto">
+                    Log in
+                </Button>
+            </SignInButton>
+            <SignUpButton>
+                <Button className="w-full lg:w-auto">Register</Button>
+            </SignUpButton>
         </div>
     );
 
@@ -54,14 +76,20 @@ const Header = () => {
                     </div>
 
                     <div className="hidden lg:block lg:justify-self-center">
-                        {navList}
+                        <SignedIn>{navList}</SignedIn>
                     </div>
 
-                    <div className="hidden lg:inline-block lg:justify-self-end">
-                        <ClerkLoading></ClerkLoading>
-                        <ClerkLoaded>
-                            <UserButton showName="true" />
-                        </ClerkLoaded>
+                    <div className="hidden lg:flex lg:justify-self-end">
+                        <SignedIn>
+                            <ClerkLoading></ClerkLoading>
+                            <ClerkLoaded>
+                                <UserButton
+                                    showName="true"
+                                    afterSignOutUrl="/"
+                                />
+                            </ClerkLoaded>
+                        </SignedIn>
+                        <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
                     </div>
 
                     <IconButton
@@ -104,50 +132,30 @@ const Header = () => {
                 </div>
 
                 <Collapse open={openNav} className="px-2">
-                    {navList}
-                    <hr className="my-2 border-blue-gray-50" />
-                    <div className="py-3">
-                        <ClerkLoading></ClerkLoading>
-                        <ClerkLoaded>
-                            <UserButton
-                                showName="true"
-                                appearance={{
-                                    elements: {
-                                        userButtonBox: "flex-row-reverse",
-                                        userButtonOuterIdentifier: "text-base",
-                                        avatarBox: "w-7 h-7",
-                                    },
-                                }}
-                            />
-                        </ClerkLoaded>
-                    </div>
+                    <SignedIn>
+                        {navList}
+                        <hr className="my-2 border-blue-gray-50" />
+                        <div className="py-3">
+                            <ClerkLoading></ClerkLoading>
+                            <ClerkLoaded>
+                                <UserButton
+                                    showName="true"
+                                    appearance={{
+                                        elements: {
+                                            userButtonBox: "flex-row-reverse",
+                                            userButtonOuterIdentifier:
+                                                "text-base",
+                                            avatarBox: "w-7 h-7",
+                                        },
+                                    }}
+                                />
+                            </ClerkLoaded>
+                        </div>
+                    </SignedIn>
+                    <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
                 </Collapse>
             </Navbar>
         </>
-
-        // <div className="grid grid-cols-3 items-center border-b p-4">
-        //     <div className="flex">
-        //         <Image
-        //             src="/seaport-logo.png"
-        //             alt="Seaport Logo"
-        //             className="mr-3 h-9"
-        //             height="36"
-        //             width="36"
-        //         />
-        //         <span className="self-center whitespace-nowrap text-xl font-semibold">
-        //             Client Monitor
-        //         </span>
-        //     </div>
-
-        //     {navList}
-
-        // <div className="flex justify-self-end">
-        //     <ClerkLoading></ClerkLoading>
-        //     <ClerkLoaded>
-        //         <UserButton showName="true" />
-        //     </ClerkLoaded>
-        // </div>
-        // </div>
     );
 };
 
