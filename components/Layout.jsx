@@ -1,3 +1,4 @@
+import { SignedIn } from "@clerk/nextjs";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -9,7 +10,9 @@ export default function Layout({ children }) {
                 {children}
             </main>
             <div className="flex-grow">{""}</div>
-            <Footer />
+            <SignedIn>
+                <Footer />
+            </SignedIn>
         </div>
     );
 }
