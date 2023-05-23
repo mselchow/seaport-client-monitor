@@ -63,7 +63,7 @@ const Header = () => {
                     </div>
 
                     <div className="hidden lg:block lg:justify-self-center">
-                        {navList}
+                        <SignedIn>{navList}</SignedIn>
                     </div>
 
                     <div className="hidden lg:flex lg:gap-4 lg:justify-self-end">
