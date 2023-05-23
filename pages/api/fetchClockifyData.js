@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
     const clockifyKey = await getClockifyKey(auth);
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
-    const excludedClients = "***REMOVED***"; // ***REMOVED***
+    const excludedClients = "";
 
     const apiURL =
         "https://api.clockify.me/api/v1/workspaces/" +
