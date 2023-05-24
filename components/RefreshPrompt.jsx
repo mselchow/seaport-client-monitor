@@ -1,10 +1,12 @@
+import { useRouter } from "next/router";
 import { Alert, Button, Typography } from "@material-tailwind/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useBuildId } from "@/lib/useBuildId";
 
 export default function RefreshPrompt() {
+    const router = useRouter();
     const buildData = useBuildId().data;
-    const buildId = "12345"; //buildData.buildId;
+    const buildId = buildData.buildId;
 
     const alertMessage =
         "Hey! There's a sweet new version of the app available.";
@@ -18,7 +20,12 @@ export default function RefreshPrompt() {
             icon={<InformationCircleIcon strokeWidth={2} className="h-6 w-6" />}
         >
             <p>{alertMessage}</p>
-            <Button color="white" size="sm" className="mt-3">
+            <Button
+                onClick={() => router.reload()}
+                color="white"
+                size="sm"
+                className="mt-3"
+            >
                 Reload
             </Button>
         </Alert>
