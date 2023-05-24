@@ -10,12 +10,10 @@ const nextConfig = {
             },
         ];
     },
-    webpack(config, { buildId, webpack, dev }) {
+    webpack(config, { buildId, webpack }) {
         config.plugins.push(
             new webpack.DefinePlugin({
-                "process.env": {
-                    BUILD_ID: JSON.stringify(dev ? "development" : buildId),
-                },
+                "process.env.BUILD_ID": JSON.stringify(buildId),
             })
         );
 
