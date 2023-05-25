@@ -5,8 +5,13 @@ import { useBuildId } from "@/lib/useBuildId";
 
 export default function RefreshPrompt() {
     const router = useRouter();
-    const buildData = useBuildId().data;
-    const buildId = buildData.buildId;
+    const buildData = useBuildId();
+
+    let buildId = null;
+
+    if (buildData.isFetched) {
+        buildId = buildData.data.buildId;
+    }
 
     const alertMessage =
         "Hey! There's a sweet new version of the app available.";
