@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Alert, Button, Typography } from "@material-tailwind/react";
+import { Alert, Button } from "@material-tailwind/react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useBuildId } from "@/lib/useBuildId";
 
