@@ -1,5 +1,5 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { getClockifyKey } from "@/lib/clerk";
+import { getClockifyKey, getExcludedProjectIds } from "@/lib/clerk";
 
 export default async function handler(req, res) {
     const auth = getAuth(req);
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
     const clockifyKey = await getClockifyKey(auth);
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
-    const excludedClients = "";
+    const excludedClients = await getExcludedProjectIds(auth);
 
     const apiURL =
         "https://api.clockify.me/api/v1/workspaces/" +
