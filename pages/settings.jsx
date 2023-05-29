@@ -9,10 +9,10 @@ import {
     Button,
     Typography,
     Spinner,
-    Checkbox,
     Card,
     CardBody,
 } from "@material-tailwind/react";
+import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
 
 const Settings = () => {
@@ -127,32 +127,7 @@ const Settings = () => {
                     </CardBody>
                 </Card>
 
-                <Card>
-                    <CardBody>
-                        <div className="flex flex-col gap-3">
-                            <Typography variant="h5">
-                                Excluded Clients
-                            </Typography>
-                            <div className="flex flex-col">
-                                <Typography variant="h6">
-                                    Managed Services
-                                </Typography>
-                                <div className="flex flex-col">
-                                    <Checkbox
-                                        label={
-                                            <Typography
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                AG Mednet
-                                            </Typography>
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </CardBody>
-                </Card>
+                <ExcludedClientSettings />
             </div>
         </>
     );
