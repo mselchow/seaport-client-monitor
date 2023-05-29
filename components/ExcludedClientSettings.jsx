@@ -83,6 +83,7 @@ const ExcludedClientSettings = () => {
             });
         }
 
+        user.reload();
         setFormPending(false);
     }
 
