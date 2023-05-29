@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@clerk/nextjs";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
@@ -20,7 +19,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 
 const ExcludedClientSettings = () => {
-    const queryClient = useQueryClient();
     const { user, isLoaded } = useUser();
     const [formPending, setFormPending] = useState(false);
     const { toast } = useToast();
@@ -75,9 +73,8 @@ const ExcludedClientSettings = () => {
         const response = await fetch("/api/saveExcludedClients", options);
         const result = await response.json();
 
-        // if save was successful, invalidate "clockifyData" query to refetch
+        // confirm successful save to user
         if (result) {
-            queryClient.invalidateQueries(["clockifyData"]);
             toast({
                 title: "Success!",
                 description: "Excluded client settings saved.",
