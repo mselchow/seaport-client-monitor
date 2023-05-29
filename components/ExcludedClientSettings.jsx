@@ -7,13 +7,8 @@ import { useUser } from "@clerk/nextjs";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
 
-import {
-    Card,
-    CardBody,
-    Typography,
-    Spinner,
-    Button,
-} from "@material-tailwind/react";
+import { Spinner, Button } from "@material-tailwind/react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
@@ -88,9 +83,11 @@ const ExcludedClientSettings = () => {
 
     return (
         <Card className="mb-5">
-            <CardBody>
+            <CardHeader>
+                <CardTitle>Excluded Clients</CardTitle>
+            </CardHeader>
+            <CardContent>
                 <div className="flex flex-col gap-3">
-                    <Typography variant="h5">Excluded Clients</Typography>
                     {result.isLoading ? (
                         <Spinner className="h-6 w-6" />
                     ) : result.isError ? (
@@ -180,7 +177,7 @@ const ExcludedClientSettings = () => {
                         </div>
                     )}
                 </div>
-            </CardBody>
+            </CardContent>
         </Card>
     );
 };

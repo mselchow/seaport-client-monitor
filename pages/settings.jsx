@@ -4,14 +4,8 @@ import { useState } from "react";
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-    Input,
-    Button,
-    Typography,
-    Spinner,
-    Card,
-    CardBody,
-} from "@material-tailwind/react";
+import { Input, Button, Typography, Spinner } from "@material-tailwind/react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
 
@@ -81,9 +75,11 @@ const Settings = () => {
             <div className="lg:place-items-left flex w-full flex-col gap-3 lg:w-fit xl:w-2/3">
                 <Typography variant="h4">Settings</Typography>
                 <Card className="mb-3">
-                    <CardBody>
+                    <CardHeader>
+                        <CardTitle>Clockify</CardTitle>
+                    </CardHeader>
+                    <CardContent>
                         <div className="flex flex-col gap-3">
-                            <Typography variant="h5">Clockify</Typography>
                             <form onSubmit={handleSubmit}>
                                 <div className="flex place-items-center gap-4">
                                     <div className="flex-1 lg:w-96 lg:flex-none">
@@ -124,7 +120,7 @@ const Settings = () => {
                                 <div>{apiKeyMessage}</div>
                             </div>
                         </div>
-                    </CardBody>
+                    </CardContent>
                 </Card>
 
                 <ExcludedClientSettings />
