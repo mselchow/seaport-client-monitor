@@ -17,11 +17,13 @@ import {
     FormLabel,
     FormItem,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 
 const ExcludedClientSettings = () => {
     const queryClient = useQueryClient();
     const { user, isLoaded } = useUser();
     const [formPending, setFormPending] = useState(false);
+    const { toast } = useToast();
 
     // Get set of clients from Clockify data
     const result = useClockifyData();
@@ -76,6 +78,12 @@ const ExcludedClientSettings = () => {
         // if save was successful, invalidate "clockifyData" query to refetch
         if (result) {
             queryClient.invalidateQueries(["clockifyData"]);
+            toast({
+                title: "Success!",
+                description: "Excluded client settings saved.",
+                duration: 5000,
+                variant: "primary",
+            });
         }
 
         setFormPending(false);
