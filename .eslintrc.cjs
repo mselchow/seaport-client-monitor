@@ -7,9 +7,11 @@ module.exports = {
         "plugin:react/jsx-runtime",
         "plugin:jsx-a11y/recommended",
         "plugin:react-hooks/recommended",
+        "plugin:@typescript-eslint/recommended",
         "next/core-web-vitals",
         "prettier",
     ],
+    parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
@@ -21,14 +23,25 @@ module.exports = {
         react: { version: "detect" },
         "import/resolver": {
             node: {
-                extensions: [".js", ".jsx"],
+                extensions: [".js", ".jsx", ".ts", ".tsx"],
             },
             jsconfig: {
                 config: "jsconfig.json",
             },
+            typescript: {},
+        },
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"],
+            project: ["./tsconfig.json"],
         },
     },
-    plugins: ["react-refresh", "react", "import", "jsx-a11y"],
+    plugins: [
+        "react-refresh",
+        "react",
+        "import",
+        "jsx-a11y",
+        "@typescript-eslint",
+    ],
     rules: {
         "react-refresh/only-export-components": "warn",
         "react/prop-types": 0,
