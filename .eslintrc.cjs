@@ -25,9 +25,6 @@ module.exports = {
             node: {
                 extensions: [".js", ".jsx", ".ts", ".tsx"],
             },
-            jsconfig: {
-                config: "jsconfig.json",
-            },
             typescript: {},
         },
         "import/parsers": {
