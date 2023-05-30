@@ -3,6 +3,7 @@ import { Spinner } from "@material-tailwind/react";
 import Table from "@/components/Table";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
+import { useUser } from "@clerk/nextjs";
 
 const Tables = () => {
     const tableHeaders = [
@@ -21,14 +22,24 @@ const Tables = () => {
     ];
 
     const result = useClockifyData();
+    const { user, isLoaded } = useUser();
 
+    const excludedClients = isLoaded
+        ? user.publicMetadata.excludedClients
+        : null;
     let clockifyData, msData, blockData, projData;
 
+    // Map Clockify data to wrapper, then filter out excluded clients
     if (result.isError) {
         // We had an error, show error message below
     } else if (!result.isLoading) {
         clockifyData = result.data;
         clockifyData = clockifyData.map((data) => new ClockifyProject(data));
+        clockifyData = clockifyData.filter((proj) => {
+            if (!excludedClients.includes(proj.clientId)) {
+                return proj;
+            }
+        });
 
         msData = clockifyData.filter((proj) => proj.type == "Managed Services");
         blockData = clockifyData.filter((proj) => proj.type == "Block Hours");

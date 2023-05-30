@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
 import Layout from "@/components/Layout";
 
 import "@/styles/globals.css";
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }) {
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
+                    <Toaster />
                 </QueryClientProvider>
             </ClerkProvider>
         </ThemeProvider>

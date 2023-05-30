@@ -7,7 +7,7 @@ const Footer = () => {
     const handleOpen = () => setOpen(!open);
 
     return (
-        <footer className="flex w-full flex-row flex-wrap items-center justify-center gap-x-12 gap-y-6 place-self-end border-t border-blue-gray-50 py-6 text-center">
+        <footer className="flex w-full flex-row flex-wrap items-center justify-center gap-x-12 gap-y-6 place-self-end border-t border-blue-gray-100 py-6 text-center">
             <ul className="flex flex-wrap items-center gap-10">
                 <li>
                     <Typography

@@ -5,6 +5,8 @@ import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input, Button, Typography, Spinner } from "@material-tailwind/react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
 
 const Settings = () => {
@@ -66,55 +68,64 @@ const Settings = () => {
     };
 
     return (
-        <div className="lg:place-items-left flex w-full flex-col gap-3 lg:w-fit">
-            <>
-                <Head>
-                    <title>Settings | Seaport Client Monitor</title>
-                </Head>
-                <Typography variant="h4">User Settings</Typography>
-                <form onSubmit={handleSubmit}>
-                    <div className="flex place-items-center gap-4">
-                        <div className="flex-1 lg:w-96 lg:flex-none">
-                            <Input
-                                label="Clockify API Key"
-                                id="clockifyKey"
-                                onChange={onChange}
-                                value={key}
-                            />
+        <>
+            <Head>
+                <title>Settings | Seaport Client Monitor</title>
+            </Head>
+            <div className="lg:place-items-left flex w-full flex-col gap-3 lg:w-fit xl:w-2/3">
+                <Typography variant="h4">Settings</Typography>
+                <Card className="mb-3">
+                    <CardHeader>
+                        <CardTitle>Clockify</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col gap-3">
+                            <form onSubmit={handleSubmit}>
+                                <div className="flex place-items-center gap-4">
+                                    <div className="flex-1 lg:w-96 lg:flex-none">
+                                        <Input
+                                            label="Clockify API Key"
+                                            id="clockifyKey"
+                                            onChange={onChange}
+                                            value={key}
+                                        />
+                                    </div>
+                                    <Button
+                                        type="submit"
+                                        disabled={!key || formPending}
+                                        color={key ? "blue" : "blue-gray"}
+                                        className="w-24"
+                                    >
+                                        {formPending ? (
+                                            <Spinner
+                                                className="inline h-4 w-4"
+                                                color="white"
+                                            />
+                                        ) : (
+                                            "Save"
+                                        )}
+                                    </Button>
+                                </div>
+                            </form>
+                            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+                                <div className="w-6">
+                                    {!isLoaded ? (
+                                        <Spinner />
+                                    ) : userHasClockifyKey ? (
+                                        <LockClosedIcon className="h-6 w-6" />
+                                    ) : (
+                                        <LockOpenIcon className="h-6 w-6" />
+                                    )}
+                                </div>
+                                <div>{apiKeyMessage}</div>
+                            </div>
                         </div>
-                        <Button
-                            type="submit"
-                            disabled={!key || formPending}
-                            color={key ? "blue" : "blue-gray"}
-                            className="w-24"
-                        >
-                            {formPending ? (
-                                <Spinner
-                                    className="inline h-4 w-4"
-                                    color="white"
-                                />
-                            ) : (
-                                "Save"
-                            )}
-                        </Button>
-                    </div>
-                </form>
+                    </CardContent>
+                </Card>
 
-                <div className="flex items-center gap-2 text-sm text-blue-gray-700">
-                    <div className="w-6">
-                        {!isLoaded ? (
-                            <Spinner />
-                        ) : userHasClockifyKey ? (
-                            <LockClosedIcon className="h-6 w-6" />
-                        ) : (
-                            <LockOpenIcon className="h-6 w-6" />
-                        )}
-                    </div>
-
-                    <div>{apiKeyMessage}</div>
-                </div>
-            </>
-        </div>
+                <ExcludedClientSettings />
+            </div>
+        </>
     );
 };
 

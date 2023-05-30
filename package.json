@@ -13,21 +13,35 @@
     "dependencies": {
         "@clerk/nextjs": "^4.17.3",
         "@heroicons/react": "^2.0.18",
+        "@hookform/resolvers": "^3.1.0",
         "@material-tailwind/react": "^2.0.0",
+        "@radix-ui/react-checkbox": "^1.0.4",
+        "@radix-ui/react-label": "^2.0.2",
+        "@radix-ui/react-toast": "^1.1.4",
         "@tanstack/react-query": "^4.29.5",
+        "class-variance-authority": "^0.6.0",
+        "clsx": "^1.2.1",
+        "lucide-react": "^0.223.0",
         "next": "^13.4.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "recharts": "^2.6.2"
+        "react-hook-form": "^7.44.2",
+        "recharts": "^2.6.2",
+        "tailwind-merge": "^1.12.0",
+        "tailwindcss-animate": "^1.0.5",
+        "zod": "^3.21.4"
     },
     "devDependencies": {
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
+        "@typescript-eslint/eslint-plugin": "^5.59.8",
+        "@typescript-eslint/parser": "^5.59.8",
         "autoprefixer": "^10.4.14",
         "eslint": "^8.38.0",
         "eslint-config-next": "^13.4.2",
         "eslint-config-prettier": "^8.8.0",
         "eslint-import-resolver-jsconfig": "^1.1.0",
+        "eslint-import-resolver-typescript": "^3.5.5",
         "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-jsx-a11y": "^6.7.1",
         "eslint-plugin-react": "^7.32.2",
@@ -36,6 +50,7 @@
         "postcss": "^8.4.23",
         "prettier": "^2.8.8",
         "prettier-plugin-tailwindcss": "^0.2.8",
-        "tailwindcss": "^3.3.2"
+        "tailwindcss": "^3.3.2",
+        "typescript": "^5.0.4"
     }
 }
