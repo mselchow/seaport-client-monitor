@@ -11,8 +11,8 @@ export default function Layout({ children }) {
                 {children}
             </main>
             <div className="flex-grow">{""}</div>
-            <RefreshPrompt />
             <SignedIn>
+                <RefreshPrompt />
                 <Footer />
             </SignedIn>
         </div>
