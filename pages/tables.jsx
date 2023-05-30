@@ -24,15 +24,13 @@ const Tables = () => {
     const result = useClockifyData();
     const { user, isLoaded } = useUser();
 
-    const excludedClients = isLoaded
-        ? user.publicMetadata.excludedClients
-        : null;
+    const excludedClients = isLoaded ? user.publicMetadata.excludedClients : [];
     let clockifyData, msData, blockData, projData;
 
     // Map Clockify data to wrapper, then filter out excluded clients
     if (result.isError) {
         // We had an error, show error message below
-    } else if (!result.isLoading) {
+    } else if (!result.isLoading && isLoaded) {
         clockifyData = result.data;
         clockifyData = clockifyData.map((data) => new ClockifyProject(data));
         clockifyData = clockifyData.filter((proj) => {

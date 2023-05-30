@@ -9,9 +9,7 @@ const Charts = () => {
     const result = useClockifyData();
     const { user, isLoaded } = useUser();
 
-    const excludedClients = isLoaded
-        ? user.publicMetadata.excludedClients
-        : null;
+    const excludedClients = isLoaded ? user.publicMetadata.excludedClients : [];
     let clockifyData, msData, blockData, projData;
 
     // Map Clockify data to wrapper, then filter out excluded clients
