@@ -6,7 +6,6 @@ import { useUser } from "@clerk/nextjs";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
 
-import { Spinner } from "@material-tailwind/react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
