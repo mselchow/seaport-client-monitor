@@ -6,7 +6,9 @@ import { useUser } from "@clerk/nextjs";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
 
-import { Spinner, Button } from "@material-tailwind/react";
+import { Spinner } from "@material-tailwind/react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -170,10 +172,7 @@ const ExcludedClientSettings = () => {
                                         className="mt-5 w-full md:w-48"
                                     >
                                         {formPending ? (
-                                            <Spinner
-                                                className="inline h-3 w-3"
-                                                color="white"
-                                            />
+                                            <Loader2 className="inline h-4 w-4 animate-spin" />
                                         ) : (
                                             "Save Excluded Clients"
                                         )}
