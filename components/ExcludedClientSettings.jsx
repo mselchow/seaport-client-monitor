@@ -97,7 +97,7 @@ const ExcludedClientSettings = () => {
             <CardContent>
                 <div className="flex flex-col gap-3">
                     {result.isLoading ? (
-                        <Spinner className="h-6 w-6" />
+                        <Loader2 className="h-6 w-6 animate-spin" />
                     ) : result.isError ? (
                         <p>We encountered an error fetching Clockify data.</p>
                     ) : (
