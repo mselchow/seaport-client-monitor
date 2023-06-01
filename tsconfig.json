@@ -16,10 +16,19 @@
         "noImplicitAny": true,
         "jsx": "preserve",
         "outDir": "./dist/",
+        "baseUrl": ".",
         "paths": {
-            "@/*": ["./*"]
+            "@/*": ["./*"],
+            "@/components/ui/*": ["components/ui/*"],
+            "@/lib/*": ["lib/*"],
+            "@/pages/api/*": ["pages/api/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "components/ui/typography.jsx"
+    ],
     "exclude": ["node_modules"]
 }
