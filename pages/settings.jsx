@@ -4,7 +4,8 @@ import { useState } from "react";
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
-import { Input, Button, Typography, Spinner } from "@material-tailwind/react";
+import { Input, Button, Spinner } from "@material-tailwind/react";
+import { TypographyH3 } from "@/components/ui/typography";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
@@ -73,7 +74,7 @@ const Settings = () => {
                 <title>Settings | Seaport Client Monitor</title>
             </Head>
             <div className="lg:place-items-left flex w-full flex-col gap-3 lg:w-fit xl:w-2/3">
-                <Typography variant="h4">Settings</Typography>
+                <TypographyH3>Settings</TypographyH3>
                 <Card className="mb-3">
                     <CardHeader>
                         <CardTitle>Clockify</CardTitle>
