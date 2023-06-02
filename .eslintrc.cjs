@@ -43,5 +43,6 @@ module.exports = {
         "react-refresh/only-export-components": "warn",
         "react/prop-types": 0,
         "react/react-in-jsx-scope": 0,
+        "@typescript-eslint/no-empty-interface": 0,
     },
 };
