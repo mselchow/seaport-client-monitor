@@ -8,7 +8,7 @@ import {
     LabelList,
     Cell,
 } from "recharts";
-import { Typography } from "@material-tailwind/react";
+import { TypographyH3 } from "@/components/ui/typography";
 
 const Chart = ({ title, data }) => {
     if (!data.length) {
@@ -20,9 +20,7 @@ const Chart = ({ title, data }) => {
 
     return (
         <div className="pb-10">
-            <Typography variant="h4" className="pb-2">
-                {title}
-            </Typography>
+            <TypographyH3 className="pb-2">{title}</TypographyH3>
             <ResponsiveContainer width="100%" height={height}>
                 <BarChart
                     id={title}
