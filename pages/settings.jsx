@@ -1,14 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
-import { Input, Button, Spinner } from "@material-tailwind/react";
+
+import Head from "next/head";
+import { Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { TypographyH3 } from "@/components/ui/typography";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
+
+import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 
 const Settings = () => {
     const queryClient = useQueryClient();
@@ -83,14 +87,14 @@ const Settings = () => {
                         <div className="flex flex-col gap-3">
                             <form onSubmit={handleSubmit}>
                                 <div className="flex place-items-center gap-4">
-                                    <div className="flex-1 lg:w-96 lg:flex-none">
-                                        <Input
-                                            label="Clockify API Key"
-                                            id="clockifyKey"
-                                            onChange={onChange}
-                                            value={key}
-                                        />
-                                    </div>
+                                    <Input
+                                        type="text"
+                                        placeholder="Clockify API Key"
+                                        id="clockifyKey"
+                                        className="flex-1 lg:w-96 lg:flex-none"
+                                        onChange={onChange}
+                                        value={key}
+                                    />
                                     <Button
                                         type="submit"
                                         disabled={!key || formPending}
@@ -98,10 +102,7 @@ const Settings = () => {
                                         className="w-24"
                                     >
                                         {formPending ? (
-                                            <Spinner
-                                                className="inline h-4 w-4"
-                                                color="white"
-                                            />
+                                            <Loader2 className="inline h-4 w-4 animate-spin" />
                                         ) : (
                                             "Save"
                                         )}
@@ -111,14 +112,16 @@ const Settings = () => {
                             <div className="flex items-center gap-2 text-sm text-blue-gray-700">
                                 <div className="w-6">
                                     {!isLoaded ? (
-                                        <Spinner />
+                                        <Loader2 className="animate-spin" />
                                     ) : userHasClockifyKey ? (
                                         <LockClosedIcon className="h-6 w-6" />
                                     ) : (
                                         <LockOpenIcon className="h-6 w-6" />
                                     )}
                                 </div>
-                                <div>{apiKeyMessage}</div>
+                                <div className="text-foreground">
+                                    {apiKeyMessage}
+                                </div>
                             </div>
                         </div>
                     </CardContent>
