@@ -77,6 +77,7 @@ const Settings = () => {
 
         // if save was successful, invalidate "clockifyData" query to refetch
         if (result) {
+            form.reset();
             toast({
                 title: "Success!",
                 description: "Clockify API key saved.",
