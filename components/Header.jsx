@@ -14,8 +14,8 @@ import {
     Collapse,
     Typography,
     IconButton,
-    Button,
 } from "@material-tailwind/react";
+import { Button } from "@/components/ui/button";
 import NavLink from "./NavLink";
 
 const navLinks = [
@@ -45,7 +45,7 @@ const Header = () => {
     const clerkLoginRegisterButtons = (
         <div className="mb-4 mt-6 flex flex-col gap-4 lg:mb-0 lg:mt-0 lg:flex-row">
             <SignInButton>
-                <Button variant="outlined" className="w-full lg:w-auto">
+                <Button variant="outline" className="w-full lg:w-auto">
                     Log in
                 </Button>
             </SignInButton>
