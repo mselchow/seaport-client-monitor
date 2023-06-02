@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
 
 import Head from "next/head";
 import { Loader2 } from "lucide-react";
@@ -35,6 +36,7 @@ const Settings = () => {
     const queryClient = useQueryClient();
     const { user, isLoaded } = useUser();
     const [formPending, setFormPending] = useState(false);
+    const { toast } = useToast();
     let apiKeyMessage;
 
     const userHasClockifyKey = isLoaded
@@ -75,7 +77,20 @@ const Settings = () => {
 
         // if save was successful, invalidate "clockifyData" query to refetch
         if (result) {
+            toast({
+                title: "Success!",
+                description: "Clockify API key saved.",
+                duration: 5000,
+                variant: "primary",
+            });
             queryClient.invalidateQueries(["clockifyData"]);
+        } else {
+            toast({
+                title: "Error!",
+                description: "Unable to save your Clockify key.",
+                duration: 5000,
+                variant: "destructive",
+            });
         }
 
         setFormPending(false);
