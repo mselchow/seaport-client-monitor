@@ -130,7 +130,7 @@ const Settings = () => {
                                 </form>
                             </Form>
 
-                            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+                            <div className="flex items-center gap-2 text-sm text-foreground">
                                 <div className="w-6">
                                     {!isLoaded ? (
                                         <Loader2 className="animate-spin" />
@@ -140,9 +140,7 @@ const Settings = () => {
                                         <LockOpenIcon className="h-6 w-6" />
                                     )}
                                 </div>
-                                <div className="text-foreground">
-                                    {apiKeyMessage}
-                                </div>
+                                <div>{apiKeyMessage}</div>
                             </div>
                         </div>
                     </CardContent>
