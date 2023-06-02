@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 import Head from "next/head";
 import { Loader2 } from "lucide-react";
@@ -10,16 +13,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TypographyH3 } from "@/components/ui/typography";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
 
 import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 
+// form schema/validation
+const formSchema = z.object({
+    clockifyKey: z.string().min(45, {
+        message: "Please enter a full Clockify API key before saving.",
+    }),
+});
+
 const Settings = () => {
     const queryClient = useQueryClient();
     const { user, isLoaded } = useUser();
-    const [key, setKey] = useState("");
     const [formPending, setFormPending] = useState(false);
-    const onChange = ({ target }) => setKey(target.value);
     let apiKeyMessage;
 
     const userHasClockifyKey = isLoaded
@@ -34,33 +49,28 @@ const Settings = () => {
             : "No Clockify API key found.";
     }
 
-    const handleSubmit = async (event) => {
-        // set state for pending indicator
+    // form definition
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            clockifyKey: "",
+        },
+    });
+
+    // form submission handler
+    async function onSubmit(values) {
         setFormPending(true);
 
-        // prevent form from submitting and refreshing the page
-        event.preventDefault();
-
-        // get the data from the form
-        const data = {
-            clockifyKey: event.target.clockifyKey.value,
-        };
-
-        // format data as JSON to send to server
-        const JSONdata = JSON.stringify(data);
-
-        // create request to send to server
         const options = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSONdata,
+            body: JSON.stringify({
+                clockifyKey: values.clockifyKey,
+            }),
         };
-
-        // send form data to API endpoint and await response
         const response = await fetch("/api/saveClockifyKey", options);
-        // eslint-disable-next-line no-unused-vars
         const result = await response.json();
 
         // if save was successful, invalidate "clockifyData" query to refetch
@@ -69,8 +79,7 @@ const Settings = () => {
         }
 
         setFormPending(false);
-        setKey("");
-    };
+    }
 
     return (
         <>
@@ -85,20 +94,31 @@ const Settings = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col gap-3">
-                            <form onSubmit={handleSubmit}>
-                                <div className="flex place-items-center gap-4">
-                                    <Input
-                                        type="text"
-                                        placeholder="Clockify API Key"
-                                        id="clockifyKey"
-                                        className="flex-1 lg:w-96 lg:flex-none"
-                                        onChange={onChange}
-                                        value={key}
+                            <Form {...form}>
+                                <form
+                                    onSubmit={form.handleSubmit(onSubmit)}
+                                    className="flex-start flex gap-4"
+                                >
+                                    <FormField
+                                        control={form.control}
+                                        name="clockifyKey"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full lg:w-[425px]">
+                                                <FormControl>
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="Clockify API Key"
+                                                        id="clockifyKey"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                     <Button
                                         type="submit"
-                                        disabled={!key || formPending}
-                                        color={key ? "blue" : "blue-gray"}
+                                        disabled={formPending}
                                         className="w-24"
                                     >
                                         {formPending ? (
@@ -107,8 +127,9 @@ const Settings = () => {
                                             "Save"
                                         )}
                                     </Button>
-                                </div>
-                            </form>
+                                </form>
+                            </Form>
+
                             <div className="flex items-center gap-2 text-sm text-blue-gray-700">
                                 <div className="w-6">
                                     {!isLoaded ? (
