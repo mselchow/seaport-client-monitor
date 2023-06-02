@@ -1,4 +1,5 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Card } from "@material-tailwind/react";
+import { TypographyH3, TypographySmall } from "@/components/ui/typography";
 import { useState } from "react";
 import {
     ChevronUpDownIcon,
@@ -58,9 +59,7 @@ const Table = ({ title, data, headers }) => {
 
     return (
         <div className="pb-10">
-            <Typography variant="h4" className="pb-2">
-                {title}
-            </Typography>
+            <TypographyH3 className="pb-2">{title}</TypographyH3>
             <Card className="overflow-auto" id={title}>
                 <table className="w-full min-w-max table-auto text-left">
                     <colgroup>
@@ -84,16 +83,12 @@ const Table = ({ title, data, headers }) => {
                                         }
                                         className="cursor-pointer border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:bg-blue-gray-100"
                                     >
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="flex items-center justify-between font-normal leading-none opacity-70"
-                                        >
+                                        <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
                                             {label}{" "}
                                             {sortable && sortField === accessor
                                                 ? ENUM_ICONS[order]
                                                 : ENUM_ICONS["default"]}
-                                        </Typography>
+                                        </TypographySmall>
                                     </th>
                                 )
                             )}
@@ -103,22 +98,14 @@ const Table = ({ title, data, headers }) => {
                         {tableData.map(({ name, uid, hoursRemaining }) => (
                             <tr key={uid} className="even:bg-blue-gray-50/50">
                                 <td className="p-2 px-4">
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                    >
+                                    <TypographySmall className="font-normal">
                                         {name}
-                                    </Typography>
+                                    </TypographySmall>
                                 </td>
                                 <td className="p-2 px-4">
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                    >
+                                    <TypographySmall className="font-normal">
                                         {hoursRemaining}
-                                    </Typography>
+                                    </TypographySmall>
                                 </td>
                             </tr>
                         ))}
