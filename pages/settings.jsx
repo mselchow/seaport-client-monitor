@@ -21,7 +21,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
+import { Lock, Unlock } from "lucide-react";
 
 import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 
@@ -151,9 +151,9 @@ const Settings = () => {
                                     {!isLoaded ? (
                                         <Loader2 className="animate-spin" />
                                     ) : userHasClockifyKey ? (
-                                        <LockClosedIcon className="h-6 w-6" />
+                                        <Lock className="h-6 w-6" />
                                     ) : (
-                                        <LockOpenIcon className="h-6 w-6" />
+                                        <Unlock className="h-6 w-6" />
                                     )}
                                 </div>
                                 <div>{apiKeyMessage}</div>
