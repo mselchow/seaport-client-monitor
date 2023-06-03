@@ -55,10 +55,29 @@ const Header = () => {
         </div>
     );
 
+    const clerkUserAvatar = (
+        <div className="py-3 lg:py-0">
+            <ClerkLoading></ClerkLoading>
+            <ClerkLoaded>
+                <UserButton
+                    showName="true"
+                    afterSignOutUrl="/"
+                    appearance={{
+                        elements: {
+                            userButtonBox: "flex-row-reverse lg:flex-row",
+                            userButtonOuterIdentifier: "text-base",
+                            avatarBox: "w-7 h-7 lg:w-8 lg:h-8",
+                        },
+                    }}
+                />
+            </ClerkLoaded>
+        </div>
+    );
+
     return (
         <>
             <Navbar className="sticky inset-0 z-10 h-max max-w-full rounded-none px-4 py-3 pb-2 lg:px-8 lg:py-4">
-                <div className="grid grid-cols-2 items-center text-blue-gray-900 lg:grid-cols-3">
+                <div className="grid grid-cols-2 items-center text-primary lg:grid-cols-3">
                     <div className="flex">
                         <Image
                             src="/seaport-logo.png"
@@ -80,15 +99,7 @@ const Header = () => {
                     </div>
 
                     <div className="hidden lg:flex lg:justify-self-end">
-                        <SignedIn>
-                            <ClerkLoading></ClerkLoading>
-                            <ClerkLoaded>
-                                <UserButton
-                                    showName="true"
-                                    afterSignOutUrl="/"
-                                />
-                            </ClerkLoaded>
-                        </SignedIn>
+                        <SignedIn>{clerkUserAvatar}</SignedIn>
                         <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
                     </div>
 
@@ -135,22 +146,7 @@ const Header = () => {
                     <SignedIn>
                         {navList}
                         <hr className="my-2 border-blue-gray-50" />
-                        <div className="py-3">
-                            <ClerkLoading></ClerkLoading>
-                            <ClerkLoaded>
-                                <UserButton
-                                    showName="true"
-                                    appearance={{
-                                        elements: {
-                                            userButtonBox: "flex-row-reverse",
-                                            userButtonOuterIdentifier:
-                                                "text-base",
-                                            avatarBox: "w-7 h-7",
-                                        },
-                                    }}
-                                />
-                            </ClerkLoaded>
-                        </div>
+                        {clerkUserAvatar}
                     </SignedIn>
                     <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
                 </Collapse>
