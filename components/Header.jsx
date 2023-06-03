@@ -31,7 +31,7 @@ const Header = () => {
     }, []);
 
     const navList = (
-        <div className="mb-4 mt-6 flex flex-col gap-4 text-blue-gray-900 lg:mb-0 lg:mt-0 lg:flex-row">
+        <div className="mb-4 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row">
             {navLinks.map(({ title, path }) => (
                 <NavLink key={title} title={title} path={path} />
             ))}
@@ -52,7 +52,7 @@ const Header = () => {
     );
 
     const clerkUserAvatar = (
-        <div className="py-3 lg:py-0">
+        <div className="flex justify-center py-3 lg:flex-none lg:py-0">
             <ClerkLoading></ClerkLoading>
             <ClerkLoaded>
                 <UserButton
@@ -61,7 +61,7 @@ const Header = () => {
                     appearance={{
                         elements: {
                             userButtonBox: "flex-row-reverse lg:flex-row",
-                            userButtonOuterIdentifier: "text-base",
+                            userButtonOuterIdentifier: "text-sm",
                             avatarBox: "w-7 h-7 lg:w-8 lg:h-8",
                         },
                     }}
@@ -138,7 +138,7 @@ const Header = () => {
                 <Collapse open={openNav} className="px-2">
                     <SignedIn>
                         {navList}
-                        <hr className="my-2 border-blue-gray-50" />
+                        <hr className="my-2" />
                         {clerkUserAvatar}
                     </SignedIn>
                     <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
