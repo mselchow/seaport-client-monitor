@@ -9,12 +9,8 @@ import {
     SignInButton,
     SignUpButton,
 } from "@clerk/clerk-react";
-import {
-    Navbar,
-    Collapse,
-    Typography,
-    IconButton,
-} from "@material-tailwind/react";
+import { Navbar, Collapse, IconButton } from "@material-tailwind/react";
+import { TypographyH4 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import NavLink from "./NavLink";
 
@@ -86,12 +82,9 @@ const Header = () => {
                             height="36"
                             width="36"
                         />
-                        <Typography
-                            variant="h5"
-                            className="self-center whitespace-nowrap"
-                        >
+                        <TypographyH4 className="self-center">
                             Client Monitor
-                        </Typography>
+                        </TypographyH4>
                     </div>
 
                     <div className="hidden lg:block lg:justify-self-center">
