@@ -1,4 +1,4 @@
-import { Card } from "@material-tailwind/react";
+import { Card } from "@/components/ui/card";
 import { TypographyH3, TypographySmall } from "@/components/ui/typography";
 import { useState } from "react";
 import {
