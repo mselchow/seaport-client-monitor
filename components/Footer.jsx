@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogBody } from "@material-tailwind/react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { TypographySmall } from "@/components/ui/typography";
 
@@ -16,36 +16,31 @@ const Footer = () => {
                         href="https://github.com/mselchow/seaport-client-monitor"
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="underline underline-offset-4"
                     >
-                        <TypographySmall>GitHub</TypographySmall>
+                        <TypographySmall className="underline underline-offset-4">
+                            GitHub
+                        </TypographySmall>
                     </a>
                 </li>
                 <li>
-                    <Button
-                        variant="link"
-                        onClick={handleOpen}
-                        className="underline underline-offset-4"
-                    >
-                        <TypographySmall>Feedback</TypographySmall>
-                    </Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="link">
+                                <TypographySmall className="underline underline-offset-4">
+                                    Feedback
+                                </TypographySmall>
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className=" min-w-[80%] overflow-scroll [height:80vh] lg:min-w-[60%]">
+                            <iframe
+                                title="Asana Form"
+                                className="h-full w-full"
+                                src="https://form.asana.com/?k=XFPxo4FT9PncwdzMNrNm4A&d=881126945849896&embed=true"
+                            ></iframe>
+                        </DialogContent>
+                    </Dialog>
                 </li>
             </ul>
-
-            <Dialog
-                open={open}
-                size="lg"
-                handler={handleOpen}
-                className="overflow-scroll"
-            >
-                <DialogBody className="overflow-scroll [height:80vh]">
-                    <iframe
-                        title="Asana Form"
-                        className="h-full w-full"
-                        src="https://form.asana.com/?k=XFPxo4FT9PncwdzMNrNm4A&d=881126945849896&embed=true"
-                    ></iframe>
-                </DialogBody>
-            </Dialog>
         </footer>
     );
 };
