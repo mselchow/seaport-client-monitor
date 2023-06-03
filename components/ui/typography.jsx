@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 const TypographyH3 = ({ className, children, ...props }) => (
     <h3
-        className={cn(className, "scroll-m-20 text-2xl font-semibold")}
+        className={cn(className, "scroll-m-20 text-2xl font-medium")}
         {...props}
     >
         {children}
@@ -13,7 +13,7 @@ const TypographyH4 = ({ className, children, ...props }) => (
     <h4
         className={cn(
             className,
-            "scroll-m-20 text-xl font-semibold tracking-tight"
+            "scroll-m-20 text-xl font-medium tracking-normal"
         )}
         {...props}
     >
