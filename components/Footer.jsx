@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Typography, Dialog, DialogBody } from "@material-tailwind/react";
+import { Dialog, DialogBody } from "@material-tailwind/react";
+import { Button } from "@/components/ui/button";
+import { TypographySmall } from "@/components/ui/typography";
 
 const Footer = () => {
     const [open, setOpen] = useState(false);
@@ -7,29 +9,26 @@ const Footer = () => {
     const handleOpen = () => setOpen(!open);
 
     return (
-        <footer className="flex w-full flex-row flex-wrap items-center justify-center gap-x-12 gap-y-6 place-self-end border-t border-blue-gray-100 py-6 text-center">
+        <footer className="flex w-full flex-row flex-wrap items-center justify-center gap-x-12 gap-y-6 place-self-end border-t py-4 text-center">
             <ul className="flex flex-wrap items-center gap-10">
                 <li>
-                    <Typography
-                        as="a"
+                    <a
                         href="https://github.com/mselchow/seaport-client-monitor"
-                        color="blue-gray"
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                        className="underline underline-offset-4"
                     >
-                        GitHub
-                    </Typography>
+                        <TypographySmall>GitHub</TypographySmall>
+                    </a>
                 </li>
                 <li>
-                    <Typography
-                        as="a"
+                    <Button
+                        variant="link"
                         onClick={handleOpen}
-                        color="blue-gray"
-                        className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                        className="underline underline-offset-4"
                     >
-                        Feedback
-                    </Typography>
+                        <TypographySmall>Feedback</TypographySmall>
+                    </Button>
                 </li>
             </ul>
 
