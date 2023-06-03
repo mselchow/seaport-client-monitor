@@ -12,7 +12,6 @@
     },
     "dependencies": {
         "@clerk/nextjs": "^4.17.3",
-        "@heroicons/react": "^2.0.18",
         "@hookform/resolvers": "^3.1.0",
         "@material-tailwind/react": "^2.0.0",
         "@radix-ui/react-checkbox": "^1.0.4",
