@@ -1,11 +1,8 @@
+import { useState } from "react";
+
 import { Card } from "@/components/ui/card";
 import { TypographyH3, TypographySmall } from "@/components/ui/typography";
-import { useState } from "react";
-import {
-    ChevronUpDownIcon,
-    ChevronDownIcon,
-    ChevronUpIcon,
-} from "@heroicons/react/24/solid";
+import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 
 // TODO: adjust below code to accommodate any array length for data
 const Table = ({ title, data, headers }) => {
@@ -52,9 +49,9 @@ const Table = ({ title, data, headers }) => {
     };
 
     const ENUM_ICONS = {
-        asc: <ChevronUpIcon strokeWidth={2} className="h-4 w-4" />,
-        desc: <ChevronDownIcon strokeWidth={2} className="h-4 w-4" />,
-        default: <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />,
+        asc: <ChevronUp className="h-4 w-4" />,
+        desc: <ChevronDown className="h-4 w-4" />,
+        default: <ChevronsUpDown className="h-4 w-4" />,
     };
 
     return (
