@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { Alert, Button } from "@material-tailwind/react";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useBuildId } from "@/lib/useBuildId";
 
 export default function RefreshPrompt() {
@@ -20,19 +20,15 @@ export default function RefreshPrompt() {
         buildId && process.env.BUILD_ID && buildId !== process.env.BUILD_ID;
 
     return newBuildAvailable ? (
-        <Alert
-            className="fixed bottom-5 z-10 mx-5 w-11/12 md:w-96"
-            icon={<InformationCircleIcon strokeWidth={2} className="h-6 w-6" />}
-        >
-            <p>{alertMessage}</p>
-            <Button
-                onClick={() => router.reload()}
-                color="white"
-                size="sm"
-                className="mt-3"
-            >
-                Reload
-            </Button>
-        </Alert>
+        <Card className="fixed bottom-5 z-10 mx-5 w-11/12 border-foreground shadow-md sm:w-72">
+            <CardContent className="pt-5">
+                <p>{alertMessage}</p>
+            </CardContent>
+            <CardFooter>
+                <Button className="" onClick={() => router.reload()}>
+                    Reload
+                </Button>
+            </CardFooter>
+        </Card>
     ) : null;
 }

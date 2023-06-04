@@ -1,10 +1,8 @@
-import { Card, Typography } from "@material-tailwind/react";
 import { useState } from "react";
-import {
-    ChevronUpDownIcon,
-    ChevronDownIcon,
-    ChevronUpIcon,
-} from "@heroicons/react/24/solid";
+
+import { Card } from "@/components/ui/card";
+import { TypographyH3, TypographySmall } from "@/components/ui/typography";
+import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 
 // TODO: adjust below code to accommodate any array length for data
 const Table = ({ title, data, headers }) => {
@@ -51,16 +49,14 @@ const Table = ({ title, data, headers }) => {
     };
 
     const ENUM_ICONS = {
-        asc: <ChevronUpIcon strokeWidth={2} className="h-4 w-4" />,
-        desc: <ChevronDownIcon strokeWidth={2} className="h-4 w-4" />,
-        default: <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />,
+        asc: <ChevronUp className="h-4 w-4" />,
+        desc: <ChevronDown className="h-4 w-4" />,
+        default: <ChevronsUpDown className="h-4 w-4" />,
     };
 
     return (
         <div className="pb-10">
-            <Typography variant="h4" className="pb-2">
-                {title}
-            </Typography>
+            <TypographyH3 className="pb-2">{title}</TypographyH3>
             <Card className="overflow-auto" id={title}>
                 <table className="w-full min-w-max table-auto text-left">
                     <colgroup>
@@ -82,18 +78,14 @@ const Table = ({ title, data, headers }) => {
                                                       )
                                                 : null
                                         }
-                                        className="cursor-pointer border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:bg-blue-gray-100"
+                                        className="cursor-pointer border-b bg-accent p-4 brightness-95 hover:brightness-90"
                                     >
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="flex items-center justify-between font-normal leading-none opacity-70"
-                                        >
+                                        <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
                                             {label}{" "}
                                             {sortable && sortField === accessor
                                                 ? ENUM_ICONS[order]
                                                 : ENUM_ICONS["default"]}
-                                        </Typography>
+                                        </TypographySmall>
                                     </th>
                                 )
                             )}
@@ -101,24 +93,16 @@ const Table = ({ title, data, headers }) => {
                     </thead>
                     <tbody>
                         {tableData.map(({ name, uid, hoursRemaining }) => (
-                            <tr key={uid} className="even:bg-blue-gray-50/50">
+                            <tr key={uid} className="even:bg-muted">
                                 <td className="p-2 px-4">
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                    >
+                                    <TypographySmall className="font-normal">
                                         {name}
-                                    </Typography>
+                                    </TypographySmall>
                                 </td>
                                 <td className="p-2 px-4">
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray"
-                                        className="font-normal"
-                                    >
+                                    <TypographySmall className="font-normal">
                                         {hoursRemaining}
-                                    </Typography>
+                                    </TypographySmall>
                                 </td>
                             </tr>
                         ))}

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Spinner } from "@material-tailwind/react";
+import { Loader2 } from "lucide-react";
 import Table from "@/components/Table";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
@@ -53,7 +53,7 @@ const Tables = () => {
                 <title>Tables | Seaport Client Monitor</title>
             </Head>
             {result.isLoading ? (
-                <Spinner className="h-8 w-8 place-self-center" />
+                <Loader2 className="h-8 w-8 animate-spin" />
             ) : result.isError ? (
                 <div className="text-center">
                     <p>We countered an error fetching Clockify data.</p>

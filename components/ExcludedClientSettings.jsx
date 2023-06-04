@@ -6,7 +6,8 @@ import { useUser } from "@clerk/nextjs";
 import { useClockifyData } from "@/lib/useClockifyData";
 import ClockifyProject from "@/lib/clockifyProject";
 
-import { Spinner, Button } from "@material-tailwind/react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -95,7 +96,7 @@ const ExcludedClientSettings = () => {
             <CardContent>
                 <div className="flex flex-col gap-3">
                     {result.isLoading ? (
-                        <Spinner className="h-6 w-6" />
+                        <Loader2 className="h-6 w-6 animate-spin" />
                     ) : result.isError ? (
                         <p>We encountered an error fetching Clockify data.</p>
                     ) : (
@@ -121,7 +122,7 @@ const ExcludedClientSettings = () => {
                                                                     key={
                                                                         client.clientId
                                                                     }
-                                                                    className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-blue-gray-50"
+                                                                    className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-muted"
                                                                 >
                                                                     <FormControl>
                                                                         <Checkbox
@@ -150,7 +151,7 @@ const ExcludedClientSettings = () => {
                                                                             }}
                                                                         />
                                                                     </FormControl>
-                                                                    <FormLabel className="text-md text-blue-gray w-full cursor-pointer font-normal">
+                                                                    <FormLabel className="text-md w-full cursor-pointer font-normal text-primary">
                                                                         {
                                                                             client.name
                                                                         }
@@ -170,10 +171,7 @@ const ExcludedClientSettings = () => {
                                         className="mt-5 w-full md:w-48"
                                     >
                                         {formPending ? (
-                                            <Spinner
-                                                className="inline h-3 w-3"
-                                                color="white"
-                                            />
+                                            <Loader2 className="inline h-4 w-4 animate-spin" />
                                         ) : (
                                             "Save Excluded Clients"
                                         )}
