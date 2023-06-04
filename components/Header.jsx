@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import NavLink from "./NavLink";
 import { cn } from "@/lib/utils";
 import RefetchData from "@/components/RefetchData";
+import { Separator } from "@/components/ui/separator";
 
 const navLinks = [
     { title: "Charts", path: "/charts" },
@@ -85,9 +86,13 @@ const Header = () => {
                     <SignedIn>{navList}</SignedIn>
                 </nav>
 
-                <div className="hidden items-center gap-2 lg:flex lg:justify-self-end">
+                <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
                         <RefetchData query="clockifyData" />
+                        <Separator
+                            orientation="vertical"
+                            className="space-x-2"
+                        />
                         {clerkUserAvatar}
                     </SignedIn>
                     <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
