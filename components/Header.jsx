@@ -18,6 +18,7 @@ import RefetchData from "@/components/RefetchData";
 import { Separator } from "@/components/ui/separator";
 
 const navLinks = [
+    { title: "Dashboard", path: "/" },
     { title: "Charts", path: "/charts" },
     { title: "Tables", path: "/tables" },
     { title: "Settings", path: "/settings" },
