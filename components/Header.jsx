@@ -14,6 +14,7 @@ import { TypographyH4 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import NavLink from "./NavLink";
 import { cn } from "@/lib/utils";
+import RefetchData from "@/components/RefetchData";
 
 const navLinks = [
     { title: "Charts", path: "/charts" },
@@ -84,8 +85,11 @@ const Header = () => {
                     <SignedIn>{navList}</SignedIn>
                 </nav>
 
-                <div className="hidden lg:flex lg:justify-self-end">
-                    <SignedIn>{clerkUserAvatar}</SignedIn>
+                <div className="hidden items-center gap-2 lg:flex lg:justify-self-end">
+                    <SignedIn>
+                        <RefetchData query="clockifyData" />
+                        {clerkUserAvatar}
+                    </SignedIn>
                     <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
                 </div>
 
