@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export default function NavLink({ title, path }) {
     const pathname = usePathname();
-    const isActive = pathname.startsWith(path);
+    const isActive = pathname === path;
 
     const highlightActive = isActive ? "bg-secondary" : "";
     const boldActive = isActive ? "font-bold" : "font-normal";
