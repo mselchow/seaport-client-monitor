@@ -122,7 +122,7 @@ const ExcludedClientSettings = () => {
                                                                     key={
                                                                         client.clientId
                                                                     }
-                                                                    className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-blue-gray-50"
+                                                                    className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-muted"
                                                                 >
                                                                     <FormControl>
                                                                         <Checkbox
@@ -151,7 +151,7 @@ const ExcludedClientSettings = () => {
                                                                             }}
                                                                         />
                                                                     </FormControl>
-                                                                    <FormLabel className="text-md text-blue-gray w-full cursor-pointer font-normal">
+                                                                    <FormLabel className="text-md w-full cursor-pointer font-normal text-primary">
                                                                         {
                                                                             client.name
                                                                         }

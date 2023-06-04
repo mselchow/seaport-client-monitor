@@ -78,7 +78,7 @@ const Table = ({ title, data, headers }) => {
                                                       )
                                                 : null
                                         }
-                                        className="cursor-pointer border-b border-blue-gray-100 bg-blue-gray-50 p-4 hover:bg-blue-gray-100"
+                                        className="cursor-pointer border-b bg-accent p-4 brightness-95 hover:brightness-90"
                                     >
                                         <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
                                             {label}{" "}
@@ -93,7 +93,7 @@ const Table = ({ title, data, headers }) => {
                     </thead>
                     <tbody>
                         {tableData.map(({ name, uid, hoursRemaining }) => (
-                            <tr key={uid} className="even:bg-blue-gray-50/50">
+                            <tr key={uid} className="even:bg-muted">
                                 <td className="p-2 px-4">
                                     <TypographySmall className="font-normal">
                                         {name}

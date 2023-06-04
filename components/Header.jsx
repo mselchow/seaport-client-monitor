@@ -65,7 +65,7 @@ const Header = () => {
     );
 
     return (
-        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-white bg-opacity-80 px-4 py-3 pb-2 shadow-md backdrop-blur-2xl lg:px-8 lg:py-4">
+        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 pb-2 shadow-md backdrop-blur-2xl lg:px-8 lg:py-4">
             <div className="grid grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex">
                     <Image
