@@ -14,6 +14,8 @@ import { TypographyH4 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import NavLink from "./NavLink";
 import { cn } from "@/lib/utils";
+import RefetchData from "@/components/RefetchData";
+import { Separator } from "@/components/ui/separator";
 
 const navLinks = [
     { title: "Charts", path: "/charts" },
@@ -65,7 +67,7 @@ const Header = () => {
     );
 
     return (
-        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 pb-2 shadow-md backdrop-blur-2xl lg:px-8 lg:py-4">
+        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl lg:px-8 lg:py-4">
             <div className="grid grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex">
                     <Image
@@ -84,19 +86,31 @@ const Header = () => {
                     <SignedIn>{navList}</SignedIn>
                 </nav>
 
-                <div className="hidden lg:flex lg:justify-self-end">
-                    <SignedIn>{clerkUserAvatar}</SignedIn>
+                <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
+                    <SignedIn>
+                        <RefetchData query="clockifyData" />
+                        <Separator orientation="vertical" />
+                        {clerkUserAvatar}
+                    </SignedIn>
                     <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
                 </div>
 
-                <button
-                    className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent lg:hidden"
-                    aria-label={openNav ? "Close the menu" : "Open the menu"}
-                    aria-expanded={openNav}
-                    onClick={() => setOpenNav(!openNav)}
-                >
-                    {openNav ? <X /> : <Menu />}
-                </button>
+                <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
+                    <SignedIn>
+                        <RefetchData query="clockifyData" />
+                        <Separator orientation="vertical" />
+                    </SignedIn>
+                    <button
+                        className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
+                        aria-label={
+                            openNav ? "Close the menu" : "Open the menu"
+                        }
+                        aria-expanded={openNav}
+                        onClick={() => setOpenNav(!openNav)}
+                    >
+                        {openNav ? <X /> : <Menu />}
+                    </button>
+                </div>
             </div>
 
             <div
