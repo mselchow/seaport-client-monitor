@@ -10,7 +10,7 @@ const Table = ({ title, data, headers }) => {
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("default");
 
-    if (!data.length) {
+    if (!data || !data.length) {
         return;
     }
 
