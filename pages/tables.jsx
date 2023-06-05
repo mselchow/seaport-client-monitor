@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Loader2 } from "lucide-react";
 import Table from "@/components/Table";
-import { useClockifyData } from "@/lib/useClockifyData";
+import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject from "@/lib/clockifyProject";
 import { useUser } from "@clerk/nextjs";
 
