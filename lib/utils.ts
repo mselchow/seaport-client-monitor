@@ -6,19 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function secToTime(seconds: number) {
-    const minutes = Math.floor((seconds / 60) % 60);
     const hours = Math.floor(seconds / (60 * 60));
-    let result = "";
+    const minutes = Math.floor((seconds / 60) % 60);
 
-    if (hours >= 1) {
-        result += hours + "h";
-        if (minutes >= 1) {
-            result += " ";
-        }
-    }
-    if (minutes >= 1) {
-        result += minutes + "m";
-    }
-
-    return result;
+    return `${hours}h ${minutes}m`;
 }
