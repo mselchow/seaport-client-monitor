@@ -1,14 +1,16 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { getClockifyKey } from "@/lib/clerk";
 import {
-    formatISO,
+    format,
     startOfWeek,
     endOfWeek,
     startOfMonth,
     endOfMonth,
+    startOfYear,
+    endOfYear,
+    subWeeks,
+    subMonths,
 } from "date-fns";
-
-// formatRFC3339(new Date(2019, 8, 18, 19, 0, 52, 234), { fractionDigits: 3 })
 
 export default async function handler(req, res) {
     const auth = getAuth(req);
@@ -46,24 +48,30 @@ export default async function handler(req, res) {
             dateRangeEnd = endOfWeek(new Date());
             break;
         case "LAST_WEEK":
+            dateRangeStart = startOfWeek(subWeeks(new Date(), 1));
+            dateRangeEnd = endOfWeek(subWeeks(new Date(), 1));
             break;
         case "THIS_MONTH":
             dateRangeStart = startOfMonth(new Date());
             dateRangeEnd = endOfMonth(new Date());
             break;
         case "LAST_MONTH":
+            dateRangeStart = startOfWeek(subMonths(new Date(), 1));
+            dateRangeEnd = endOfWeek(subMonths(new Date(), 1));
             break;
         case "THIS_YEAR":
+            dateRangeStart = startOfYear(new Date());
+            dateRangeEnd = endOfYear(new Date());
             break;
         default:
-            res.status.json({
+            res.status(400).json({
                 message:
                     "Invalid value provided for 'timeframe'. Valid options are one of: THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
             });
     }
 
-    dateRangeStart = formatISO(dateRangeStart, { format: "extended" });
-    dateRangeEnd = formatISO(dateRangeEnd);
+    dateRangeStart = format(dateRangeStart, "yyyy-MM-dd'T'00:00:00");
+    dateRangeEnd = format(dateRangeEnd, "yyyy-MM-dd'T'23:59:59");
 
     const apiURL =
         "https://reports.api.clockify.me/v1/workspaces/" +
@@ -78,8 +86,8 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             amountShown: "HIDE_AMOUNT",
-            dateRangeStart: "2023-05-28T00:00:00Z",
-            dateRangeEnd: "2023-06-03T23:59:59Z",
+            dateRangeStart: dateRangeStart,
+            dateRangeEnd: dateRangeEnd,
             summaryFilter: {
                 groups: ["project"],
                 sortColumn: "DURATION",
@@ -96,8 +104,7 @@ export default async function handler(req, res) {
     const data = await apiRes.json();
 
     if (!apiRes.ok) {
-        console.log(apiRes.statusText);
-        throw new Error(`error communicating with Clockify`);
+        throw new Error(`error communicating with Clockify: ${apiRes.message}`);
     }
 
     res.status(200).json(data);
