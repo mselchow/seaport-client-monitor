@@ -74,7 +74,7 @@ export default function Home() {
     }
 
     return (
-        <div className="flex flex-1 flex-col gap-8">
+        <div className="flex w-full flex-1 flex-col gap-8">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <DashboardSummaryCard
                     cardTitle="Today"
@@ -105,6 +105,7 @@ export default function Home() {
                         data={tableData}
                         headers={tableHeaders}
                         isLoading={clockifyData.isLoading}
+                        expectedRows={12}
                     />
                 </div>
             </div>
