@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+    Table as Table2,
+    TableHeader,
+    TableHead,
+    TableBody,
+    TableCell,
+    TableRow,
+} from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TypographySmall } from "@/components/ui/typography";
 import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
@@ -81,17 +89,9 @@ const Table = ({
                             ))}
                         </div>
                     ) : (
-                        <table className="w-full min-w-max table-auto text-left">
-                            {headers.length === 2 ? (
-                                <colgroup>
-                                    <col className="w-3/5" />
-                                    <col className="w-2/5" />
-                                </colgroup>
-                            ) : (
-                                ""
-                            )}
-                            <thead>
-                                <tr>
+                        <Table2>
+                            <TableHeader>
+                                <TableRow>
                                     {headers.map(
                                         ({
                                             label,
@@ -99,7 +99,7 @@ const Table = ({
                                             dataType,
                                             sortable,
                                         }) => (
-                                            <th
+                                            <TableHead
                                                 key={accessor}
                                                 onClick={
                                                     sortable
@@ -110,14 +110,13 @@ const Table = ({
                                                               )
                                                         : null
                                                 }
-                                                className={cn(
-                                                    "border-b bg-accent p-4 brightness-95",
+                                                className={
                                                     sortable
-                                                        ? "cursor-pointer hover:brightness-90"
+                                                        ? "cursor-pointer"
                                                         : ""
-                                                )}
+                                                }
                                             >
-                                                <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
+                                                <TypographySmall className="flex items-center justify-between">
                                                     {label}
                                                     {sortable
                                                         ? " " + sortField ===
@@ -128,31 +127,26 @@ const Table = ({
                                                               ]
                                                         : ""}
                                                 </TypographySmall>
-                                            </th>
+                                            </TableHead>
                                         )
                                     )}
-                                </tr>
-                            </thead>
-                            <tbody>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
                                 {tableData?.map((proj) => (
-                                    <tr
-                                        key={proj.uid}
-                                        className="even:bg-muted"
-                                    >
+                                    <TableRow key={proj.uid}>
                                         {headers.map((header) => (
-                                            <td
+                                            <TableCell
                                                 key={header.accessor}
-                                                className="p-2 px-4"
+                                                className="py-3"
                                             >
-                                                <TypographySmall className="font-normal">
-                                                    {proj[header.accessor]}
-                                                </TypographySmall>
-                                            </td>
+                                                {proj[header.accessor]}
+                                            </TableCell>
                                         ))}
-                                    </tr>
+                                    </TableRow>
                                 ))}
-                            </tbody>
-                        </table>
+                            </TableBody>
+                        </Table2>
                     )}
                 </CardContent>
             </Card>
