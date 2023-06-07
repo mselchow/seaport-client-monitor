@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 import { Card } from "@/components/ui/card";
 import { TypographyH3, TypographySmall } from "@/components/ui/typography";
@@ -91,7 +92,12 @@ const Table = ({ title, data, headers, isLoading = false }) => {
                                                           )
                                                     : null
                                             }
-                                            className="cursor-pointer border-b bg-accent p-4 brightness-95 hover:brightness-90"
+                                            className={cn(
+                                                "border-b bg-accent p-4 brightness-95",
+                                                sortable
+                                                    ? "cursor-pointer hover:brightness-90"
+                                                    : ""
+                                            )}
                                         >
                                             <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
                                                 {label}
