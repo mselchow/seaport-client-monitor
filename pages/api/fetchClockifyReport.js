@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     } else if (!body.timeframe) {
         res.status(400).json({
             message:
-                "Request body missing value for 'timeframe'. Valid options are one of: THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
+                "Request body missing value for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
         });
     }
 
@@ -43,6 +43,10 @@ export default async function handler(req, res) {
 
     // set start/end dates based on timeframe parameter
     switch (timeframe) {
+        case "TODAY":
+            dateRangeStart = new Date();
+            dateRangeEnd = new Date();
+            break;
         case "THIS_WEEK":
             dateRangeStart = startOfWeek(new Date());
             dateRangeEnd = endOfWeek(new Date());
@@ -66,7 +70,7 @@ export default async function handler(req, res) {
         default:
             res.status(400).json({
                 message:
-                    "Invalid value provided for 'timeframe'. Valid options are one of: THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
+                    "Invalid value provided for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
             });
     }
 
