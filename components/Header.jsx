@@ -19,8 +19,8 @@ import { Separator } from "@/components/ui/separator";
 
 const navLinks = [
     { title: "Dashboard", path: "/" },
-    { title: "Charts", path: "/charts" },
-    { title: "Tables", path: "/tables" },
+    { title: "Hours Used", path: "/charts" },
+    { title: "Hours Left", path: "/tables" },
     { title: "Settings", path: "/settings" },
 ];
 
