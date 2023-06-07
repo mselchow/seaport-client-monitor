@@ -13,7 +13,7 @@ export default function NavLink({ title, path }) {
     const boldActive = isActive ? "font-bold" : "font-normal";
 
     return (
-        <Button variant="ghost" className="lg:w-32" asChild>
+        <Button variant="ghost" className="lg:w-36" asChild>
             <Link
                 href={path}
                 className={cn(boldActive, highlightActive, "lg:px-8")}
