@@ -2,11 +2,18 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TypographyH3, TypographySmall } from "@/components/ui/typography";
 import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
-const Table = ({ title, data, headers, isLoading = false }) => {
+const Table = ({
+    title,
+    data,
+    headers,
+    isLoading = false,
+    expectedRows = 5,
+}) => {
     const [tableData, setTableData] = useState(data);
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("default");
@@ -55,11 +62,21 @@ const Table = ({ title, data, headers, isLoading = false }) => {
         default: <ChevronsUpDown className="h-4 w-4" />,
     };
 
+    let skeletonLoader = [];
+    for (let i = 0; i < expectedRows; i++) {
+        skeletonLoader[i] = i;
+    }
+
     return (
         <div className="pb-10">
             <TypographyH3 className="pb-2">{title}</TypographyH3>
             {isLoading ? (
-                <Loader2 className="h-8 w-8 animate-spin" />
+                <div className="space-y-1">
+                    <Skeleton className="h-10 w-full" />
+                    {skeletonLoader.map((i) => (
+                        <Skeleton key={i} className="h-9 w-full" />
+                    ))}
+                </div>
             ) : (
                 <Card className="overflow-auto" id={title}>
                     <table className="w-full min-w-max table-auto text-left">
