@@ -70,7 +70,7 @@ export default function Home() {
             .sort((a, b) => {
                 return a.hoursRemaining - b.hoursRemaining;
             })
-            .slice(0, 12);
+            .slice(0, 10);
     }
 
     return (
@@ -105,7 +105,7 @@ export default function Home() {
                         data={tableData}
                         headers={tableHeaders}
                         isLoading={clockifyData.isLoading}
-                        expectedRows={12}
+                        expectedRows={11}
                     />
                 </div>
             </div>
