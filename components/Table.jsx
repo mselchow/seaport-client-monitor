@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Card } from "@/components/ui/card";
 import { TypographyH3, TypographySmall } from "@/components/ui/typography";
 import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
-// TODO: adjust below code to accommodate any array length for data
-const Table = ({ title, data, headers }) => {
+const Table = ({ title, data, headers, isLoading = false }) => {
     const [tableData, setTableData] = useState(data);
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("default");
 
-    if (!data || !data.length) {
-        return;
-    }
+    useEffect(() => {
+        setTableData(data);
+    }, [data]);
 
     const handleSortingChange = (accessor, dataType) => {
         const sortOrder = order === "asc" ? "desc" : "asc";
@@ -57,58 +57,75 @@ const Table = ({ title, data, headers }) => {
     return (
         <div className="pb-10">
             <TypographyH3 className="pb-2">{title}</TypographyH3>
-            <Card className="overflow-auto" id={title}>
-                <table className="w-full min-w-max table-auto text-left">
-                    <colgroup>
-                        <col className="w-3/5" />
-                        <col className="w-2/5" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            {headers.map(
-                                ({ label, accessor, dataType, sortable }) => (
-                                    <th
-                                        key={accessor}
-                                        onClick={
-                                            sortable
-                                                ? () =>
-                                                      handleSortingChange(
-                                                          accessor,
-                                                          dataType
-                                                      )
-                                                : null
-                                        }
-                                        className="cursor-pointer border-b bg-accent p-4 brightness-95 hover:brightness-90"
-                                    >
-                                        <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
-                                            {label}{" "}
-                                            {sortable && sortField === accessor
-                                                ? ENUM_ICONS[order]
-                                                : ENUM_ICONS["default"]}
-                                        </TypographySmall>
-                                    </th>
-                                )
-                            )}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.map(({ name, uid, hoursRemaining }) => (
-                            <tr key={uid} className="even:bg-muted">
-                                <td className="p-2 px-4">
-                                    <TypographySmall className="font-normal">
-                                        {name}
-                                    </TypographySmall>
-                                </td>
-                                <td className="p-2 px-4">
-                                    <TypographySmall className="font-normal">
-                                        {hoursRemaining}
-                                    </TypographySmall>
-                                </td>
+            {isLoading ? (
+                <Loader2 className="h-8 w-8 animate-spin" />
+            ) : (
+                <Card className="overflow-auto" id={title}>
+                    <table className="w-full min-w-max table-auto text-left">
+                        {headers.length === 2 ? (
+                            <colgroup>
+                                <col className="w-3/5" />
+                                <col className="w-2/5" />
+                            </colgroup>
+                        ) : (
+                            ""
+                        )}
+
+                        <thead>
+                            <tr>
+                                {headers.map(
+                                    ({
+                                        label,
+                                        accessor,
+                                        dataType,
+                                        sortable,
+                                    }) => (
+                                        <th
+                                            key={accessor}
+                                            onClick={
+                                                sortable
+                                                    ? () =>
+                                                          handleSortingChange(
+                                                              accessor,
+                                                              dataType
+                                                          )
+                                                    : null
+                                            }
+                                            className="cursor-pointer border-b bg-accent p-4 brightness-95 hover:brightness-90"
+                                        >
+                                            <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
+                                                {label}
+                                                {sortable
+                                                    ? " " + sortField ===
+                                                      accessor
+                                                        ? ENUM_ICONS[order]
+                                                        : ENUM_ICONS["default"]
+                                                    : ""}
+                                            </TypographySmall>
+                                        </th>
+                                    )
+                                )}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </Card>
+                        </thead>
+                        <tbody>
+                            {tableData?.map((proj) => (
+                                <tr key={proj.uid} className="even:bg-muted">
+                                    {headers.map((header) => (
+                                        <td
+                                            key={header.accessor}
+                                            className="p-2 px-4"
+                                        >
+                                            <TypographySmall className="font-normal">
+                                                {proj[header.accessor]}
+                                            </TypographySmall>
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </Card>
+            )}
         </div>
     );
 };
