@@ -15,3 +15,13 @@ export function secToTime(seconds: number) {
 
     return `${hours}h ${minutes}m`;
 }
+
+export function secToHours(seconds: number) {
+    if (seconds === undefined) {
+        return "0";
+    }
+
+    const hours = (seconds / (60 * 60)).toFixed(2);
+
+    return hours;
+}
