@@ -1,9 +1,17 @@
-import { useClockifySummaryReport, useClockifyData } from "@/lib/clockify";
-import { secToTime } from "@/lib/utils";
-import DashboardSummaryCard from "@/components/DashboardSummaryCard";
-import Table from "@/components/Table";
 import { useUser } from "@clerk/nextjs";
+import {
+    useClockifySummaryReport,
+    useClockifyWeeklyReport,
+    useClockifyData,
+} from "@/lib/clockify";
+
+import { secToTime, secToHours } from "@/lib/utils";
 import ClockifyProject from "@/lib/clockifyProject";
+import { format, parse } from "date-fns";
+
+import DashboardSummaryCard from "@/components/DashboardSummaryCard";
+import DashboardChart from "@/components/DashboardChart";
+import Table from "@/components/Table";
 
 export default function Home() {
     const clockifyData = useClockifyData();
@@ -26,6 +34,15 @@ export default function Home() {
     const timeYear = reportYear.isFetched
         ? secToTime(reportYear.data?.totals[0]?.totalTime)
         : "";
+
+    const reportWeekly = useClockifyWeeklyReport();
+    const hoursByDay = reportWeekly.isFetched
+        ? reportWeekly.data?.totalsByDay.map(({ date, duration }) => ({
+              day: format(parse(date, "yyyy-MM-dd", new Date()), "EEEE"),
+              hours: secToHours(duration),
+              label: secToTime(duration),
+          }))
+        : [];
 
     const tableHeaders = [
         {
@@ -74,7 +91,7 @@ export default function Home() {
     }
 
     return (
-        <div className="flex w-full flex-1 flex-col gap-4">
+        <div className="space-y-4">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <DashboardSummaryCard
                     cardTitle="Today"
@@ -97,17 +114,19 @@ export default function Home() {
                     isLoading={reportYear.isLoading}
                 />
             </div>
-            <div className="grid gap-4 lg:grid-cols-2">
-                <div>Chart</div>
-                <div>
-                    <Table
-                        title="Hours Remaining"
-                        data={tableData}
-                        headers={tableHeaders}
-                        isLoading={clockifyData.isLoading}
-                        expectedRows={11}
-                    />
-                </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <DashboardChart
+                    title="Hours Logged This Week"
+                    data={hoursByDay}
+                    isLoading={reportWeekly.isLoading}
+                />
+                <Table
+                    title="Hours Remaining"
+                    data={tableData}
+                    headers={tableHeaders}
+                    isLoading={clockifyData.isLoading}
+                    expectedRows={11}
+                />
             </div>
         </div>
     );
