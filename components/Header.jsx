@@ -89,7 +89,13 @@ const Header = () => {
 
                 <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
-                        <RefetchData query="clockifyData" />
+                        <RefetchData
+                            query={[
+                                "clockifyData",
+                                "clockifySummaryReport",
+                                "clockifyWeeklyReport",
+                            ]}
+                        />
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
                     </SignedIn>
@@ -99,7 +105,11 @@ const Header = () => {
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
                         <RefetchData
-                            query={["clockifyData", "clockifySummaryReport"]}
+                            query={[
+                                "clockifyData",
+                                "clockifySummaryReport",
+                                "clockifyWeeklyReport",
+                            ]}
                         />
                         <Separator orientation="vertical" />
                     </SignedIn>
