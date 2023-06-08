@@ -99,7 +99,7 @@ const Header = () => {
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
                         <RefetchData
-                            query={["clockifyData", "clockifyReport"]}
+                            query={["clockifyData", "clockifySummaryReport"]}
                         />
                         <Separator orientation="vertical" />
                     </SignedIn>

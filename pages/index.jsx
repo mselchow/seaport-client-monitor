@@ -1,4 +1,4 @@
-import { useClockifyReport, useClockifyData } from "@/lib/clockify";
+import { useClockifySummaryReport, useClockifyData } from "@/lib/clockify";
 import { secToTime } from "@/lib/utils";
 import DashboardSummaryCard from "@/components/DashboardSummaryCard";
 import Table from "@/components/Table";
@@ -9,10 +9,10 @@ export default function Home() {
     const clockifyData = useClockifyData();
     const { user, isLoaded } = useUser();
 
-    const reportToday = useClockifyReport("TODAY");
-    const reportWeek = useClockifyReport("THIS_WEEK");
-    const reportMonth = useClockifyReport("THIS_MONTH");
-    const reportYear = useClockifyReport("THIS_YEAR");
+    const reportToday = useClockifySummaryReport("TODAY");
+    const reportWeek = useClockifySummaryReport("THIS_WEEK");
+    const reportMonth = useClockifySummaryReport("THIS_MONTH");
+    const reportYear = useClockifySummaryReport("THIS_YEAR");
 
     const timeToday = reportToday.isFetched
         ? secToTime(reportToday.data?.totals[0]?.totalTime)
@@ -74,7 +74,7 @@ export default function Home() {
     }
 
     return (
-        <div className="flex w-full flex-1 flex-col gap-8">
+        <div className="flex w-full flex-1 flex-col gap-4">
             <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <DashboardSummaryCard
                     cardTitle="Today"
@@ -97,7 +97,7 @@ export default function Home() {
                     isLoading={reportYear.isLoading}
                 />
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 lg:grid-cols-2">
                 <div>Chart</div>
                 <div>
                     <Table
