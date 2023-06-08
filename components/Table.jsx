@@ -75,7 +75,7 @@ const Table = ({
     }
 
     return (
-        <div className="pb-5">
+        <div className="flex-1">
             <Card id={title}>
                 <CardHeader>
                     <CardTitle className="text-xl">{title}</CardTitle>
@@ -110,11 +110,14 @@ const Table = ({
                                                               )
                                                         : null
                                                 }
-                                                className={
+                                                className={cn(
                                                     sortable
                                                         ? "cursor-pointer"
+                                                        : "",
+                                                    dataType === "number"
+                                                        ? "text-right"
                                                         : ""
-                                                }
+                                                )}
                                             >
                                                 <TypographySmall className="flex items-center justify-between">
                                                     {label}
@@ -138,7 +141,12 @@ const Table = ({
                                         {headers.map((header) => (
                                             <TableCell
                                                 key={header.accessor}
-                                                className="py-3"
+                                                className={cn(
+                                                    "py-3",
+                                                    header.dataType === "number"
+                                                        ? "text-right"
+                                                        : ""
+                                                )}
                                             >
                                                 {proj[header.accessor]}
                                             </TableCell>
