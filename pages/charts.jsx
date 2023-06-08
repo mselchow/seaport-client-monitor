@@ -37,7 +37,7 @@ const Charts = () => {
             <Head>
                 <title>Charts | Seaport Client Monitor</title>
             </Head>
-            <div className="flex w-full flex-col xl:w-2/3">
+            <div className="flex w-full flex-col lg:px-[10%] xl:px-[15%]">
                 {result.isLoading || !isLoaded ? (
                     <Loader2 className="h-8 w-8 animate-spin place-self-center" />
                 ) : result.isError ? (
