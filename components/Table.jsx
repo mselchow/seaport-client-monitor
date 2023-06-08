@@ -75,8 +75,8 @@ const Table = ({
     }
 
     return (
-        <div className="flex-1">
-            <Card id={title}>
+        <div className="">
+            <Card id={title} className="h-full">
                 <CardHeader>
                     <CardTitle className="text-xl">{title}</CardTitle>
                 </CardHeader>
