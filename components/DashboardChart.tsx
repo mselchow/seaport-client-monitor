@@ -19,7 +19,7 @@ export default function DashboardChart({
             <CardHeader>
                 <CardTitle className="text-xl">{title}</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-2">
                 {isLoading ? (
                     <div className="flex items-end justify-around">
                         <Skeleton className="h-[125px] w-[11%]" />
@@ -35,6 +35,7 @@ export default function DashboardChart({
                         <BarChart data={data}>
                             <XAxis
                                 dataKey="day"
+                                interval={0}
                                 fill="muted-foreground"
                                 fontSize={12}
                                 tickLine={false}
