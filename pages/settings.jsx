@@ -102,7 +102,7 @@ const Settings = () => {
             <Head>
                 <title>Settings | Seaport Client Monitor</title>
             </Head>
-            <div className="lg:place-items-left flex w-full flex-col gap-3 lg:w-fit xl:w-2/3">
+            <div className="lg:place-items-left flex w-full flex-col gap-3 lg:px-[10%] xl:px-[15%]">
                 <TypographyH3>Settings</TypographyH3>
                 <Card className="mb-3">
                     <CardHeader>

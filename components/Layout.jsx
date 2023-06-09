@@ -5,11 +5,9 @@ import Footer from "./Footer";
 
 export default function Layout({ children }) {
     return (
-        <div className="relative flex min-h-screen flex-col justify-start">
+        <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="container mx-auto flex justify-center px-5 py-5">
-                {children}
-            </main>
+            <main className="container px-4 py-4">{children}</main>
             <div className="flex-grow">{""}</div>
             <SignedIn>
                 <RefreshPrompt />

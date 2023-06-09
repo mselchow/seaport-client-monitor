@@ -1,7 +1,6 @@
 import Head from "next/head";
-import { Loader2 } from "lucide-react";
 import Table from "@/components/Table";
-import { useClockifyData } from "@/lib/useClockifyData";
+import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject from "@/lib/clockifyProject";
 import { useUser } from "@clerk/nextjs";
 
@@ -52,9 +51,7 @@ const Tables = () => {
             <Head>
                 <title>Tables | Seaport Client Monitor</title>
             </Head>
-            {result.isLoading ? (
-                <Loader2 className="h-8 w-8 animate-spin" />
-            ) : result.isError ? (
+            {result.isError ? (
                 <div className="text-center">
                     <p>We countered an error fetching Clockify data.</p>
                     <p>
@@ -63,21 +60,24 @@ const Tables = () => {
                     </p>
                 </div>
             ) : (
-                <div className="w-full xl:w-2/3">
+                <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <Table
                         title="Managed Services"
                         data={msData}
                         headers={tableHeaders}
+                        isLoading={result.isLoading}
                     />
                     <Table
                         title="Block Hours"
                         data={blockData}
                         headers={tableHeaders}
+                        isLoading={result.isLoading}
                     />
                     <Table
                         title="Projects"
                         data={projData}
                         headers={tableHeaders}
+                        isLoading={result.isLoading}
                     />
                 </div>
             )}

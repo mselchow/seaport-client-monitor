@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
-import { useClockifyData } from "@/lib/useClockifyData";
+import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject from "@/lib/clockifyProject";
 import Chart from "@/components/Chart";
 
@@ -37,7 +37,7 @@ const Charts = () => {
             <Head>
                 <title>Charts | Seaport Client Monitor</title>
             </Head>
-            <div className="flex w-full flex-col xl:w-2/3">
+            <div className="flex w-full flex-col lg:px-[10%] xl:px-[15%]">
                 {result.isLoading || !isLoaded ? (
                     <Loader2 className="h-8 w-8 animate-spin place-self-center" />
                 ) : result.isError ? (

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
-import { useClockifyData } from "@/lib/useClockifyData";
+import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject from "@/lib/clockifyProject";
 
 import { Loader2 } from "lucide-react";

@@ -1,18 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-import { Card } from "@/components/ui/card";
-import { TypographyH3, TypographySmall } from "@/components/ui/typography";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+    Table as Table2,
+    TableHeader,
+    TableHead,
+    TableBody,
+    TableCell,
+    TableRow,
+} from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TypographySmall } from "@/components/ui/typography";
 import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 
-// TODO: adjust below code to accommodate any array length for data
-const Table = ({ title, data, headers }) => {
+const Table = ({
+    title,
+    data,
+    headers,
+    isLoading = false,
+    expectedRows = 5,
+}) => {
     const [tableData, setTableData] = useState(data);
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("default");
 
-    if (!data || !data.length) {
-        return;
-    }
+    useEffect(() => {
+        setTableData(data);
+    }, [data]);
 
     const handleSortingChange = (accessor, dataType) => {
         const sortOrder = order === "asc" ? "desc" : "asc";
@@ -54,60 +69,94 @@ const Table = ({ title, data, headers }) => {
         default: <ChevronsUpDown className="h-4 w-4" />,
     };
 
+    let skeletonLoader = [];
+    for (let i = 0; i < expectedRows; i++) {
+        skeletonLoader[i] = i;
+    }
+
     return (
-        <div className="pb-10">
-            <TypographyH3 className="pb-2">{title}</TypographyH3>
-            <Card className="overflow-auto" id={title}>
-                <table className="w-full min-w-max table-auto text-left">
-                    <colgroup>
-                        <col className="w-3/5" />
-                        <col className="w-2/5" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            {headers.map(
-                                ({ label, accessor, dataType, sortable }) => (
-                                    <th
-                                        key={accessor}
-                                        onClick={
-                                            sortable
-                                                ? () =>
-                                                      handleSortingChange(
-                                                          accessor,
-                                                          dataType
-                                                      )
-                                                : null
-                                        }
-                                        className="cursor-pointer border-b bg-accent p-4 brightness-95 hover:brightness-90"
-                                    >
-                                        <TypographySmall className="flex items-center justify-between font-normal leading-none opacity-70">
-                                            {label}{" "}
-                                            {sortable && sortField === accessor
-                                                ? ENUM_ICONS[order]
-                                                : ENUM_ICONS["default"]}
-                                        </TypographySmall>
-                                    </th>
-                                )
-                            )}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.map(({ name, uid, hoursRemaining }) => (
-                            <tr key={uid} className="even:bg-muted">
-                                <td className="p-2 px-4">
-                                    <TypographySmall className="font-normal">
-                                        {name}
-                                    </TypographySmall>
-                                </td>
-                                <td className="p-2 px-4">
-                                    <TypographySmall className="font-normal">
-                                        {hoursRemaining}
-                                    </TypographySmall>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+        <div className="">
+            <Card id={title} className="h-full">
+                <CardHeader>
+                    <CardTitle className="text-xl">{title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {isLoading ? (
+                        <div className="space-y-1">
+                            <Skeleton className="h-10 w-full" />
+                            {skeletonLoader.map((i) => (
+                                <Skeleton key={i} className="h-9 w-full" />
+                            ))}
+                        </div>
+                    ) : (
+                        <Table2>
+                            <TableHeader>
+                                <TableRow>
+                                    {headers.map(
+                                        ({
+                                            label,
+                                            accessor,
+                                            dataType,
+                                            sortable,
+                                        }) => (
+                                            <TableHead
+                                                key={accessor}
+                                                onClick={
+                                                    sortable
+                                                        ? () =>
+                                                              handleSortingChange(
+                                                                  accessor,
+                                                                  dataType
+                                                              )
+                                                        : null
+                                                }
+                                                className={cn(
+                                                    sortable
+                                                        ? "cursor-pointer"
+                                                        : "",
+                                                    dataType === "number"
+                                                        ? "text-right"
+                                                        : ""
+                                                )}
+                                            >
+                                                <TypographySmall className="flex items-center justify-between">
+                                                    {label}
+                                                    {sortable
+                                                        ? " " + sortField ===
+                                                          accessor
+                                                            ? ENUM_ICONS[order]
+                                                            : ENUM_ICONS[
+                                                                  "default"
+                                                              ]
+                                                        : ""}
+                                                </TypographySmall>
+                                            </TableHead>
+                                        )
+                                    )}
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {tableData?.map((proj) => (
+                                    <TableRow key={proj.uid}>
+                                        {headers.map((header) => (
+                                            <TableCell
+                                                key={header.accessor}
+                                                className={cn(
+                                                    "py-3",
+                                                    header.dataType === "number"
+                                                        ? "text-right"
+                                                        : ""
+                                                )}
+                                            >
+                                                {proj[header.accessor]}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table2>
+                    )}
+                </CardContent>
             </Card>
         </div>
     );

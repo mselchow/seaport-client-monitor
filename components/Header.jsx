@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
     UserButton,
     ClerkLoading,
@@ -18,8 +19,9 @@ import RefetchData from "@/components/RefetchData";
 import { Separator } from "@/components/ui/separator";
 
 const navLinks = [
-    { title: "Charts", path: "/charts" },
-    { title: "Tables", path: "/tables" },
+    { title: "Dashboard", path: "/" },
+    { title: "Hours Used", path: "/charts" },
+    { title: "Hours Left", path: "/tables" },
     { title: "Settings", path: "/settings" },
 ];
 
@@ -67,19 +69,21 @@ const Header = () => {
     );
 
     return (
-        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl lg:px-8 lg:py-4">
-            <div className="grid grid-cols-2 items-center text-primary lg:grid-cols-3">
-                <div className="flex">
-                    <Image
-                        src="/seaport-logo.png"
-                        alt="Seaport Logo"
-                        className="mr-3 h-9"
-                        height="36"
-                        width="36"
-                    />
-                    <TypographyH4 className="self-center">
-                        Client Monitor
-                    </TypographyH4>
+        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl lg:h-[72px] lg:px-8 lg:py-4">
+            <div className="grid h-full grid-cols-2 items-center text-primary lg:grid-cols-3">
+                <div className="flex gap-3">
+                    <Link href="/">
+                        <Image
+                            src="/seaport-logo.png"
+                            alt="Seaport Logo"
+                            className="h-9"
+                            height="36"
+                            width="36"
+                        />
+                    </Link>
+                    <Link href="/" className="self-center">
+                        <TypographyH4>Client Monitor</TypographyH4>
+                    </Link>
                 </div>
 
                 <nav className="hidden lg:block lg:justify-self-center">
@@ -88,7 +92,13 @@ const Header = () => {
 
                 <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
-                        <RefetchData query="clockifyData" />
+                        <RefetchData
+                            query={[
+                                "clockifyData",
+                                "clockifySummaryReport",
+                                "clockifyWeeklyReport",
+                            ]}
+                        />
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
                     </SignedIn>
@@ -97,7 +107,13 @@ const Header = () => {
 
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
-                        <RefetchData query="clockifyData" />
+                        <RefetchData
+                            query={[
+                                "clockifyData",
+                                "clockifySummaryReport",
+                                "clockifyWeeklyReport",
+                            ]}
+                        />
                         <Separator orientation="vertical" />
                     </SignedIn>
                     <button
