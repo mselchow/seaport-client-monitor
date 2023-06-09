@@ -6,7 +6,7 @@ import { RefreshCw } from "lucide-react";
 
 const RefetchData = ({ query }) => {
     const queryClient = useQueryClient();
-    const isFetching = useIsFetching({ queryKey: [query] });
+    const isFetching = useIsFetching({ queryKey: query });
 
     return (
         <Button
@@ -15,7 +15,7 @@ const RefetchData = ({ query }) => {
             size="sm"
             disabled={isFetching}
             onClick={() => {
-                queryClient.invalidateQueries([query]);
+                queryClient.invalidateQueries({ queryKey: query });
             }}
         >
             <RefreshCw

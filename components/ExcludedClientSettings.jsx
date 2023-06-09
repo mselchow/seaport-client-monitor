@@ -8,7 +8,13 @@ import ClockifyProject from "@/lib/clockifyProject";
 
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
@@ -92,6 +98,11 @@ const ExcludedClientSettings = () => {
         <Card className="mb-5">
             <CardHeader>
                 <CardTitle>Excluded Clients</CardTitle>
+                <CardDescription>
+                    Clients selected below will be excluded from any
+                    charts/tables, but will still factor in to hours logged
+                    summaries on the dashboard.
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="flex flex-col gap-3">
