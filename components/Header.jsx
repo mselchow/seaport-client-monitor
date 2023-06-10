@@ -17,6 +17,7 @@ import NavLink from "./NavLink";
 import { cn } from "@/lib/utils";
 import RefetchData from "@/components/RefetchData";
 import { Separator } from "@/components/ui/separator";
+import ThemeChanger from "@/components/ThemeChanger";
 
 const navLinks = [
     { title: "Dashboard", path: "/" },
@@ -29,7 +30,7 @@ const Header = () => {
     const [openNav, setOpenNav] = useState(false);
 
     const navList = (
-        <div className="mb-3 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row">
+        <div className="mb-3 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row lg:gap-2 xl:gap-4">
             {navLinks.map(({ title, path }) => (
                 <NavLink key={title} title={title} path={path} />
             ))}
@@ -93,6 +94,7 @@ const Header = () => {
                 <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
                         <RefetchData query={["clockify"]} />
+                        <ThemeChanger />
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
                     </SignedIn>
@@ -108,6 +110,7 @@ const Header = () => {
                                 "clockifyWeeklyReport",
                             ]}
                         />
+                        <ThemeChanger />
                         <Separator orientation="vertical" />
                     </SignedIn>
                     <button
