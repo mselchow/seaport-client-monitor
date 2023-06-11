@@ -36,7 +36,6 @@ export default function DashboardChart({
                             <XAxis
                                 dataKey="day"
                                 interval={0}
-                                fill="muted-foreground"
                                 fontSize={12}
                                 tickLine={false}
                                 axisLine={false}
@@ -49,7 +48,7 @@ export default function DashboardChart({
                                 <LabelList
                                     dataKey="label"
                                     position="top"
-                                    fill="primary-foreground"
+                                    className="fill-primary"
                                     fontSize="14"
                                     offset={10}
                                 />
