@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -28,6 +29,7 @@ const navLinks = [
 
 const Header = () => {
     const [openNav, setOpenNav] = useState(false);
+    const { resolvedTheme } = useTheme();
 
     const navList = (
         <div className="mb-3 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row lg:gap-2 xl:gap-4">
@@ -75,7 +77,11 @@ const Header = () => {
                 <div className="flex gap-3">
                     <Link href="/">
                         <Image
-                            src="/seaport-logo.png"
+                            src={
+                                resolvedTheme === "light"
+                                    ? "/seaport-logo.png"
+                                    : "/seaport-logo-dark.png"
+                            }
                             alt="Seaport Logo"
                             className="h-9"
                             height="36"
