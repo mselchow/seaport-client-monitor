@@ -70,7 +70,7 @@ const Header = () => {
     );
 
     return (
-        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl lg:h-[72px] lg:px-8 lg:py-4">
+        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none  bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl dark:border-b lg:h-[72px] lg:px-8 lg:py-4">
             <div className="grid h-full grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex gap-3">
                     <Link href="/">
@@ -103,13 +103,7 @@ const Header = () => {
 
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
-                        <RefetchData
-                            query={[
-                                "clockifyData",
-                                "clockifySummaryReport",
-                                "clockifyWeeklyReport",
-                            ]}
-                        />
+                        <RefetchData query={["clockify"]} />
                         <ThemeChanger />
                         <Separator orientation="vertical" />
                     </SignedIn>
