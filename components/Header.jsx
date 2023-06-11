@@ -62,7 +62,7 @@ const Header = () => {
                     appearance={{
                         elements: {
                             userButtonBox: "flex-row-reverse lg:flex-row",
-                            userButtonOuterIdentifier: "text-sm",
+                            userButtonOuterIdentifier: "text-sm text-primary",
                             avatarBox: "w-7 h-7 lg:w-8 lg:h-8",
                         },
                     }}
