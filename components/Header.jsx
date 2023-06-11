@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -17,6 +18,7 @@ import NavLink from "./NavLink";
 import { cn } from "@/lib/utils";
 import RefetchData from "@/components/RefetchData";
 import { Separator } from "@/components/ui/separator";
+import ThemeChanger from "@/components/ThemeChanger";
 
 const navLinks = [
     { title: "Dashboard", path: "/" },
@@ -27,9 +29,10 @@ const navLinks = [
 
 const Header = () => {
     const [openNav, setOpenNav] = useState(false);
+    const { resolvedTheme } = useTheme();
 
     const navList = (
-        <div className="mb-3 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row">
+        <div className="mb-3 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row lg:gap-2 xl:gap-4">
             {navLinks.map(({ title, path }) => (
                 <NavLink key={title} title={title} path={path} />
             ))}
@@ -59,7 +62,7 @@ const Header = () => {
                     appearance={{
                         elements: {
                             userButtonBox: "flex-row-reverse lg:flex-row",
-                            userButtonOuterIdentifier: "text-sm",
+                            userButtonOuterIdentifier: "text-sm text-primary",
                             avatarBox: "w-7 h-7 lg:w-8 lg:h-8",
                         },
                     }}
@@ -69,12 +72,16 @@ const Header = () => {
     );
 
     return (
-        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none bg-background bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl lg:h-[72px] lg:px-8 lg:py-4">
+        <header className="sticky inset-0 z-10 h-max max-w-full rounded-none  bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl dark:border-b lg:h-[72px] lg:px-8 lg:py-4">
             <div className="grid h-full grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex gap-3">
                     <Link href="/">
                         <Image
-                            src="/seaport-logo.png"
+                            src={
+                                resolvedTheme === "light"
+                                    ? "/seaport-logo.png"
+                                    : "/seaport-logo-dark.png"
+                            }
                             alt="Seaport Logo"
                             className="h-9"
                             height="36"
@@ -93,23 +100,25 @@ const Header = () => {
                 <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
                         <RefetchData query={["clockify"]} />
+                        <ThemeChanger />
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
                     </SignedIn>
-                    <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
+                    <SignedOut>
+                        <ThemeChanger />
+                        {clerkLoginRegisterButtons}
+                    </SignedOut>
                 </div>
 
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
-                        <RefetchData
-                            query={[
-                                "clockifyData",
-                                "clockifySummaryReport",
-                                "clockifyWeeklyReport",
-                            ]}
-                        />
+                        <RefetchData query={["clockify"]} />
+                        <ThemeChanger />
                         <Separator orientation="vertical" />
                     </SignedIn>
+                    <SignedOut>
+                        <ThemeChanger />
+                    </SignedOut>
                     <button
                         className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
                         aria-label={
