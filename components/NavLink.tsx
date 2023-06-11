@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-export default function NavLink({ title, path }) {
+interface NavLinkProps {
+    title: string;
+    path: string;
+}
+
+export default function NavLink({ title, path }: NavLinkProps) {
     const pathname = usePathname();
     const isActive = pathname === path;
 
