@@ -104,7 +104,10 @@ const Header = () => {
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
                     </SignedIn>
-                    <SignedOut>{clerkLoginRegisterButtons}</SignedOut>
+                    <SignedOut>
+                        <ThemeChanger />
+                        {clerkLoginRegisterButtons}
+                    </SignedOut>
                 </div>
 
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
@@ -113,6 +116,9 @@ const Header = () => {
                         <ThemeChanger />
                         <Separator orientation="vertical" />
                     </SignedIn>
+                    <SignedOut>
+                        <ThemeChanger />
+                    </SignedOut>
                     <button
                         className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
                         aria-label={
