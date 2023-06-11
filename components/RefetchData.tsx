@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 
-const RefetchData = ({ query }) => {
+const RefetchData = (queryKey: unknown[]) => {
     const queryClient = useQueryClient();
-    const isFetching = useIsFetching({ queryKey: query });
+    const fetchingCount = useIsFetching({ queryKey: queryKey });
+    const isFetching = fetchingCount !== 0;
 
     return (
         <Button
@@ -15,7 +16,7 @@ const RefetchData = ({ query }) => {
             size="sm"
             disabled={isFetching}
             onClick={() => {
-                queryClient.invalidateQueries({ queryKey: query });
+                queryClient.invalidateQueries({ queryKey: queryKey });
             }}
         >
             <RefreshCw
