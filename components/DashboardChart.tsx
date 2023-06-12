@@ -32,7 +32,7 @@ export default function DashboardChart({
                     </div>
                 ) : (
                     <ResponsiveContainer width="100%" height={500}>
-                        <BarChart data={data}>
+                        <BarChart data={data} margin={{ top: 10 }}>
                             <XAxis
                                 dataKey="day"
                                 interval={0}
