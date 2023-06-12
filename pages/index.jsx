@@ -35,6 +35,33 @@ export default function Home() {
         ? secToTime(reportYear.data?.totals[0]?.totalTime)
         : "";
 
+    const goals = {
+        daily: 7,
+        weekly: 35,
+        monthly: 1440 / 12,
+        yearly: 1440,
+    };
+
+    const goalProgress = {
+        daily: (
+            (secToHours(reportToday.data?.totals[0]?.totalTime) / goals.daily) *
+            100
+        ).toFixed(0),
+        weekly: (
+            (secToHours(reportWeek.data?.totals[0]?.totalTime) / goals.weekly) *
+            100
+        ).toFixed(0),
+        monthly: (
+            (secToHours(reportMonth.data?.totals[0]?.totalTime) /
+                goals.monthly) *
+            100
+        ).toFixed(0),
+        yearly: (
+            (secToHours(reportYear.data?.totals[0]?.totalTime) / goals.yearly) *
+            100
+        ).toFixed(0),
+    };
+
     const reportWeekly = useClockifyWeeklyReport();
     const hoursByDay = reportWeekly.isFetched
         ? reportWeekly.data?.totalsByDay.map(({ date, duration }) => ({
@@ -97,21 +124,25 @@ export default function Home() {
                     cardTitle="Today"
                     cardContent={timeToday}
                     isLoading={reportToday.isLoading}
+                    badgeContent={goalProgress.daily + "% to goal"}
                 />
                 <DashboardSummaryCard
                     cardTitle="This Week"
                     cardContent={timeWeek}
                     isLoading={reportWeek.isLoading}
+                    badgeContent={goalProgress.weekly + "% to goal"}
                 />
                 <DashboardSummaryCard
                     cardTitle="This Month"
                     cardContent={timeMonth}
                     isLoading={reportMonth.isLoading}
+                    badgeContent={goalProgress.monthly + "% to goal"}
                 />
                 <DashboardSummaryCard
                     cardTitle="This Year"
                     cardContent={timeYear}
                     isLoading={reportYear.isLoading}
+                    badgeContent={goalProgress.yearly + "% to goal"}
                 />
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
