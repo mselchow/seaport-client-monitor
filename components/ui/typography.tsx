@@ -1,6 +1,11 @@
 import { cn } from "@/lib/utils";
 
-const TypographyH3 = ({ className, children, ...props }) => (
+interface TypographyProps {
+    className?: string;
+    children?: React.ReactNode;
+}
+
+const TypographyH3 = ({ className, children, ...props }: TypographyProps) => (
     <h3
         className={cn(className, "scroll-m-20 text-2xl font-medium")}
         {...props}
@@ -9,7 +14,7 @@ const TypographyH3 = ({ className, children, ...props }) => (
     </h3>
 );
 
-const TypographyH4 = ({ className, children, ...props }) => (
+const TypographyH4 = ({ className, children, ...props }: TypographyProps) => (
     <h4
         className={cn(
             className,
@@ -21,7 +26,11 @@ const TypographyH4 = ({ className, children, ...props }) => (
     </h4>
 );
 
-const TypographySmall = ({ className, children, ...props }) => (
+const TypographySmall = ({
+    className,
+    children,
+    ...props
+}: TypographyProps) => (
     <small
         className={cn(className, "text-sm font-normal leading-none")}
         {...props}
