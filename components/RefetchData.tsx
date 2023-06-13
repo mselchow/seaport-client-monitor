@@ -4,7 +4,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 
-const RefetchData = (queryKey: unknown[]) => {
+interface RefetchDataProps {
+    queryKey: string[];
+}
+
+const RefetchData = ({ queryKey }: RefetchDataProps) => {
     const queryClient = useQueryClient();
     const fetchingCount = useIsFetching({ queryKey: queryKey });
     const isFetching = fetchingCount !== 0;
