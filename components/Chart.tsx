@@ -8,8 +8,14 @@ import {
     Cell,
 } from "recharts";
 import { TypographyH3 } from "@/components/ui/typography";
+import ClockifyProject from "@/lib/clockifyProject";
 
-const Chart = ({ title, data }) => {
+interface ChartProps {
+    title: string;
+    data: ClockifyProject[];
+}
+
+const Chart = ({ title, data }: ChartProps) => {
     if (!data.length) {
         return;
     }
@@ -53,7 +59,7 @@ const Chart = ({ title, data }) => {
                             className="fill-primary"
                             fontSize="14"
                             offset={5}
-                            formatter={(value) => {
+                            formatter={(value: string) => {
                                 return value + "%";
                             }}
                         />
