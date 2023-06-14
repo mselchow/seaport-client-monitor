@@ -13,26 +13,35 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { TypographySmall } from "@/components/ui/typography";
 import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
+import ClockifyProject from "@/lib/clockifyProject";
 
 interface TableHeaderType {
     label: string;
-    accessor: string;
+    accessor: keyof ClockifyProject;
     dataType: string;
     sortable: boolean;
 }
 
 interface TableProps {
     title: string;
-    data: unknown[];
-    headers: TableHeaderType;
+    data: ClockifyProject[];
+    headers: TableHeaderType[];
     isLoading?: boolean;
     expectedRows?: number;
 }
 
-enum SortOrderEnum {
-    ASC = "asc",
-    DESC = "desc",
+interface SortingChangeType {
+    accessor: keyof ClockifyProject;
+    dataType: string;
 }
+
+type SortOrderType = "asc" | "desc";
+
+const ENUM_ICONS: { [key: string]: JSX.Element } = {
+    asc: <ChevronUp className="h-4 w-4" />,
+    desc: <ChevronDown className="h-4 w-4" />,
+    default: <ChevronsUpDown className="h-4 w-4" />,
+};
 
 const Table = ({
     title,
@@ -49,19 +58,16 @@ const Table = ({
         setTableData(data);
     }, [data]);
 
-    const handleSortingChange = ({ accessor, dataType }: TableHeaderType) => {
-        const sortOrder =
-            order === SortOrderEnum.ASC
-                ? SortOrderEnum.DESC
-                : SortOrderEnum.ASC;
+    const handleSortingChange = ({ accessor, dataType }: SortingChangeType) => {
+        const sortOrder: SortOrderType = order === "asc" ? "desc" : "asc";
         setSortField(accessor);
         setOrder(sortOrder);
         handleSorting(accessor, sortOrder, dataType);
     };
 
     const handleSorting = (
-        sortField: string,
-        sortOrder: SortOrderEnum,
+        sortField: keyof ClockifyProject,
+        sortOrder: SortOrderType,
         dataType: string
     ) => {
         if (sortField) {
@@ -88,12 +94,6 @@ const Table = ({
             });
             setTableData(sorted);
         }
-    };
-
-    const ENUM_ICONS = {
-        asc: <ChevronUp className="h-4 w-4" />,
-        desc: <ChevronDown className="h-4 w-4" />,
-        default: <ChevronsUpDown className="h-4 w-4" />,
     };
 
     const skeletonLoader = [];
@@ -128,13 +128,12 @@ const Table = ({
                                         }) => (
                                             <TableHead
                                                 key={accessor}
-                                                onClick={
+                                                onClick={() =>
                                                     sortable
-                                                        ? () =>
-                                                              handleSortingChange(
-                                                                  accessor,
-                                                                  dataType
-                                                              )
+                                                        ? handleSortingChange({
+                                                              accessor,
+                                                              dataType,
+                                                          })
                                                         : null
                                                 }
                                                 className={cn(
