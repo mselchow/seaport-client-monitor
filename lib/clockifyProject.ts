@@ -3,7 +3,9 @@
  * that comes from Clockify.
  */
 export default class ClockifyProject {
-    constructor(data) {
+    private _data: ClockifyJSON;
+
+    constructor(data: ClockifyJSON) {
         this._data = data;
     }
 
@@ -50,7 +52,7 @@ export default class ClockifyProject {
             getStringBetween(this._data.duration, "H", "M")
         );
 
-        return (hoursLogged + minsLogged / 60).toFixed(2);
+        return hoursLogged + minsLogged / 60;
     }
 
     // Number of hours remaining to project as decimal
@@ -64,11 +66,29 @@ export default class ClockifyProject {
     }
 }
 
+export interface ClockifyJSON {
+    id: string;
+    clientId: string;
+    client: {
+        name: string;
+    };
+    duration: string;
+    timeEstimate: {
+        estimate: string;
+        includeNonBillable: boolean;
+    };
+    customFields: [
+        {
+            value: string;
+        }
+    ];
+}
+
 /**
  * Helper method to parse Clockify time strings. Returns the string found
  * between "start" and "end."
  */
-function getStringBetween(str, start, end) {
+function getStringBetween(str: string, start: string, end: string) {
     const result = str.match(new RegExp(start + "(.*)" + end));
     return result === null ? 0 : result[1];
 }
