@@ -11,8 +11,13 @@ import {
     subWeeks,
     subMonths,
 } from "date-fns";
+import { NextApiRequest, NextApiResponse } from "next";
+import { captureMessage } from "@sentry/nextjs";
 
-export default async function handler(req, res) {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     const auth = getAuth(req);
     const body = req.body;
 
@@ -36,10 +41,18 @@ export default async function handler(req, res) {
     }
 
     const clockifyKey = await getClockifyKey(auth);
+
+    if (clockifyKey === null) {
+        res.status(400).json({
+            message: "Clockify API key not found for user.",
+        });
+        return;
+    }
+
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
-    const timeframe = body.timeframe;
-    const clockifyUserId = body.clockifyUserId;
-    let dateRangeStart, dateRangeEnd;
+    const timeframe: string = body.timeframe;
+    const clockifyUserId: string = body.clockifyUserId;
+    let dateRangeStart: Date, dateRangeEnd: Date;
 
     // set start/end dates based on timeframe parameter
     switch (timeframe) {
@@ -72,10 +85,11 @@ export default async function handler(req, res) {
                 message:
                     "Invalid value provided for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
             });
+            return;
     }
 
-    dateRangeStart = format(dateRangeStart, "yyyy-MM-dd'T'00:00:00");
-    dateRangeEnd = format(dateRangeEnd, "yyyy-MM-dd'T'23:59:59");
+    const dateStartString = format(dateRangeStart, "yyyy-MM-dd'T'00:00:00");
+    const dateEndString = format(dateRangeEnd, "yyyy-MM-dd'T'23:59:59");
 
     const apiURL =
         "https://reports.api.clockify.me/v1/workspaces/" +
@@ -90,8 +104,8 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             amountShown: "HIDE_AMOUNT",
-            dateRangeStart: dateRangeStart,
-            dateRangeEnd: dateRangeEnd,
+            dateRangeStart: dateStartString,
+            dateRangeEnd: dateEndString,
             summaryFilter: {
                 groups: ["project"],
                 sortColumn: "DURATION",
@@ -108,7 +122,9 @@ export default async function handler(req, res) {
     const data = await apiRes.json();
 
     if (!apiRes.ok) {
-        throw new Error(`error communicating with Clockify: ${apiRes.message}`);
+        const error = `error communicating with Clockify ${apiRes.status}: ${apiRes.statusText}`;
+        captureMessage(error);
+        throw new Error(error);
     }
 
     res.status(200).json(data);
