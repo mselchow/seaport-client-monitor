@@ -25,6 +25,10 @@ import { Lock, Unlock } from "lucide-react";
 
 import ExcludedClientSettings from "@/components/ExcludedClientSettings";
 
+interface FormValues {
+    clockifyKey: string;
+}
+
 // form schema/validation
 const formSchema = z.object({
     clockifyKey: z.string().min(45, {
@@ -39,9 +43,8 @@ const Settings = () => {
     const { toast } = useToast();
     let apiKeyMessage;
 
-    const userHasClockifyKey = isLoaded
-        ? user.publicMetadata.hasClockifyKey
-        : false;
+    const userHasClockifyKey =
+        isLoaded && user ? user.publicMetadata.hasClockifyKey : false;
 
     if (!isLoaded) {
         apiKeyMessage = "Loading Clockify key status...";
@@ -52,7 +55,7 @@ const Settings = () => {
     }
 
     // form definition
-    const form = useForm({
+    const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             clockifyKey: "",
@@ -60,7 +63,7 @@ const Settings = () => {
     });
 
     // form submission handler
-    async function onSubmit(values) {
+    async function onSubmit(data: FormValues) {
         setFormPending(true);
 
         const options = {
@@ -69,7 +72,7 @@ const Settings = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                clockifyKey: values.clockifyKey,
+                clockifyKey: data.clockifyKey,
             }),
         };
         const response = await fetch("/api/saveClockifyKey", options);
