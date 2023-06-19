@@ -1,8 +1,13 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { getClockifyKey } from "@/lib/clerk";
 import { format, startOfWeek, endOfWeek } from "date-fns";
+import { captureMessage } from "@sentry/nextjs";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     const auth = getAuth(req);
     const body = req.body;
 
@@ -21,6 +26,14 @@ export default async function handler(req, res) {
     }
 
     const clockifyKey = await getClockifyKey(auth);
+
+    if (clockifyKey === null) {
+        res.status(400).json({
+            message: "Clockify API key not found for user.",
+        });
+        return;
+    }
+
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
     const clockifyUserId = body.clockifyUserId;
 
@@ -60,7 +73,9 @@ export default async function handler(req, res) {
     const data = await apiRes.json();
 
     if (!apiRes.ok) {
-        throw new Error(`error communicating with Clockify: ${apiRes.message}`);
+        const error = `error communicating with Clockify ${apiRes.status}: ${apiRes.statusText}`;
+        captureMessage(error);
+        throw new Error(error);
     }
 
     res.status(200).json(data);
