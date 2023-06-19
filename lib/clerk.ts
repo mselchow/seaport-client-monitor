@@ -19,7 +19,7 @@ export const getClockifyKey = async (
 };
 
 export const saveClockifyKey = async (
-    auth: SignedInAuthObject,
+    auth: SignedInAuthObject | SignedOutAuthObject,
     clockifyKey: string
 ) => {
     if (!auth.userId) {
@@ -43,7 +43,7 @@ export const saveClockifyKey = async (
 };
 
 export const saveExcludedClients = async (
-    auth: SignedInAuthObject,
+    auth: SignedInAuthObject | SignedOutAuthObject,
     excludedClientData: string[]
 ) => {
     if (!auth.userId) {
