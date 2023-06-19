@@ -2,25 +2,33 @@ import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 import { useClockifyData } from "@/lib/clockify";
-import ClockifyProject from "@/lib/clockifyProject";
+import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 import Chart from "@/components/Chart";
 
 const Charts = () => {
     const result = useClockifyData();
     const { user, isLoaded } = useUser();
 
-    let excludedClients = isLoaded ? user.publicMetadata.excludedClients : [];
+    let excludedClients =
+        isLoaded && user
+            ? (user.publicMetadata.excludedClients as string[])
+            : [];
     if (excludedClients === undefined) {
         excludedClients = [];
     }
-    let clockifyData, msData, blockData, projData;
+    let clockifyData: ClockifyProject[],
+        msData: ClockifyProject[] | null = null,
+        blockData: ClockifyProject[] | null = null,
+        projData: ClockifyProject[] | null = null;
 
     // Map Clockify data to wrapper, then filter out excluded clients
     if (result.isError) {
         // We had an error, show error message below
     } else if (!result.isLoading && isLoaded) {
-        clockifyData = result.data;
-        clockifyData = clockifyData.map((data) => new ClockifyProject(data));
+        clockifyData = result.data.map(
+            (data: ClockifyJSON) => new ClockifyProject(data)
+        );
+
         clockifyData = clockifyData.filter((proj) => {
             if (!excludedClients.includes(proj.clientId)) {
                 return proj;

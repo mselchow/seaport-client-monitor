@@ -12,12 +12,12 @@ import ClockifyProject from "@/lib/clockifyProject";
 
 interface ChartProps {
     title: string;
-    data: ClockifyProject[];
+    data: ClockifyProject[] | null;
 }
 
 const Chart = ({ title, data }: ChartProps) => {
-    if (!data.length) {
-        return;
+    if (!data) {
+        return null;
     }
 
     const width = 850;
