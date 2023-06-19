@@ -6,12 +6,17 @@ import {
 } from "@/lib/clockify";
 
 import { secToTime, secToHours } from "@/lib/utils";
-import ClockifyProject from "@/lib/clockifyProject";
+import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 import { format, parse } from "date-fns";
 
 import DashboardSummaryCard from "@/components/DashboardSummaryCard";
 import DashboardChart from "@/components/DashboardChart";
 import Table from "@/components/Table";
+
+interface WeeklyReportType {
+    date: string;
+    duration: number;
+}
 
 export default function Home() {
     const clockifyData = useClockifyData();
@@ -37,57 +42,66 @@ export default function Home() {
 
     const reportWeekly = useClockifyWeeklyReport();
     const hoursByDay = reportWeekly.isFetched
-        ? reportWeekly.data?.totalsByDay.map(({ date, duration }) => ({
-              day: format(parse(date, "yyyy-MM-dd", new Date()), "EEEE"),
-              hours: secToHours(duration),
-              label: secToTime(duration),
-          }))
+        ? reportWeekly.data?.totalsByDay.map(
+              ({ date, duration }: WeeklyReportType) => ({
+                  day: format(parse(date, "yyyy-MM-dd", new Date()), "EEEE"),
+                  hours: secToHours(duration),
+                  label: secToTime(duration),
+              })
+          )
         : [];
 
     const tableHeaders = [
         {
             label: "Client",
-            accessor: "name",
+            accessor: "name" as keyof ClockifyProject,
             dataType: "string",
             sortable: false,
         },
         {
             label: "Type",
-            accessor: "type",
+            accessor: "type" as keyof ClockifyProject,
             dataType: "string",
             sortable: false,
         },
         {
             label: "Hours Remaining",
-            accessor: "hoursRemaining",
+            accessor: "hoursRemaining" as keyof ClockifyProject,
             dataType: "number",
             sortable: false,
         },
     ];
 
-    let excludedClients = isLoaded ? user.publicMetadata.excludedClients : [];
+    let excludedClients =
+        isLoaded && user
+            ? (user.publicMetadata.excludedClients as string[])
+            : [];
     if (excludedClients === undefined) {
         excludedClients = [];
     }
 
-    let tableData;
+    let tableData: ClockifyProject[] | null = null;
 
     // Map Clockify data to wrapper, then filter out excluded clients
     if (clockifyData.isError) {
         // TODO: we had an error, show error message
     } else if (!clockifyData.isLoading && isLoaded) {
-        tableData = clockifyData.data;
-        tableData = tableData.map((data) => new ClockifyProject(data));
-        tableData = tableData
-            .filter((proj) => {
-                if (!excludedClients.includes(proj.clientId)) {
-                    return proj;
-                }
-            })
-            .sort((a, b) => {
-                return a.hoursRemaining - b.hoursRemaining;
-            })
-            .slice(0, 10);
+        tableData = clockifyData.data.map(
+            (data: ClockifyJSON) => new ClockifyProject(data)
+        );
+
+        if (tableData) {
+            tableData = tableData
+                .filter((proj) => {
+                    if (!excludedClients.includes(proj.clientId)) {
+                        return proj;
+                    }
+                })
+                .sort((a, b) => {
+                    return Number(a.hoursRemaining) - Number(b.hoursRemaining);
+                })
+                .slice(0, 10);
+        }
     }
 
     return (
