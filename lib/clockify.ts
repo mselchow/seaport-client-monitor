@@ -25,7 +25,7 @@ async function getClockifyUserId() {
     return data;
 }
 
-export function useClockifySummaryReport(timeframe) {
+export function useClockifySummaryReport(timeframe: string) {
     const result = useQuery(
         ["clockify", "summaryReport", timeframe],
         async () => {
