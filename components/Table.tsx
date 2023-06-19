@@ -24,7 +24,7 @@ interface TableHeaderType {
 
 interface TableProps {
     title: string;
-    data: ClockifyProject[];
+    data: ClockifyProject[] | null;
     headers: TableHeaderType[];
     isLoading?: boolean;
     expectedRows?: number;
@@ -58,6 +58,10 @@ const Table = ({
         setTableData(data);
     }, [data]);
 
+    if (!data) {
+        return null;
+    }
+
     const handleSortingChange = ({ accessor, dataType }: SortingChangeType) => {
         const sortOrder: SortOrderType = order === "asc" ? "desc" : "asc";
         setSortField(accessor);
@@ -71,7 +75,7 @@ const Table = ({
         dataType: string
     ) => {
         if (sortField) {
-            const sorted = [...tableData].sort((a, b) => {
+            const sorted = [...(tableData as [])].sort((a, b) => {
                 // Check for null values first
                 if (a[sortField] === null) return 1;
                 if (b[sortField] === null) return -1;
