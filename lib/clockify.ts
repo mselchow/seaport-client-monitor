@@ -13,7 +13,11 @@ export function useClockifyData() {
         ["clockify", "data"],
         async () => {
             const response = await fetch("/api/fetchClockifyData");
+            if (!response.ok) {
+                throw new Error("Something went wrong fetching Clockify data.");
+            }
             const data = await response.json();
+
             return data;
         },
         {
@@ -32,7 +36,13 @@ export function useClockifyUser() {
         ["clockify", "user"],
         async () => {
             const response = await fetch("/api/fetchClockifyUser");
+            if (!response.ok) {
+                throw new Error(
+                    "Something went wrong fetching Clockify user data."
+                );
+            }
             const data = await response.json();
+
             return data;
         },
         {
@@ -60,15 +70,21 @@ export function useClockifySummaryReport(timeframe: string) {
                 body: JSON.stringify({
                     clockifyUserId: clockifyUser.id,
                     timeframe: timeframe,
-                    weekStart: clockifyUser.settings.weekStart,
-                    timezone: clockifyUser.settings.timeZone,
+                    weekStart: clockifyUser?.settings?.weekStart || null,
+                    timezone: clockifyUser?.settings?.timeZone || null,
                 }),
             };
             const response = await fetch(
                 "/api/fetchClockifySummaryReport",
                 options
             );
+            if (!response.ok) {
+                throw new Error(
+                    "Something went wrong fetching Clockify summary report data."
+                );
+            }
             const data = await response.json();
+
             return data;
         },
         {
@@ -97,15 +113,21 @@ export function useClockifyWeeklyReport() {
                 },
                 body: JSON.stringify({
                     clockifyUserId: clockifyUser.id,
-                    weekStart: clockifyUser.settings.weekStart,
-                    timezone: clockifyUser.settings.timeZone,
+                    weekStart: clockifyUser?.settings?.weekStart || null,
+                    timezone: clockifyUser?.settings?.timeZone || null,
                 }),
             };
             const response = await fetch(
                 "/api/fetchClockifyWeeklyReport",
                 options
             );
+            if (!response.ok) {
+                throw new Error(
+                    "Something went wrong fetching Clockify weekly report data."
+                );
+            }
             const data = await response.json();
+
             return data;
         },
         {
