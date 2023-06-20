@@ -83,7 +83,7 @@ export default function Home() {
     let tableData: ClockifyProject[] | null = null;
 
     // Map Clockify data to wrapper, then filter out excluded clients
-    if (clockifyData.isError) {
+    if (clockifyData.isError || clockifyData.data?.message !== undefined) {
         // TODO: we had an error, show error message
     } else if (!clockifyData.isLoading && isLoaded) {
         tableData = clockifyData.data.map(
@@ -106,42 +106,55 @@ export default function Home() {
 
     return (
         <div className="space-y-4">
-            <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <DashboardSummaryCard
-                    cardTitle="Today"
-                    cardContent={timeToday}
-                    isLoading={reportToday.isLoading}
-                />
-                <DashboardSummaryCard
-                    cardTitle="This Week"
-                    cardContent={timeWeek}
-                    isLoading={reportWeek.isLoading}
-                />
-                <DashboardSummaryCard
-                    cardTitle="This Month"
-                    cardContent={timeMonth}
-                    isLoading={reportMonth.isLoading}
-                />
-                <DashboardSummaryCard
-                    cardTitle="This Year"
-                    cardContent={timeYear}
-                    isLoading={reportYear.isLoading}
-                />
-            </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                <DashboardChart
-                    title="Hours Logged This Week"
-                    data={hoursByDay}
-                    isLoading={reportWeekly.isLoading}
-                />
-                <Table
-                    title="Hours Remaining"
-                    data={tableData}
-                    headers={tableHeaders}
-                    isLoading={clockifyData.isLoading}
-                    expectedRows={11}
-                />
-            </div>
+            {clockifyData.isError ||
+            clockifyData.data?.message !== undefined ? (
+                <div className="text-center">
+                    <p>We countered an error fetching Clockify data.</p>
+                    <p>
+                        Please try again later, or make sure that you have saved
+                        your Clockify API in under Settings.
+                    </p>
+                </div>
+            ) : (
+                <>
+                    <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        <DashboardSummaryCard
+                            cardTitle="Today"
+                            cardContent={timeToday}
+                            isLoading={reportToday.isLoading}
+                        />
+                        <DashboardSummaryCard
+                            cardTitle="This Week"
+                            cardContent={timeWeek}
+                            isLoading={reportWeek.isLoading}
+                        />
+                        <DashboardSummaryCard
+                            cardTitle="This Month"
+                            cardContent={timeMonth}
+                            isLoading={reportMonth.isLoading}
+                        />
+                        <DashboardSummaryCard
+                            cardTitle="This Year"
+                            cardContent={timeYear}
+                            isLoading={reportYear.isLoading}
+                        />
+                    </div>
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                        <DashboardChart
+                            title="Hours Logged This Week"
+                            data={hoursByDay}
+                            isLoading={reportWeekly.isLoading}
+                        />
+                        <Table
+                            title="Hours Remaining"
+                            data={tableData}
+                            headers={tableHeaders}
+                            isLoading={clockifyData.isLoading}
+                            expectedRows={11}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 }

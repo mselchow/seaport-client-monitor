@@ -44,7 +44,9 @@ const Settings = () => {
     let apiKeyMessage;
 
     const userHasClockifyKey =
-        isLoaded && user ? user.publicMetadata.hasClockifyKey : false;
+        isLoaded && user
+            ? (user.publicMetadata.hasClockifyKey as boolean)
+            : false;
 
     if (!isLoaded) {
         apiKeyMessage = "Loading Clockify key status...";
@@ -78,7 +80,7 @@ const Settings = () => {
         const response = await fetch("/api/saveClockifyKey", options);
         const result = await response.json();
 
-        // if save was successful, invalidate "clockifyData" query to refetch
+        // if save was successful, invalidate Clockify data query to refetch
         if (result) {
             form.reset();
             toast({
@@ -87,7 +89,10 @@ const Settings = () => {
                 duration: 5000,
                 variant: "primary",
             });
-            queryClient.invalidateQueries(["clockifyData"]);
+            if (user) {
+                user.reload();
+            }
+            queryClient.invalidateQueries(["clockify"]);
         } else {
             toast({
                 title: "Error!",
@@ -164,8 +169,7 @@ const Settings = () => {
                         </div>
                     </CardContent>
                 </Card>
-
-                <ExcludedClientSettings />
+                {userHasClockifyKey && <ExcludedClientSettings />}
             </div>
         </>
     );

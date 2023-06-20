@@ -3,6 +3,7 @@ import { getClockifyKey } from "@/lib/clerk";
 import { format, startOfWeek, endOfWeek } from "date-fns";
 import { captureMessage } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
+import { parseDayNumber } from "@/lib/utils";
 
 export default async function handler(
     req: NextApiRequest,
@@ -23,6 +24,10 @@ export default async function handler(
         return res.status(400).json({
             message: "Request body missing value for 'clockifyUserId'.",
         });
+    } else if (!body.weekStart) {
+        return res.status(400).json({
+            message: "Request body missing value 'weekStart'.",
+        });
     }
 
     const clockifyKey = await getClockifyKey(auth);
@@ -36,12 +41,18 @@ export default async function handler(
 
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
     const clockifyUserId = body.clockifyUserId;
+    const clockifyWeekStart = body.weekStart
+        ? (parseDayNumber(body.weekStart) as unknown as Day)
+        : 0;
 
     const dateRangeStart = format(
-        startOfWeek(new Date()),
+        startOfWeek(new Date(), { weekStartsOn: clockifyWeekStart }),
         "yyyy-MM-dd'T'00:00:00"
     );
-    const dateRangeEnd = format(endOfWeek(new Date()), "yyyy-MM-dd'T'23:59:59");
+    const dateRangeEnd = format(
+        endOfWeek(new Date(), { weekStartsOn: clockifyWeekStart }),
+        "yyyy-MM-dd'T'23:59:59"
+    );
 
     const apiURL =
         "https://reports.api.clockify.me/v1/workspaces/" +

@@ -19,7 +19,8 @@ export default async function handler(
 
     if (clockifyKey === null) {
         res.status(400).json({
-            message: "Clockify API key not found for user.",
+            message:
+                "Clockify API key not found for user. Go to the Settings page to add your API key.",
         });
         return;
     }
