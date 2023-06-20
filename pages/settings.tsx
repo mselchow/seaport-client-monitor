@@ -44,7 +44,9 @@ const Settings = () => {
     let apiKeyMessage;
 
     const userHasClockifyKey =
-        isLoaded && user ? user.publicMetadata.hasClockifyKey : false;
+        isLoaded && user
+            ? (user.publicMetadata.hasClockifyKey as boolean)
+            : false;
 
     if (!isLoaded) {
         apiKeyMessage = "Loading Clockify key status...";
@@ -87,6 +89,9 @@ const Settings = () => {
                 duration: 5000,
                 variant: "primary",
             });
+            if (user) {
+                user.reload();
+            }
             queryClient.invalidateQueries(["clockify"]);
         } else {
             toast({
@@ -164,8 +169,7 @@ const Settings = () => {
                         </div>
                     </CardContent>
                 </Card>
-
-                <ExcludedClientSettings />
+                {userHasClockifyKey && <ExcludedClientSettings />}
             </div>
         </>
     );
