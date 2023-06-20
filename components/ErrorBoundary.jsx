@@ -1,5 +1,6 @@
 import { captureMessage } from "@sentry/nextjs";
 import { Button } from "@/components/ui/button";
+import { TypographyH3 } from "@/components/ui/typography";
 import React from "react";
 
 class ErrorBoundary extends React.Component {
@@ -22,10 +23,13 @@ class ErrorBoundary extends React.Component {
         if (this.state.hasError) {
             // You can render any custom fallback UI
             return (
-                <div className="flex flex-col gap-5 text-center">
-                    <h2>Whoah.</h2>
-                    <p>Something went tragically wrong. </p>
-                    <Button onClick={() => this.setState({ hasError: false })}>
+                <div className="flex flex-col place-items-center justify-center gap-5">
+                    <TypographyH3>Whoah.</TypographyH3>
+                    <p>Something went tragically wrong.</p>
+                    <Button
+                        className="w-32"
+                        onClick={() => this.setState({ hasError: false })}
+                    >
                         Try again?
                     </Button>
                 </div>
