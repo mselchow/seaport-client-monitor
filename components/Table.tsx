@@ -75,27 +75,30 @@ const Table = ({
         dataType: string
     ) => {
         if (sortField) {
-            const sorted = [...(tableData as [])].sort((a, b) => {
-                // Check for null values first
-                if (a[sortField] === null) return 1;
-                if (b[sortField] === null) return -1;
-                if (a[sortField] === null && b[sortField] === null) return 0;
+            const sorted = [...(tableData as ClockifyProject[])].sort(
+                (a, b) => {
+                    // Check for null values first
+                    if (a[sortField] === null) return 1;
+                    if (b[sortField] === null) return -1;
+                    if (a[sortField] === null && b[sortField] === null)
+                        return 0;
 
-                if (dataType === "string") {
-                    return (
-                        a[sortField]
-                            .toString()
-                            .localeCompare(b[sortField].toString(), "en", {
-                                numeric: true,
-                            }) * (sortOrder === "asc" ? 1 : -1)
-                    );
-                } else {
-                    // Number field
-                    return sortOrder === "asc"
-                        ? a[sortField] - b[sortField]
-                        : b[sortField] - a[sortField];
+                    if (dataType === "string") {
+                        return (
+                            a[sortField]
+                                .toString()
+                                .localeCompare(b[sortField].toString(), "en", {
+                                    numeric: true,
+                                }) * (sortOrder === "asc" ? 1 : -1)
+                        );
+                    } else {
+                        // Number field
+                        return sortOrder === "asc"
+                            ? Number(a[sortField]) - Number(b[sortField])
+                            : Number(b[sortField]) - Number(a[sortField]);
+                    }
                 }
-            });
+            );
             setTableData(sorted);
         }
     };
