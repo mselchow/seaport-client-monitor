@@ -126,10 +126,6 @@ export default async function handler(
         timeZone: clockifyTimezone,
     });
 
-    if (timeframe === "TODAY") {
-        console.log(dateRangeStart, dateStartString);
-    }
-
     const apiURL =
         "https://reports.api.clockify.me/v1/workspaces/" +
         clockifyWorkspaceId +
