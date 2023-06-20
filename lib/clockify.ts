@@ -61,6 +61,7 @@ export function useClockifySummaryReport(timeframe: string) {
                     clockifyUserId: clockifyUser.id,
                     timeframe: timeframe,
                     weekStart: clockifyUser.settings.weekStart,
+                    timezone: clockifyUser.settings.timeZone,
                 }),
             };
             const response = await fetch(
@@ -97,6 +98,7 @@ export function useClockifyWeeklyReport() {
                 body: JSON.stringify({
                     clockifyUserId: clockifyUser.id,
                     weekStart: clockifyUser.settings.weekStart,
+                    timezone: clockifyUser.settings.timeZone,
                 }),
             };
             const response = await fetch(
