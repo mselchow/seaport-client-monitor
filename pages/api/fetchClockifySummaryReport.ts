@@ -36,11 +36,23 @@ export default async function handler(
         res.status(400).json({
             message: "Request body missing value for 'clockifyUserId'.",
         });
+        return;
     } else if (!body.timeframe) {
         res.status(400).json({
             message:
                 "Request body missing value for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
         });
+        return;
+    } else if (!body.weekStart) {
+        res.status(400).json({
+            message: "Request body missing value 'weekStart'.",
+        });
+        return;
+    } else if (!body.timezone) {
+        res.status(400).json({
+            message: "Request body missing value for 'timezone'.",
+        });
+        return;
     }
 
     const clockifyKey = await getClockifyKey(auth);

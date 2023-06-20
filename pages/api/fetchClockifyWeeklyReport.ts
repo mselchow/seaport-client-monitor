@@ -24,6 +24,10 @@ export default async function handler(
         return res.status(400).json({
             message: "Request body missing value for 'clockifyUserId'.",
         });
+    } else if (!body.weekStart) {
+        return res.status(400).json({
+            message: "Request body missing value 'weekStart'.",
+        });
     }
 
     const clockifyKey = await getClockifyKey(auth);
