@@ -58,10 +58,6 @@ const Table = ({
         setTableData(data);
     }, [data]);
 
-    if (!data) {
-        return null;
-    }
-
     const handleSortingChange = ({ accessor, dataType }: SortingChangeType) => {
         const sortOrder: SortOrderType = order === "asc" ? "desc" : "asc";
         setSortField(accessor);
