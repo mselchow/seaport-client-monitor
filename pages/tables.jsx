@@ -30,7 +30,7 @@ const Tables = () => {
     let clockifyData, msData, blockData, projData;
 
     // Map Clockify data to wrapper, then filter out excluded clients
-    if (result.isError) {
+    if (result.isError || result.data?.message !== undefined) {
         // We had an error, show error message below
     } else if (!result.isLoading && isLoaded) {
         clockifyData = result.data;
@@ -51,7 +51,7 @@ const Tables = () => {
             <Head>
                 <title>Tables | Seaport Client Monitor</title>
             </Head>
-            {result.isError ? (
+            {result.isError || result.data?.message !== undefined ? (
                 <div className="text-center">
                     <p>We countered an error fetching Clockify data.</p>
                     <p>
