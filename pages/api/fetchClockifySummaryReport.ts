@@ -13,6 +13,7 @@ import {
 } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import { captureMessage } from "@sentry/nextjs";
+import { parseDayNumber } from "@/lib/utils";
 
 export default async function handler(
     req: NextApiRequest,
@@ -52,6 +53,9 @@ export default async function handler(
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
     const timeframe: string = body.timeframe;
     const clockifyUserId: string = body.clockifyUserId;
+    const clockifyWeekStart = body.weekStart
+        ? (parseDayNumber(body.weekStart) as unknown as Day)
+        : 0;
     let dateRangeStart: Date, dateRangeEnd: Date;
 
     // set start/end dates based on timeframe parameter
@@ -61,12 +65,20 @@ export default async function handler(
             dateRangeEnd = new Date();
             break;
         case "THIS_WEEK":
-            dateRangeStart = startOfWeek(new Date());
-            dateRangeEnd = endOfWeek(new Date());
+            dateRangeStart = startOfWeek(new Date(), {
+                weekStartsOn: clockifyWeekStart,
+            });
+            dateRangeEnd = endOfWeek(new Date(), {
+                weekStartsOn: clockifyWeekStart,
+            });
             break;
         case "LAST_WEEK":
-            dateRangeStart = startOfWeek(subWeeks(new Date(), 1));
-            dateRangeEnd = endOfWeek(subWeeks(new Date(), 1));
+            dateRangeStart = startOfWeek(subWeeks(new Date(), 1), {
+                weekStartsOn: clockifyWeekStart,
+            });
+            dateRangeEnd = endOfWeek(subWeeks(new Date(), 1), {
+                weekStartsOn: clockifyWeekStart,
+            });
             break;
         case "THIS_MONTH":
             dateRangeStart = startOfMonth(new Date());
