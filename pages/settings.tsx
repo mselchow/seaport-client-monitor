@@ -78,7 +78,7 @@ const Settings = () => {
         const response = await fetch("/api/saveClockifyKey", options);
         const result = await response.json();
 
-        // if save was successful, invalidate "clockifyData" query to refetch
+        // if save was successful, invalidate Clockify data query to refetch
         if (result) {
             form.reset();
             toast({
@@ -87,7 +87,7 @@ const Settings = () => {
                 duration: 5000,
                 variant: "primary",
             });
-            queryClient.invalidateQueries(["clockifyData"]);
+            queryClient.invalidateQueries(["clockify"]);
         } else {
             toast({
                 title: "Error!",
