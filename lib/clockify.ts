@@ -1,5 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
+interface ClockifyUserJSON {
+    id: string;
+    settings: {
+        weekStart: string;
+        timeZone: string;
+    };
+}
+
 export function useClockifyData() {
     const result = useQuery(
         ["clockify", "data"],
@@ -19,28 +27,40 @@ export function useClockifyData() {
     return result;
 }
 
-async function getClockifyUserId() {
-    const response = await fetch("/api/fetchClockifyUser");
-    const data = await response.json();
-    return data;
+export function useClockifyUser() {
+    const result = useQuery(
+        ["clockify", "user"],
+        async () => {
+            const response = await fetch("/api/fetchClockifyUser");
+            const data = await response.json();
+            return data;
+        },
+        {
+            cacheTime: Infinity,
+            staleTime: Infinity,
+            refetchOnWindowFocus: false,
+        }
+    );
+
+    return result;
 }
 
 export function useClockifySummaryReport(timeframe: string) {
-    const result = useQuery(
-        ["clockify", "summaryReport", timeframe],
-        async () => {
-            const clockifyUserId = await getClockifyUserId().then(
-                (data) => data.id
-            );
+    const clockifyUserData = useClockifyUser();
+    const clockifyUser: ClockifyUserJSON = clockifyUserData?.data;
 
+    const result = useQuery(
+        ["clockify", "data", "summaryReport", timeframe],
+        async () => {
             const options = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    clockifyUserId: clockifyUserId,
+                    clockifyUserId: clockifyUser.id,
                     timeframe: timeframe,
+                    weekStart: clockifyUser.settings.weekStart,
                 }),
             };
             const response = await fetch(
@@ -55,6 +75,7 @@ export function useClockifySummaryReport(timeframe: string) {
             staleTime: 5 * 60 * 1000,
             refetchInterval: 5 * 60 * 1000,
             refetchOnWindowFocus: true,
+            enabled: !!clockifyUser,
         }
     );
 
@@ -62,20 +83,20 @@ export function useClockifySummaryReport(timeframe: string) {
 }
 
 export function useClockifyWeeklyReport() {
-    const result = useQuery(
-        ["clockify", "weeklyReport"],
-        async () => {
-            const clockifyUserId = await getClockifyUserId().then(
-                (data) => data.id
-            );
+    const clockifyUserData = useClockifyUser();
+    const clockifyUser: ClockifyUserJSON = clockifyUserData?.data;
 
+    const result = useQuery(
+        ["clockify", "data", "weeklyReport"],
+        async () => {
             const options = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    clockifyUserId: clockifyUserId,
+                    clockifyUserId: clockifyUser.id,
+                    weekStart: clockifyUser.settings.weekStart,
                 }),
             };
             const response = await fetch(
@@ -90,6 +111,7 @@ export function useClockifyWeeklyReport() {
             staleTime: 5 * 60 * 1000,
             refetchInterval: 5 * 60 * 1000,
             refetchOnWindowFocus: true,
+            enabled: !!clockifyUser,
         }
     );
 
