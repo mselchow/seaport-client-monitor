@@ -2,10 +2,15 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ResponsiveContainer, BarChart, XAxis, Bar, LabelList } from "recharts";
 
+interface ChartDataType {
+    day: string;
+    hours: string;
+    label: string;
+}
+
 interface DashboardChartProps {
     title: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: any;
+    data: ChartDataType[];
     isLoading: boolean;
 }
 

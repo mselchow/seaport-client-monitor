@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
 import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject from "@/lib/clockifyProject";
+import { ClockifyJSON } from "@/lib/clockifyProject";
 
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,13 +33,14 @@ const ExcludedClientSettings = () => {
 
     // Get set of clients from Clockify data
     const result = useClockifyData();
-    let clockifyData, clientList;
-    const clientSet = new Set();
+    let clockifyData: ClockifyProject[], clientList: ClockifyProject[];
+    const clientSet = new Set<string>();
     if (result.isError) {
         // We had an error, show error message below
     } else if (!result.isLoading) {
-        clockifyData = result.data;
-        clockifyData = clockifyData.map((data) => new ClockifyProject(data));
+        clockifyData = result.data.map(
+            (data: ClockifyJSON) => new ClockifyProject(data)
+        );
 
         clientList = clockifyData.filter((proj) => {
             const duplicate = clientSet.has(proj.name);
@@ -50,23 +52,23 @@ const ExcludedClientSettings = () => {
     // Set default to empty array to prevent iterable error
     const form = useForm({
         defaultValues: {
-            excludedClients: [],
+            excludedClients: [""],
         },
     });
 
     // Update form's default values when data loads from Clerk
     useEffect(() => {
-        if (isLoaded) {
+        if (isLoaded && user) {
             form.setValue(
                 "excludedClients",
-                user.publicMetadata.excludedClients
+                user.publicMetadata?.excludedClients as string[]
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoaded]);
 
     // Form submission handler
-    async function onSubmit(data) {
+    async function onSubmit(data: unknown) {
         setFormPending(true);
 
         const options = {
@@ -90,7 +92,9 @@ const ExcludedClientSettings = () => {
             });
         }
 
-        user.reload();
+        if (user) {
+            user.reload();
+        }
         setFormPending(false);
     }
 
