@@ -24,6 +24,7 @@ import {
 import { Lock, Unlock } from "lucide-react";
 
 import ExcludedClientSettings from "@/components/ExcludedClientSettings";
+import WelcomeCard from "@/components/WelcomeCard";
 
 interface FormValues {
     clockifyKey: string;
@@ -112,6 +113,7 @@ const Settings = () => {
             </Head>
             <div className="lg:place-items-left flex w-full flex-col gap-3 lg:px-[10%] xl:px-[15%]">
                 <TypographyH3>Settings</TypographyH3>
+                <WelcomeCard isLoaded={isLoaded} hasKey={userHasClockifyKey} />
                 <Card className="mb-3">
                     <CardHeader>
                         <CardTitle>Clockify</CardTitle>
@@ -169,7 +171,7 @@ const Settings = () => {
                         </div>
                     </CardContent>
                 </Card>
-                {userHasClockifyKey && <ExcludedClientSettings />}
+                {userHasClockifyKey && isLoaded && <ExcludedClientSettings />}
             </div>
         </>
     );
