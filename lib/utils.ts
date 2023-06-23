@@ -24,7 +24,7 @@ export function secToHours(seconds: number) {
 
     const hours = (seconds / (60 * 60)).toFixed(2);
 
-    return hours;
+    return Number(hours);
 }
 
 export function parseDayNumber(dayOfWeek: string) {
