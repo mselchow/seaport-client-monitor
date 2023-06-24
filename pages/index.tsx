@@ -54,7 +54,7 @@ export default function Home() {
     const tableHeaders = [
         {
             label: "Client",
-            accessor: "name" as keyof ClockifyProject,
+            accessor: "nameWithDate" as keyof ClockifyProject,
             dataType: "string",
             sortable: false,
         },

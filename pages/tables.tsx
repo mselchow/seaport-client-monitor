@@ -8,7 +8,7 @@ const Tables = () => {
     const tableHeaders = [
         {
             label: "Client",
-            accessor: "name" as keyof ClockifyProject,
+            accessor: "nameWithDate" as keyof ClockifyProject,
             dataType: "string",
             sortable: true,
         },
