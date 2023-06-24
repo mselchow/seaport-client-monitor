@@ -1,3 +1,5 @@
+import { format, parse } from "date-fns";
+
 /**
  * Wrapper for Clockify project data. Centralizes parsing of JSON data
  * that comes from Clockify.
@@ -12,6 +14,31 @@ export default class ClockifyProject {
     // Name of the client
     get name() {
         return this._data.client.name;
+    }
+
+    // Name of the client/project with start month/year
+    get nameWithDate() {
+        const name = this.name;
+
+        if (this.type === "Block Hours") {
+            const fullName = this.fullName;
+            const rawDate = fullName.match(/\d{1,2}-\d{4}/g);
+
+            if (rawDate) {
+                const formattedDate = format(
+                    parse(rawDate[0], "MM-yyyy", new Date()),
+                    "MMM ''yy"
+                );
+
+                return `${name} (${formattedDate})`;
+            }
+        }
+        return name;
+    }
+
+    // Full name of the project (used to parse additional information)
+    get fullName() {
+        return this._data.name;
     }
 
     // Type of project (MS, Block, Project)
@@ -68,6 +95,7 @@ export default class ClockifyProject {
 
 export interface ClockifyJSON {
     id: string;
+    name: string;
     clientId: string;
     client: {
         name: string;
