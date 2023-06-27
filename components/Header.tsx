@@ -73,7 +73,7 @@ const Header = () => {
         <header className="sticky inset-0 z-10 h-max max-w-full rounded-none  bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl dark:border-b lg:h-[72px] lg:px-8 lg:py-4">
             <div className="grid h-full grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex gap-3">
-                    <Link href="/">
+                    <Link href="/" passHref>
                         <Image
                             src="/seaport-logo.png"
                             alt="Seaport Logo"
@@ -89,7 +89,7 @@ const Header = () => {
                             width="36"
                         />
                     </Link>
-                    <Link href="/" className="self-center">
+                    <Link href="/" className="self-center" passHref>
                         <TypographyH4>Client Monitor</TypographyH4>
                     </Link>
                 </div>
