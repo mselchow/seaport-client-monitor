@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/form";
 import { Lock, Unlock } from "lucide-react";
 
-import ExcludedClientSettings from "@/components/ExcludedClientSettings";
+import ExcludedClientSettings from "@/components/settings/ExcludedClientSettings";
 import WelcomeCard from "@/components/WelcomeCard";
 import { Separator } from "@/components/ui/separator";
 
