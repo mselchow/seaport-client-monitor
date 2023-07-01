@@ -7,6 +7,7 @@ import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject from "@/lib/clockifyProject";
 import { ClockifyJSON } from "@/lib/clockifyProject";
 
+import SettingsPage from "@/components/settings/SettingsPage";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -99,105 +100,100 @@ const ExcludedClientSettings = () => {
     }
 
     return (
-        <Card className="mb-5">
-            <CardHeader>
-                <CardTitle>Excluded Clients</CardTitle>
-                <CardDescription>
-                    Clients selected below will be excluded from any
-                    charts/tables, but will still factor in to hours logged
-                    summaries on the dashboard.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="flex flex-col gap-3">
-                    {result.isLoading ? (
-                        <Loader2 className="h-6 w-6 animate-spin" />
-                    ) : result.isError ? (
-                        <p>We encountered an error fetching Clockify data.</p>
-                    ) : (
-                        <div className="">
-                            <Form {...form}>
-                                <form
-                                    onSubmit={form.handleSubmit(onSubmit)}
-                                    className="space-y-5"
-                                >
-                                    <FormField
-                                        control={form.control}
-                                        name="excludedClients"
-                                        render={() => (
-                                            <FormItem>
-                                                {clientList.map((client) => (
-                                                    <FormField
-                                                        key={client.clientId}
-                                                        control={form.control}
-                                                        name="excludedClients"
-                                                        render={({ field }) => {
-                                                            return (
-                                                                <FormItem
-                                                                    key={
-                                                                        client.clientId
-                                                                    }
-                                                                    className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-muted"
-                                                                >
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(
-                                                                                client.clientId
-                                                                            )}
-                                                                            onCheckedChange={(
-                                                                                checked
-                                                                            ) => {
-                                                                                return checked
-                                                                                    ? field.onChange(
-                                                                                          [
-                                                                                              ...field.value,
-                                                                                              client.clientId,
-                                                                                          ]
+        <SettingsPage
+            title="Excluded Clients"
+            description="Clients selected below will be excluded from any
+                    charts/tables, but will still count towards hours logged
+                    summaries on the dashboard."
+        >
+            <div className="flex flex-col gap-3">
+                {result.isLoading ? (
+                    <Loader2 className="h-6 w-6 animate-spin" />
+                ) : result.isError ? (
+                    <p>We encountered an error fetching Clockify data.</p>
+                ) : (
+                    <div className="">
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="space-y-5"
+                            >
+                                <FormField
+                                    control={form.control}
+                                    name="excludedClients"
+                                    render={() => (
+                                        <FormItem>
+                                            {clientList.map((client) => (
+                                                <FormField
+                                                    key={client.clientId}
+                                                    control={form.control}
+                                                    name="excludedClients"
+                                                    render={({ field }) => {
+                                                        return (
+                                                            <FormItem
+                                                                key={
+                                                                    client.clientId
+                                                                }
+                                                                className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-muted"
+                                                            >
+                                                                <FormControl>
+                                                                    <Checkbox
+                                                                        checked={field.value?.includes(
+                                                                            client.clientId
+                                                                        )}
+                                                                        onCheckedChange={(
+                                                                            checked
+                                                                        ) => {
+                                                                            return checked
+                                                                                ? field.onChange(
+                                                                                      [
+                                                                                          ...field.value,
+                                                                                          client.clientId,
+                                                                                      ]
+                                                                                  )
+                                                                                : field.onChange(
+                                                                                      field.value?.filter(
+                                                                                          (
+                                                                                              value
+                                                                                          ) =>
+                                                                                              value !==
+                                                                                              client.clientId
                                                                                       )
-                                                                                    : field.onChange(
-                                                                                          field.value?.filter(
-                                                                                              (
-                                                                                                  value
-                                                                                              ) =>
-                                                                                                  value !==
-                                                                                                  client.clientId
-                                                                                          )
-                                                                                      );
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <FormLabel className="text-md w-full cursor-pointer font-normal text-primary">
-                                                                        {
-                                                                            client.name
-                                                                        }
-                                                                    </FormLabel>
-                                                                </FormItem>
-                                                            );
-                                                        }}
-                                                    />
-                                                ))}
-                                            </FormItem>
-                                        )}
-                                    />
+                                                                                  );
+                                                                        }}
+                                                                    />
+                                                                </FormControl>
+                                                                <FormLabel className="text-md w-full cursor-pointer font-normal text-primary">
+                                                                    {
+                                                                        client.name
+                                                                    }
+                                                                </FormLabel>
+                                                            </FormItem>
+                                                        );
+                                                    }}
+                                                />
+                                            ))}
+                                        </FormItem>
+                                    )}
+                                />
 
-                                    <Button
-                                        type="submit"
-                                        disabled={formPending}
-                                        className="mt-5 w-full md:w-48"
-                                    >
-                                        {formPending ? (
-                                            <Loader2 className="inline h-4 w-4 animate-spin" />
-                                        ) : (
-                                            "Save Excluded Clients"
-                                        )}
-                                    </Button>
-                                </form>
-                            </Form>
-                        </div>
-                    )}
-                </div>
-            </CardContent>
-        </Card>
+                                <Button
+                                    type="submit"
+                                    disabled={formPending}
+                                    className="mt-5 w-full md:w-48"
+                                >
+                                    {formPending ? (
+                                        <Loader2 className="inline h-4 w-4 animate-spin" />
+                                    ) : (
+                                        "Save Excluded Clients"
+                                    )}
+                                </Button>
+                            </form>
+                        </Form>
+                    </div>
+                )}
+            </div>
+        </SettingsPage>
     );
 };
 
