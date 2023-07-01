@@ -13,11 +13,19 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+interface SettingsNavType {
+    title: string;
+    href: string;
+    content: JSX.Element;
+    disabled?: boolean;
+}
 
 export default function Page() {
     const router = useRouter();
 
-    const settingsNav = [
+    const settingsNav: SettingsNavType[] = [
         {
             title: "Clockify",
             href: "/settings",
@@ -31,7 +39,8 @@ export default function Page() {
         {
             title: "Goals",
             href: "/settings/goals",
-            content: <p>Goals</p>,
+            content: <p>Coming soon!</p>,
+            disabled: true,
         },
         {
             title: "Display",
@@ -42,7 +51,9 @@ export default function Page() {
 
     const page = settingsNav.find(({ href }) => href === router.asPath);
     const pageContent =
-        page !== undefined ? page.content : "An error occurred.";
+        page !== undefined
+            ? page.content
+            : "An error occurred! That settings page doesn't exist.";
 
     return (
         <>
@@ -70,12 +81,25 @@ export default function Page() {
                                         className={cn(
                                             router.asPath === nav.href
                                                 ? "bg-muted hover:bg-muted"
-                                                : "hover:bg-transparent hover:underline",
+                                                : nav.disabled === false
+                                                ? "hover:bg-transparent hover:underline"
+                                                : "",
                                             "justify-start"
                                         )}
                                         asChild
                                     >
-                                        <Link href={nav.href}>{nav.title}</Link>
+                                        {nav.disabled === true ? (
+                                            <div className="flex gap-2">
+                                                {nav.title}{" "}
+                                                <Badge variant="outline">
+                                                    coming soon!
+                                                </Badge>
+                                            </div>
+                                        ) : (
+                                            <Link href={nav.href}>
+                                                {nav.title}
+                                            </Link>
+                                        )}
                                     </Button>
                                 ))}
                             </nav>
