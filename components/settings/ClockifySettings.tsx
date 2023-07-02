@@ -38,20 +38,11 @@ const ClockifySettings = () => {
     const { user, isLoaded } = useUser();
     const [formPending, setFormPending] = useState(false);
     const { toast } = useToast();
-    let apiKeyMessage;
 
     const userHasClockifyKey =
         isLoaded && user
             ? (user.publicMetadata.hasClockifyKey as boolean)
             : false;
-
-    if (!isLoaded) {
-        apiKeyMessage = "Loading Clockify key status...";
-    } else {
-        apiKeyMessage = userHasClockifyKey
-            ? "Clockify API key securely stored."
-            : "No Clockify API key found.";
-    }
 
     // form definition
     const form = useForm<FormValues>({
@@ -155,7 +146,13 @@ const ClockifySettings = () => {
                         <Unlock className="h-6 w-6" />
                     )}
                 </div>
-                <div>{apiKeyMessage}</div>
+                <div>
+                    {!isLoaded
+                        ? "Loading Clockify key status..."
+                        : userHasClockifyKey
+                        ? "Clockify API key securely stored."
+                        : "No Clockify API key found."}
+                </div>
             </div>
         </SettingsPage>
     );
