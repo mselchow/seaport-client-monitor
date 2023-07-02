@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -14,28 +15,38 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
+import ClockifySettings from "@/components/settings/ClockifySettings";
 import ExcludedClientSettings from "@/components/settings/ExcludedClientSettings";
 
 interface SettingsNavType {
     title: string;
     href: string;
-    content: JSX.Element;
+    content: JSX.Element | false;
     disabled?: boolean;
 }
 
 export default function Page() {
     const router = useRouter();
+    const { user, isLoaded } = useUser();
+
+    const userHasClockifyKey =
+        isLoaded && user
+            ? (user.publicMetadata.hasClockifyKey as boolean)
+            : false;
 
     const settingsNav: SettingsNavType[] = [
         {
             title: "Clockify",
             href: "/settings",
-            content: <p>Clockify</p>,
+            content: <ClockifySettings />,
         },
         {
             title: "Clients",
             href: "/settings/clients",
-            content: <ExcludedClientSettings />,
+            content: userHasClockifyKey && isLoaded && (
+                <ExcludedClientSettings />
+            ),
         },
         {
             title: "Goals",
