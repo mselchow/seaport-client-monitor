@@ -14,16 +14,15 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 import ClockifySettings from "@/components/settings/ClockifySettings";
 import ExcludedClientSettings from "@/components/settings/ExcludedClientSettings";
+import DisplaySettings from "@/components/settings/DisplaySettings";
 
 interface SettingsNavType {
     title: string;
     href: string;
     content: JSX.Element | false;
-    disabled?: boolean;
 }
 
 export default function Page() {
@@ -48,16 +47,15 @@ export default function Page() {
                 <ExcludedClientSettings />
             ),
         },
-        {
+        /*{
             title: "Goals",
             href: "/settings/goals",
             content: <p>Coming soon!</p>,
-            disabled: true,
-        },
+        },*/
         {
             title: "Display",
             href: "/settings/display",
-            content: <p>Display</p>,
+            content: <DisplaySettings />,
         },
     ];
 
@@ -72,7 +70,7 @@ export default function Page() {
             <Head>
                 <title>Settings | Seaport Client Monitor</title>
             </Head>
-            <Card>
+            <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="text-2xl">Settings</CardTitle>
                     <CardDescription className="text-base">
@@ -93,25 +91,12 @@ export default function Page() {
                                         className={cn(
                                             router.asPath === nav.href
                                                 ? "bg-muted hover:bg-muted"
-                                                : nav.disabled === false
-                                                ? "hover:bg-transparent hover:underline"
-                                                : "",
+                                                : "hover:bg-transparent hover:underline",
                                             "justify-start"
                                         )}
                                         asChild
                                     >
-                                        {nav.disabled === true ? (
-                                            <div className="flex gap-2">
-                                                {nav.title}{" "}
-                                                <Badge variant="outline">
-                                                    coming soon!
-                                                </Badge>
-                                            </div>
-                                        ) : (
-                                            <Link href={nav.href}>
-                                                {nav.title}
-                                            </Link>
-                                        )}
+                                        <Link href={nav.href}>{nav.title}</Link>
                                     </Button>
                                 ))}
                             </nav>
