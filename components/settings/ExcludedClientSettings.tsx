@@ -10,13 +10,6 @@ import { ClockifyJSON } from "@/lib/clockifyProject";
 import SettingsPage from "@/components/settings/SettingsPage";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
@@ -106,7 +99,7 @@ const ExcludedClientSettings = () => {
                     charts/tables, but will still count towards hours logged
                     summaries on the dashboard."
         >
-            <div className="flex flex-col gap-3">
+            <>
                 {result.isLoading ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
                 ) : result.isError ? (
@@ -192,7 +185,7 @@ const ExcludedClientSettings = () => {
                         </Form>
                     </div>
                 )}
-            </div>
+            </>
         </SettingsPage>
     );
 };
