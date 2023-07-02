@@ -1,16 +1,7 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-interface WelcomeCardProps {
-    isLoaded: boolean;
-    hasKey: boolean;
-}
-
-export default function WelcomeCard({ isLoaded, hasKey }: WelcomeCardProps) {
-    if (!isLoaded || hasKey) {
-        return null;
-    }
-
+export default function WelcomeCard() {
     return (
         <Card>
             <CardHeader>

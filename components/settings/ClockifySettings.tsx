@@ -107,7 +107,9 @@ const ClockifySettings = () => {
             title="Clockify Settings"
             description="Save or update your Clockify API key to connect to your Clockify data."
         >
-            <WelcomeCard isLoaded={isLoaded} hasKey={userHasClockifyKey} />
+            {isLoaded && userHasClockifyKey && (
+                <WelcomeCard isLoaded={isLoaded} hasKey={userHasClockifyKey} />
+            )}
 
             <Form {...form}>
                 <form
