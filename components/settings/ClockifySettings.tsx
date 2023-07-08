@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useUser, SignedIn } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -100,61 +100,59 @@ const ClockifySettings = () => {
         >
             {isLoaded && !userHasClockifyKey && <WelcomeCard />}
 
-            <SignedIn>
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex-start flex gap-4"
-                    >
-                        <FormField
-                            control={form.control}
-                            name="clockifyKey"
-                            render={({ field }) => (
-                                <FormItem className="w-full lg:w-[425px]">
-                                    <FormControl>
-                                        <Input
-                                            type="text"
-                                            placeholder="Clockify API Key"
-                                            id="clockifyKey"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button
-                            type="submit"
-                            disabled={formPending}
-                            className="w-24"
-                        >
-                            {formPending ? (
-                                <Loader2 className="inline h-4 w-4 animate-spin" />
-                            ) : (
-                                "Save"
-                            )}
-                        </Button>
-                    </form>
-                </Form>
-                <div className="flex items-center gap-2 text-sm text-foreground">
-                    <div className="w-6">
-                        {!isLoaded ? (
-                            <Loader2 className="animate-spin" />
-                        ) : userHasClockifyKey ? (
-                            <Lock className="h-6 w-6" />
-                        ) : (
-                            <Unlock className="h-6 w-6" />
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex-start flex gap-4"
+                >
+                    <FormField
+                        control={form.control}
+                        name="clockifyKey"
+                        render={({ field }) => (
+                            <FormItem className="w-full lg:w-[425px]">
+                                <FormControl>
+                                    <Input
+                                        type="text"
+                                        placeholder="Clockify API Key"
+                                        id="clockifyKey"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
                         )}
-                    </div>
-                    <div>
-                        {!isLoaded
-                            ? "Loading Clockify key status..."
-                            : userHasClockifyKey
-                            ? "Clockify API key securely stored."
-                            : "No Clockify API key found."}
-                    </div>
+                    />
+                    <Button
+                        type="submit"
+                        disabled={formPending}
+                        className="w-24"
+                    >
+                        {formPending ? (
+                            <Loader2 className="inline h-4 w-4 animate-spin" />
+                        ) : (
+                            "Save"
+                        )}
+                    </Button>
+                </form>
+            </Form>
+            <div className="flex items-center gap-2 text-sm text-foreground">
+                <div className="w-6">
+                    {!isLoaded ? (
+                        <Loader2 className="animate-spin" />
+                    ) : userHasClockifyKey ? (
+                        <Lock className="h-6 w-6" />
+                    ) : (
+                        <Unlock className="h-6 w-6" />
+                    )}
                 </div>
-            </SignedIn>
+                <div>
+                    {!isLoaded
+                        ? "Loading Clockify key status..."
+                        : userHasClockifyKey
+                        ? "Clockify API key securely stored."
+                        : "No Clockify API key found."}
+                </div>
+            </div>
         </SettingsPage>
     );
 };
