@@ -61,9 +61,7 @@ export default function Page() {
 
     const page = settingsNav.find(({ href }) => href === router.asPath);
     const pageContent =
-        page !== undefined
-            ? page.content
-            : "An error occurred! That settings page doesn't exist.";
+        page !== undefined ? page.content : "That settings page doesn't exist!";
 
     return (
         <>
