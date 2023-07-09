@@ -12,8 +12,8 @@ export default function ThemeChanger() {
     return (
         <Button
             variant="ghost"
-            size="sm"
-            className="h-8 w-8 px-0"
+            size="icon"
+            className="px-0"
             onClick={() => setTheme(alternateTheme)}
         >
             <Sun className="h-4 w-4 scale-100 dark:scale-0" />
