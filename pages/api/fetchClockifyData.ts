@@ -33,7 +33,8 @@ export default async function handler(
         clockifyWorkspaceId +
         "/projects?hydrated=true&archived=false&clients=" +
         excludedClients +
-        "&contains-client=false";
+        "&contains-client=false" +
+        "&page-size=500";
 
     const apiHeaders = { "X-Api-Key": clockifyKey };
 
