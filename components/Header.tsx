@@ -121,7 +121,7 @@ const Header = () => {
                         <ThemeChanger />
                     </SignedOut>
                     <button
-                        className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
+                        className="ml-1.5 h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
                         aria-label={
                             openNav ? "Close the menu" : "Open the menu"
                         }
