@@ -15,9 +15,9 @@ const RefetchData = ({ queryKey }: RefetchDataProps) => {
 
     return (
         <Button
-            className="h-8 w-8 px-0"
+            className="px-0"
             variant="ghost"
-            size="sm"
+            size="icon"
             disabled={isFetching}
             onClick={() => {
                 queryClient.invalidateQueries({ queryKey: queryKey });
