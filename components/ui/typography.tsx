@@ -39,4 +39,13 @@ const TypographySmall = ({
     </small>
 );
 
-export { TypographyH3, TypographyH4, TypographySmall };
+const TypographyP = ({ className, children, ...props }: TypographyProps) => (
+    <p
+        className={cn(className, "leading-7 [&:not(:first-child)]:mt-6")}
+        {...props}
+    >
+        {children}
+    </p>
+);
+
+export { TypographyH3, TypographyH4, TypographySmall, TypographyP };

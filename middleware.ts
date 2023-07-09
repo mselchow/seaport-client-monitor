@@ -1,10 +1,20 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export default authMiddleware({
     afterAuth(auth, req) {
+        // handle users who aren't authenticated
+        if (!auth.userId && !auth.isPublicRoute) {
+            return redirectToSignIn({ returnBackUrl: req.url });
+        }
+
         const hasKey = auth.sessionClaims?.hasClockifyKey ?? false;
-        const redirectPaths = ["/charts", "/tables"];
+        const redirectPaths = [
+            "/charts",
+            "/tables",
+            "/settings/clients",
+            "/settings/display",
+        ];
         const reqUrl = req.nextUrl.pathname;
         const redirect = redirectPaths.includes(reqUrl) || reqUrl === "/";
 

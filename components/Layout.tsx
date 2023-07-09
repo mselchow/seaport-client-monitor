@@ -12,8 +12,10 @@ export default function Layout({ children }: LayoutProps) {
     return (
         <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="container px-4 py-4">{children}</main>
-            <div className="flex-grow">{""}</div>
+            <main className="container flex flex-grow px-4 py-4">
+                <div className="w-full">{children}</div>
+            </main>
+
             <SignedIn>
                 <RefreshPrompt />
                 <Footer />

@@ -51,7 +51,7 @@ const Header = () => {
     );
 
     const clerkUserAvatar = (
-        <div className="flex justify-center py-3 lg:flex-none lg:py-0">
+        <div className="flex justify-center py-3 lg:flex-none lg:py-0 lg:pl-1.5">
             <ClerkLoading></ClerkLoading>
             <ClerkLoaded>
                 <UserButton
@@ -73,7 +73,7 @@ const Header = () => {
         <header className="sticky inset-0 z-10 h-max max-w-full rounded-none  bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl dark:border-b lg:h-[72px] lg:px-8 lg:py-4">
             <div className="grid h-full grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex gap-3">
-                    <Link href="/">
+                    <Link href="/" passHref>
                         <Image
                             src="/seaport-logo.png"
                             alt="Seaport Logo"
@@ -89,7 +89,7 @@ const Header = () => {
                             width="36"
                         />
                     </Link>
-                    <Link href="/" className="self-center">
+                    <Link href="/" className="self-center" passHref>
                         <TypographyH4>Client Monitor</TypographyH4>
                     </Link>
                 </div>
@@ -121,7 +121,7 @@ const Header = () => {
                         <ThemeChanger />
                     </SignedOut>
                     <button
-                        className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
+                        className="ml-1.5 h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
                         aria-label={
                             openNav ? "Close the menu" : "Open the menu"
                         }
