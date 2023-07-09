@@ -51,7 +51,7 @@ const Header = () => {
     );
 
     const clerkUserAvatar = (
-        <div className="flex justify-center py-3 lg:flex-none lg:py-0">
+        <div className="flex justify-center py-3 lg:flex-none lg:py-0 lg:pl-1.5">
             <ClerkLoading></ClerkLoading>
             <ClerkLoaded>
                 <UserButton
