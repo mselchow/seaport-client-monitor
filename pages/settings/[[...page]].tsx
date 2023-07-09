@@ -23,6 +23,7 @@ interface SettingsNavType {
     title: string;
     href: string;
     content: JSX.Element | false;
+    disabled: boolean;
 }
 
 export default function Page() {
@@ -39,6 +40,7 @@ export default function Page() {
             title: "Clockify",
             href: "/settings",
             content: <ClockifySettings />,
+            disabled: false,
         },
         {
             title: "Clients",
@@ -46,16 +48,19 @@ export default function Page() {
             content: userHasClockifyKey && isLoaded && (
                 <ExcludedClientSettings />
             ),
+            disabled: !userHasClockifyKey,
         },
         /*{
             title: "Goals",
             href: "/settings/goals",
             content: <p>Coming soon!</p>,
+            disabled: !userHasClockifyKey,
         },*/
         {
             title: "Display",
             href: "/settings/display",
             content: <DisplaySettings />,
+            disabled: !userHasClockifyKey,
         },
     ];
 
@@ -89,12 +94,19 @@ export default function Page() {
                                         className={cn(
                                             router.asPath === nav.href
                                                 ? "bg-muted hover:bg-muted"
-                                                : "hover:bg-transparent hover:underline",
+                                                : "hover:bg-transparent",
+                                            nav.disabled
+                                                ? "cursor-default text-muted-foreground hover:text-muted-foreground"
+                                                : "hover:underline",
                                             "justify-start"
                                         )}
                                         asChild
                                     >
-                                        <Link href={nav.href}>{nav.title}</Link>
+                                        <Link
+                                            href={nav.disabled ? {} : nav.href}
+                                        >
+                                            {nav.title}
+                                        </Link>
                                     </Button>
                                 ))}
                             </nav>
