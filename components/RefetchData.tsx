@@ -4,18 +4,23 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 
-const RefetchData = ({ query }) => {
+interface RefetchDataProps {
+    queryKey: string[];
+}
+
+const RefetchData = ({ queryKey }: RefetchDataProps) => {
     const queryClient = useQueryClient();
-    const isFetching = useIsFetching({ queryKey: query });
+    const fetchingCount = useIsFetching({ queryKey: queryKey });
+    const isFetching = fetchingCount !== 0;
 
     return (
         <Button
-            className="h-8 w-8 px-0"
+            className="px-0"
             variant="ghost"
-            size="sm"
+            size="icon"
             disabled={isFetching}
             onClick={() => {
-                queryClient.invalidateQueries({ queryKey: query });
+                queryClient.invalidateQueries({ queryKey: queryKey });
             }}
         >
             <RefreshCw

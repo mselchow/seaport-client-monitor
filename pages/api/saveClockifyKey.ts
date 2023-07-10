@@ -1,7 +1,11 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { saveClockifyKey } from "@/lib/clerk.js";
+import { saveClockifyKey } from "@/lib/clerk";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     const auth = getAuth(req);
 
     // this shouldn't ever happen because of Clerk's middleware, but good to be safe
@@ -14,7 +18,10 @@ export default async function handler(req, res) {
 
     // check for required input
     if (!body.clockifyKey) {
-        return res.status(400).json({ data: "Clockify key not found." });
+        res.status(400).json({
+            message: "clockifyKey missing from body of request",
+        });
+        return;
     }
 
     const result = await saveClockifyKey(auth, body.clockifyKey);

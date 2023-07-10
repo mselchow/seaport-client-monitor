@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -29,7 +28,6 @@ const navLinks = [
 
 const Header = () => {
     const [openNav, setOpenNav] = useState(false);
-    const { resolvedTheme } = useTheme();
 
     const navList = (
         <div className="mb-3 mt-6 flex flex-col gap-4 text-primary lg:mb-0 lg:mt-0 lg:flex-row lg:gap-2 xl:gap-4">
@@ -53,11 +51,11 @@ const Header = () => {
     );
 
     const clerkUserAvatar = (
-        <div className="flex justify-center py-3 lg:flex-none lg:py-0">
+        <div className="flex justify-center py-3 lg:flex-none lg:py-0 lg:pl-1.5">
             <ClerkLoading></ClerkLoading>
             <ClerkLoaded>
                 <UserButton
-                    showName="true"
+                    showName={true}
                     afterSignOutUrl="/"
                     appearance={{
                         elements: {
@@ -75,20 +73,23 @@ const Header = () => {
         <header className="sticky inset-0 z-10 h-max max-w-full rounded-none  bg-opacity-80 px-4 py-3 shadow-md backdrop-blur-2xl dark:border-b lg:h-[72px] lg:px-8 lg:py-4">
             <div className="grid h-full grid-cols-2 items-center text-primary lg:grid-cols-3">
                 <div className="flex gap-3">
-                    <Link href="/">
+                    <Link href="/" passHref>
                         <Image
-                            src={
-                                resolvedTheme === "light"
-                                    ? "/seaport-logo.png"
-                                    : "/seaport-logo-dark.png"
-                            }
+                            src="/seaport-logo.png"
                             alt="Seaport Logo"
-                            className="h-9"
+                            className="h-9 dark:hidden"
+                            height="36"
+                            width="36"
+                        />
+                        <Image
+                            src="/seaport-logo-dark.png"
+                            alt="Seaport Logo"
+                            className="hidden h-9 dark:inline"
                             height="36"
                             width="36"
                         />
                     </Link>
-                    <Link href="/" className="self-center">
+                    <Link href="/" className="self-center" passHref>
                         <TypographyH4>Client Monitor</TypographyH4>
                     </Link>
                 </div>
@@ -99,7 +100,7 @@ const Header = () => {
 
                 <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
-                        <RefetchData query={["clockify"]} />
+                        <RefetchData queryKey={["clockify", "data"]} />
                         <ThemeChanger />
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
@@ -112,7 +113,7 @@ const Header = () => {
 
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
-                        <RefetchData query={["clockify"]} />
+                        <RefetchData queryKey={["clockify", "data"]} />
                         <ThemeChanger />
                         <Separator orientation="vertical" />
                     </SignedIn>
@@ -120,7 +121,7 @@ const Header = () => {
                         <ThemeChanger />
                     </SignedOut>
                     <button
-                        className="h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
+                        className="ml-1.5 h-6 w-6 justify-self-end text-inherit hover:bg-transparent focus:bg-transparent"
                         aria-label={
                             openNav ? "Close the menu" : "Open the menu"
                         }

@@ -1,13 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-export default function NavLink({ title, path }) {
-    const pathname = usePathname();
-    const isActive = pathname === path;
+interface NavLinkProps {
+    title: string;
+    path: string;
+}
+
+export default function NavLink({ title, path }: NavLinkProps) {
+    const router = useRouter();
+    const pathname = router.asPath;
+    let isActive = false;
+
+    if (path.startsWith("/settings")) {
+        isActive = pathname.startsWith("/settings");
+    } else {
+        isActive = pathname === path;
+    }
 
     const highlightActive = isActive ? "bg-secondary" : "";
     const boldActive = isActive ? "font-bold" : "font-normal";

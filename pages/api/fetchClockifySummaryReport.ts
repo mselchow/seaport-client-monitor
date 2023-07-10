@@ -1,7 +1,8 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { getClockifyKey } from "@/lib/clerk";
 import {
-    format,
+    startOfDay,
+    endOfDay,
     startOfWeek,
     endOfWeek,
     startOfMonth,
@@ -11,8 +12,15 @@ import {
     subWeeks,
     subMonths,
 } from "date-fns";
+import { NextApiRequest, NextApiResponse } from "next";
+import { captureMessage } from "@sentry/nextjs";
+import { parseDayNumber } from "@/lib/utils";
+import { utcToZonedTime, format } from "date-fns-tz";
 
-export default async function handler(req, res) {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     const auth = getAuth(req);
     const body = req.body;
 
@@ -28,32 +36,65 @@ export default async function handler(req, res) {
         res.status(400).json({
             message: "Request body missing value for 'clockifyUserId'.",
         });
+        return;
     } else if (!body.timeframe) {
         res.status(400).json({
             message:
                 "Request body missing value for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
         });
+        return;
+    } else if (!body.weekStart) {
+        res.status(400).json({
+            message: "Request body missing value 'weekStart'.",
+        });
+        return;
+    } else if (!body.timezone) {
+        res.status(400).json({
+            message: "Request body missing value for 'timezone'.",
+        });
+        return;
     }
 
     const clockifyKey = await getClockifyKey(auth);
+
+    if (clockifyKey === null) {
+        res.status(400).json({
+            message: "Clockify API key not found for user.",
+        });
+        return;
+    }
+
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
-    const timeframe = body.timeframe;
-    const clockifyUserId = body.clockifyUserId;
-    let dateRangeStart, dateRangeEnd;
+    const timeframe: string = body.timeframe;
+    const clockifyUserId: string = body.clockifyUserId;
+    const clockifyWeekStart = body.weekStart
+        ? (parseDayNumber(body.weekStart) as unknown as Day)
+        : 0;
+    const clockifyTimezone = body.timezone ? body.timezone : "America/New_York";
+
+    let dateRangeStart: Date, dateRangeEnd: Date;
 
     // set start/end dates based on timeframe parameter
     switch (timeframe) {
         case "TODAY":
-            dateRangeStart = new Date();
-            dateRangeEnd = new Date();
+            dateRangeStart = startOfDay(new Date());
+            dateRangeEnd = endOfDay(new Date());
             break;
         case "THIS_WEEK":
-            dateRangeStart = startOfWeek(new Date());
-            dateRangeEnd = endOfWeek(new Date());
+            dateRangeStart = startOfWeek(new Date(), {
+                weekStartsOn: clockifyWeekStart,
+            });
+            dateRangeEnd = endOfWeek(new Date(), {
+                weekStartsOn: clockifyWeekStart,
+            });
             break;
         case "LAST_WEEK":
-            dateRangeStart = startOfWeek(subWeeks(new Date(), 1));
-            dateRangeEnd = endOfWeek(subWeeks(new Date(), 1));
+            dateRangeStart = startOfWeek(subWeeks(new Date(), 1), {
+                weekStartsOn: clockifyWeekStart,
+            });
+            dateRangeEnd = endOfWeek(subWeeks(new Date(), 1), {
+                weekStartsOn: clockifyWeekStart,
+            });
             break;
         case "THIS_MONTH":
             dateRangeStart = startOfMonth(new Date());
@@ -72,10 +113,18 @@ export default async function handler(req, res) {
                 message:
                     "Invalid value provided for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
             });
+            return;
     }
 
-    dateRangeStart = format(dateRangeStart, "yyyy-MM-dd'T'00:00:00");
-    dateRangeEnd = format(dateRangeEnd, "yyyy-MM-dd'T'23:59:59");
+    dateRangeStart = utcToZonedTime(dateRangeStart, clockifyTimezone);
+    dateRangeEnd = utcToZonedTime(dateRangeEnd, clockifyTimezone);
+
+    const dateStartString = format(dateRangeStart, "yyyy-MM-dd'T'HH:mm:ss", {
+        timeZone: clockifyTimezone,
+    });
+    const dateEndString = format(dateRangeEnd, "yyyy-MM-dd'T'HH:mm:ss", {
+        timeZone: clockifyTimezone,
+    });
 
     const apiURL =
         "https://reports.api.clockify.me/v1/workspaces/" +
@@ -90,8 +139,8 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             amountShown: "HIDE_AMOUNT",
-            dateRangeStart: dateRangeStart,
-            dateRangeEnd: dateRangeEnd,
+            dateRangeStart: dateStartString,
+            dateRangeEnd: dateEndString,
             summaryFilter: {
                 groups: ["project"],
                 sortColumn: "DURATION",
@@ -108,7 +157,9 @@ export default async function handler(req, res) {
     const data = await apiRes.json();
 
     if (!apiRes.ok) {
-        throw new Error(`error communicating with Clockify: ${apiRes.message}`);
+        const error = `error communicating with Clockify ${apiRes.status}: ${apiRes.statusText}`;
+        captureMessage(error);
+        throw new Error(error);
     }
 
     res.status(200).json(data);

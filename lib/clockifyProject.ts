@@ -1,15 +1,44 @@
+import { format, parse } from "date-fns";
+
 /**
  * Wrapper for Clockify project data. Centralizes parsing of JSON data
  * that comes from Clockify.
  */
 export default class ClockifyProject {
-    constructor(data) {
+    private _data: ClockifyJSON;
+
+    constructor(data: ClockifyJSON) {
         this._data = data;
     }
 
     // Name of the client
     get name() {
         return this._data.client.name;
+    }
+
+    // Name of the client/project with start month/year
+    get nameWithDate() {
+        const name = this.name;
+
+        if (this.type === "Block Hours") {
+            const fullName = this.fullName;
+            const rawDate = fullName.match(/\d{1,2}-\d{4}/g);
+
+            if (rawDate) {
+                const formattedDate = format(
+                    parse(rawDate[0], "MM-yyyy", new Date()),
+                    "MMM ''yy"
+                );
+
+                return `${name} (${formattedDate})`;
+            }
+        }
+        return name;
+    }
+
+    // Full name of the project (used to parse additional information)
+    get fullName() {
+        return this._data.name;
     }
 
     // Type of project (MS, Block, Project)
@@ -50,7 +79,7 @@ export default class ClockifyProject {
             getStringBetween(this._data.duration, "H", "M")
         );
 
-        return (hoursLogged + minsLogged / 60).toFixed(2);
+        return hoursLogged + minsLogged / 60;
     }
 
     // Number of hours remaining to project as decimal
@@ -64,11 +93,30 @@ export default class ClockifyProject {
     }
 }
 
+export interface ClockifyJSON {
+    id: string;
+    name: string;
+    clientId: string;
+    client: {
+        name: string;
+    };
+    duration: string;
+    timeEstimate: {
+        estimate: string;
+        includeNonBillable: boolean;
+    };
+    customFields: [
+        {
+            value: string;
+        }
+    ];
+}
+
 /**
  * Helper method to parse Clockify time strings. Returns the string found
  * between "start" and "end."
  */
-function getStringBetween(str, start, end) {
+function getStringBetween(str: string, start: string, end: string) {
     const result = str.match(new RegExp(start + "(.*)" + end));
     return result === null ? 0 : result[1];
 }
