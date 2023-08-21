@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 
 import ClockifySettings from "@/components/settings/ClockifySettings";
 import ExcludedClientSettings from "@/components/settings/ExcludedClientSettings";
+import GoalSettings from "@/components/settings/GoalSettings";
 import DisplaySettings from "@/components/settings/DisplaySettings";
 
 interface SettingsNavType {
@@ -50,12 +51,12 @@ export default function Page() {
             ),
             disabled: !userHasClockifyKey,
         },
-        /*{
+        {
             title: "Goals",
             href: "/settings/goals",
-            content: <p>Coming soon!</p>,
+            content: <GoalSettings />,
             disabled: !userHasClockifyKey,
-        },*/
+        },
         {
             title: "Display",
             href: "/settings/display",
