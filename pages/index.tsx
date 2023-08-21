@@ -12,6 +12,7 @@ import { format, parse } from "date-fns";
 import DashboardSummaryCard from "@/components/DashboardSummaryCard";
 import DashboardChart from "@/components/DashboardChart";
 import Table from "@/components/Table";
+import { GoalsType } from "@/components/settings/GoalSettings";
 
 interface WeeklyReportType {
     date: string;
@@ -40,32 +41,33 @@ export default function Home() {
         ? secToTime(reportYear.data?.totals[0]?.totalTime)
         : "";
 
-    const goals = {
-        daily: 7,
-        weekly: 35,
-        monthly: 1440 / 12,
-        yearly: 1440,
-    };
+    const goals =
+        isLoaded && user ? (user.publicMetadata.goals as GoalsType) : null;
 
-    const goalProgress = {
-        daily: (
-            (secToHours(reportToday.data?.totals[0]?.totalTime) / goals.daily) *
-            100
-        ).toFixed(0),
-        weekly: (
-            (secToHours(reportWeek.data?.totals[0]?.totalTime) / goals.weekly) *
-            100
-        ).toFixed(0),
-        monthly: (
-            (secToHours(reportMonth.data?.totals[0]?.totalTime) /
-                goals.monthly) *
-            100
-        ).toFixed(0),
-        yearly: (
-            (secToHours(reportYear.data?.totals[0]?.totalTime) / goals.yearly) *
-            100
-        ).toFixed(0),
-    };
+    const goalProgress = goals
+        ? {
+              daily:
+                  Math.round(
+                      secToHours(reportToday.data?.totals[0]?.totalTime) /
+                          goals.daily
+                  ) * 100,
+              weekly:
+                  Math.round(
+                      secToHours(reportWeek.data?.totals[0]?.totalTime) /
+                          goals.weekly
+                  ) * 100,
+              monthly:
+                  Math.round(
+                      secToHours(reportMonth.data?.totals[0]?.totalTime) /
+                          goals.monthly
+                  ) * 100,
+              yearly: Math.round(
+                  (secToHours(reportYear.data?.totals[0]?.totalTime) /
+                      goals.yearly) *
+                      100
+              ),
+          }
+        : null;
 
     const reportWeekly = useClockifyWeeklyReport();
     const hoursByDay = reportWeekly.isFetched
@@ -149,25 +151,25 @@ export default function Home() {
                             cardTitle="Today"
                             cardContent={timeToday}
                             isLoading={reportToday.isLoading}
-                            badgeContent={goalProgress.daily + "% to goal"}
+                            progress={goalProgress?.daily}
                         />
                         <DashboardSummaryCard
                             cardTitle="This Week"
                             cardContent={timeWeek}
                             isLoading={reportWeek.isLoading}
-                            badgeContent={goalProgress.weekly + "% to goal"}
+                            progress={goalProgress?.weekly}
                         />
                         <DashboardSummaryCard
                             cardTitle="This Month"
                             cardContent={timeMonth}
                             isLoading={reportMonth.isLoading}
-                            badgeContent={goalProgress.monthly + "% to goal"}
+                            progress={goalProgress?.monthly}
                         />
                         <DashboardSummaryCard
                             cardTitle="This Year"
                             cardContent={timeYear}
                             isLoading={reportYear.isLoading}
-                            badgeContent={goalProgress.yearly + "% to goal"}
+                            progress={goalProgress?.yearly}
                         />
                     </div>
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
