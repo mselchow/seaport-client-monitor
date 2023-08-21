@@ -14,6 +14,7 @@ export default authMiddleware({
             "/tables",
             "/settings/clients",
             "/settings/display",
+            "/settings/goals",
         ];
         const reqUrl = req.nextUrl.pathname;
         const redirect = redirectPaths.includes(reqUrl) || reqUrl === "/";
