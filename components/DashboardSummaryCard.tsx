@@ -16,7 +16,8 @@ export default function DashboardSummaryCard({
     isLoading = false,
     progress = null,
 }: DashboardSummaryCardProps) {
-    const displayGoal = progress !== null && progress >= 0;
+    const displayGoal =
+        progress !== null && progress >= 0 && progress !== Infinity;
 
     const badgeElement = displayGoal && (
         <Badge variant="default">{progress + "%"}</Badge>
