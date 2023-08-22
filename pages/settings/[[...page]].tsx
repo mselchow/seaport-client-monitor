@@ -1,10 +1,13 @@
-import { useRouter } from "next/router";
 import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-import { cn } from "@/lib/utils";
-
+import ClockifySettings from "@/components/settings/ClockifySettings";
+import DisplaySettings from "@/components/settings/DisplaySettings";
+import ExcludedClientSettings from "@/components/settings/ExcludedClientSettings";
+import GoalSettings from "@/components/settings/GoalSettings";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardHeader,
@@ -13,11 +16,7 @@ import {
     CardContent,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-
-import ClockifySettings from "@/components/settings/ClockifySettings";
-import ExcludedClientSettings from "@/components/settings/ExcludedClientSettings";
-import DisplaySettings from "@/components/settings/DisplaySettings";
+import { cn } from "@/lib/utils";
 
 interface SettingsNavType {
     title: string;
@@ -50,12 +49,12 @@ export default function Page() {
             ),
             disabled: !userHasClockifyKey,
         },
-        /*{
+        {
             title: "Goals",
             href: "/settings/goals",
-            content: <p>Coming soon!</p>,
+            content: <GoalSettings />,
             disabled: !userHasClockifyKey,
-        },*/
+        },
         {
             title: "Display",
             href: "/settings/display",

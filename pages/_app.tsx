@@ -1,11 +1,12 @@
-import React from "react";
-import { AppProps } from "next/app";
-import { ThemeProvider } from "next-themes";
 import { ClerkProvider } from "@clerk/nextjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AppProps } from "next/app";
+import { ThemeProvider } from "next-themes";
+import React from "react";
+
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { Toaster } from "@/components/ui/toaster";
 import Layout from "@/components/Layout";
+import { Toaster } from "@/components/ui/toaster";
 
 import "@/styles/globals.css";
 

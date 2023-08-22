@@ -2,7 +2,8 @@ module.exports = {
     env: { browser: true, es2020: true, node: true },
     extends: [
         "eslint:recommended",
-        "plugin:import/errors",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:jsx-a11y/recommended",
@@ -25,7 +26,9 @@ module.exports = {
             node: {
                 extensions: [".js", ".jsx", ".ts", ".tsx"],
             },
-            typescript: {},
+            typescript: {
+                alwaysTryTypes: true,
+            },
         },
         "import/parsers": {
             "@typescript-eslint/parser": [".ts", ".tsx"],
@@ -43,7 +46,28 @@ module.exports = {
         "react-refresh/only-export-components": "warn",
         "react/prop-types": 0,
         "react/react-in-jsx-scope": 0,
+        "import/no-unresolved": "error",
         "@typescript-eslint/no-empty-interface": 0,
         "@typescript-eslint/no-var-requires": 0,
+        "import/order": [
+            "error",
+            {
+                groups: [
+                    "type",
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index",
+                    "object",
+                ],
+                "newlines-between": "always",
+                alphabetize: {
+                    order: "asc",
+                    caseInsensitive: true,
+                },
+            },
+        ],
     },
 };

@@ -1,17 +1,12 @@
 import { useUser } from "@clerk/nextjs";
-import {
-    useClockifySummaryReport,
-    useClockifyWeeklyReport,
-    useClockifyData,
-} from "@/lib/clockify";
-
-import { secToTime, secToHours } from "@/lib/utils";
-import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 import { format, parse } from "date-fns";
 
-import DashboardSummaryCard from "@/components/DashboardSummaryCard";
-import DashboardChart from "@/components/DashboardChart";
+import DashboardChart from "@/components/dashboard/DashboardChart";
+import DashboardSummaryCards from "@/components/dashboard/DashboardSummaryCards";
 import Table from "@/components/Table";
+import { useClockifyWeeklyReport, useClockifyData } from "@/lib/clockify";
+import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
+import { secToTime, secToHours } from "@/lib/utils";
 
 interface WeeklyReportType {
     date: string;
@@ -21,24 +16,6 @@ interface WeeklyReportType {
 export default function Home() {
     const clockifyData = useClockifyData();
     const { user, isLoaded } = useUser();
-
-    const reportToday = useClockifySummaryReport("TODAY");
-    const reportWeek = useClockifySummaryReport("THIS_WEEK");
-    const reportMonth = useClockifySummaryReport("THIS_MONTH");
-    const reportYear = useClockifySummaryReport("THIS_YEAR");
-
-    const timeToday = reportToday.isFetched
-        ? secToTime(reportToday.data?.totals[0]?.totalTime)
-        : "";
-    const timeWeek = reportWeek.isFetched
-        ? secToTime(reportWeek.data?.totals[0]?.totalTime)
-        : "";
-    const timeMonth = reportMonth.isFetched
-        ? secToTime(reportMonth.data?.totals[0]?.totalTime)
-        : "";
-    const timeYear = reportYear.isFetched
-        ? secToTime(reportYear.data?.totals[0]?.totalTime)
-        : "";
 
     const reportWeekly = useClockifyWeeklyReport();
     const hoursByDay = reportWeekly.isFetched
@@ -118,26 +95,7 @@ export default function Home() {
             ) : (
                 <>
                     <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <DashboardSummaryCard
-                            cardTitle="Today"
-                            cardContent={timeToday}
-                            isLoading={reportToday.isLoading}
-                        />
-                        <DashboardSummaryCard
-                            cardTitle="This Week"
-                            cardContent={timeWeek}
-                            isLoading={reportWeek.isLoading}
-                        />
-                        <DashboardSummaryCard
-                            cardTitle="This Month"
-                            cardContent={timeMonth}
-                            isLoading={reportMonth.isLoading}
-                        />
-                        <DashboardSummaryCard
-                            cardTitle="This Year"
-                            cardContent={timeYear}
-                            isLoading={reportYear.isLoading}
-                        />
+                        <DashboardSummaryCards />
                     </div>
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <DashboardChart

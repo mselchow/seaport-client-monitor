@@ -1,7 +1,8 @@
+import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
     Table as Table2,
     TableHeader,
@@ -10,10 +11,9 @@ import {
     TableCell,
     TableRow,
 } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
 import { TypographySmall } from "@/components/ui/typography";
-import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 import ClockifyProject from "@/lib/clockifyProject";
+import { cn } from "@/lib/utils";
 
 interface TableHeaderType {
     label: string;

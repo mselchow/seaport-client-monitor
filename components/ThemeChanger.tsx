@@ -1,5 +1,6 @@
 "use client";
 
+import { Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,6 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { Sun, Moon } from "lucide-react";
 
 export default function ThemeChanger() {
     const { theme, setTheme } = useTheme();

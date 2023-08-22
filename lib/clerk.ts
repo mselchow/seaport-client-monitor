@@ -1,8 +1,9 @@
-import { clerkClient } from "@clerk/nextjs";
 import type {
     SignedInAuthObject,
     SignedOutAuthObject,
 } from "@clerk/nextjs/server";
+
+import { clerkClient } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
 
 export const getClockifyKey = async (

@@ -1,29 +1,34 @@
+import { clerkClient } from "@clerk/nextjs";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { saveExcludedClients } from "@/lib/clerk";
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const auth = getAuth(req);
+    const { userId } = getAuth(req);
 
     // this shouldn't ever happen because of Clerk's middleware, but good to be safe
-    if (!auth) {
+    if (!userId) {
         res.status(401);
         return;
     }
 
     // get data from request
-    const body = req.body;
+    const goals = req.body.goals;
 
     // check for required input
-    if (!body.excludedClients) {
-        res.status(400).json({ data: "Excluded client data not found." });
+    if (!goals) {
+        res.status(400).json({
+            message: "Request body missing value for 'goals'.",
+        });
     }
 
-    const result = await saveExcludedClients(auth, body.excludedClients);
+    const result = await clerkClient.users.updateUserMetadata(userId, {
+        publicMetadata: {
+            goals,
+        },
+    });
 
     res.status(200).json(result);
 }

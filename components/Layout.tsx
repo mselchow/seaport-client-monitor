@@ -1,8 +1,9 @@
 import { SignedIn } from "@clerk/nextjs";
+import { ReactNode } from "react";
+
+import Footer from "./Footer";
 import Header from "./Header";
 import RefreshPrompt from "./RefreshPrompt";
-import Footer from "./Footer";
-import { ReactNode } from "react";
 
 interface LayoutProps {
     children: ReactNode;

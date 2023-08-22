@@ -1,5 +1,3 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
     ResponsiveContainer,
     BarChart,
@@ -8,6 +6,9 @@ import {
     Bar,
     LabelList,
 } from "recharts";
+
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ChartDataType {
     day: string;

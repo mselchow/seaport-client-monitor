@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 import { format, parse } from "date-fns";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -19,7 +19,7 @@ export function secToTime(seconds: number) {
 
 export function secToHours(seconds: number) {
     if (seconds === undefined) {
-        return "0";
+        return 0;
     }
 
     const hours = (seconds / (60 * 60)).toFixed(2);
