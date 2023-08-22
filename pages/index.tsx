@@ -1,18 +1,13 @@
 import { useUser } from "@clerk/nextjs";
-import {
-    useClockifySummaryReport,
-    useClockifyWeeklyReport,
-    useClockifyData,
-} from "@/lib/clockify";
+import { useClockifyWeeklyReport, useClockifyData } from "@/lib/clockify";
 
 import { secToTime, secToHours } from "@/lib/utils";
 import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 import { format, parse } from "date-fns";
 
-import DashboardSummaryCard from "@/components/DashboardSummaryCard";
-import DashboardChart from "@/components/DashboardChart";
+import DashboardSummaryCards from "@/components/dashboard/DashboardSummaryCards";
+import DashboardChart from "@/components/dashboard/DashboardChart";
 import Table from "@/components/Table";
-import { GoalsType } from "@/components/settings/GoalSettings";
 
 interface WeeklyReportType {
     date: string;
@@ -22,52 +17,6 @@ interface WeeklyReportType {
 export default function Home() {
     const clockifyData = useClockifyData();
     const { user, isLoaded } = useUser();
-
-    const reportToday = useClockifySummaryReport("TODAY");
-    const reportWeek = useClockifySummaryReport("THIS_WEEK");
-    const reportMonth = useClockifySummaryReport("THIS_MONTH");
-    const reportYear = useClockifySummaryReport("THIS_YEAR");
-
-    const timeToday = reportToday.isFetched
-        ? secToTime(reportToday.data?.totals[0]?.totalTime)
-        : "";
-    const timeWeek = reportWeek.isFetched
-        ? secToTime(reportWeek.data?.totals[0]?.totalTime)
-        : "";
-    const timeMonth = reportMonth.isFetched
-        ? secToTime(reportMonth.data?.totals[0]?.totalTime)
-        : "";
-    const timeYear = reportYear.isFetched
-        ? secToTime(reportYear.data?.totals[0]?.totalTime)
-        : "";
-
-    const goals =
-        isLoaded && user ? (user.publicMetadata.goals as GoalsType) : null;
-
-    const goalProgress = goals
-        ? {
-              daily: Math.round(
-                  (secToHours(reportToday.data?.totals[0]?.totalTime) /
-                      goals.daily) *
-                      100
-              ),
-              weekly: Math.round(
-                  (secToHours(reportWeek.data?.totals[0]?.totalTime) /
-                      goals.weekly) *
-                      100
-              ),
-              monthly: Math.round(
-                  (secToHours(reportMonth.data?.totals[0]?.totalTime) /
-                      goals.monthly) *
-                      100
-              ),
-              yearly: Math.round(
-                  (secToHours(reportYear.data?.totals[0]?.totalTime) /
-                      goals.yearly) *
-                      100
-              ),
-          }
-        : null;
 
     const reportWeekly = useClockifyWeeklyReport();
     const hoursByDay = reportWeekly.isFetched
@@ -147,30 +96,7 @@ export default function Home() {
             ) : (
                 <>
                     <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <DashboardSummaryCard
-                            cardTitle="Today"
-                            cardContent={timeToday}
-                            isLoading={reportToday.isLoading}
-                            progress={goalProgress?.daily}
-                        />
-                        <DashboardSummaryCard
-                            cardTitle="This Week"
-                            cardContent={timeWeek}
-                            isLoading={reportWeek.isLoading}
-                            progress={goalProgress?.weekly}
-                        />
-                        <DashboardSummaryCard
-                            cardTitle="This Month"
-                            cardContent={timeMonth}
-                            isLoading={reportMonth.isLoading}
-                            progress={goalProgress?.monthly}
-                        />
-                        <DashboardSummaryCard
-                            cardTitle="This Year"
-                            cardContent={timeYear}
-                            isLoading={reportYear.isLoading}
-                            progress={goalProgress?.yearly}
-                        />
+                        <DashboardSummaryCards />
                     </div>
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <DashboardChart
