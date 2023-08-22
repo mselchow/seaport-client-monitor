@@ -14,14 +14,15 @@ export default function DashboardSummaryCard({
     cardTitle,
     cardContent,
     isLoading = false,
-    progress = 0,
+    progress = null,
 }: DashboardSummaryCardProps) {
-    const badgeElement = progress !== null && progress >= 0 && (
+    const displayGoal = progress !== null && progress >= 0;
+
+    const badgeElement = displayGoal && (
         <Badge variant="default">{progress + "%"}</Badge>
     );
-    console.log(cardTitle, progress);
 
-    const progressContent = progress !== null && progress >= 0 && (
+    const progressContent = displayGoal && (
         <Progress value={progress} className="mt-3" />
     );
 
@@ -34,7 +35,10 @@ export default function DashboardSummaryCard({
             </CardHeader>
             <CardContent>
                 {isLoading ? (
-                    <Skeleton className="h-8 w-auto" />
+                    <>
+                        <Skeleton className="h-8 w-auto" />
+                        <Skeleton className="mt-2 h-4 w-auto" />
+                    </>
                 ) : (
                     <>
                         <div className="flex flex-row items-center justify-between">
