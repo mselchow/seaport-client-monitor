@@ -46,21 +46,21 @@ export default function Home() {
 
     const goalProgress = goals
         ? {
-              daily:
-                  Math.round(
-                      secToHours(reportToday.data?.totals[0]?.totalTime) /
-                          goals.daily
-                  ) * 100,
-              weekly:
-                  Math.round(
-                      secToHours(reportWeek.data?.totals[0]?.totalTime) /
-                          goals.weekly
-                  ) * 100,
-              monthly:
-                  Math.round(
-                      secToHours(reportMonth.data?.totals[0]?.totalTime) /
-                          goals.monthly
-                  ) * 100,
+              daily: Math.round(
+                  (secToHours(reportToday.data?.totals[0]?.totalTime) /
+                      goals.daily) *
+                      100
+              ),
+              weekly: Math.round(
+                  (secToHours(reportWeek.data?.totals[0]?.totalTime) /
+                      goals.weekly) *
+                      100
+              ),
+              monthly: Math.round(
+                  (secToHours(reportMonth.data?.totals[0]?.totalTime) /
+                      goals.monthly) *
+                      100
+              ),
               yearly: Math.round(
                   (secToHours(reportYear.data?.totals[0]?.totalTime) /
                       goals.yearly) *
