@@ -1,8 +1,9 @@
+import { useUser } from "@clerk/nextjs";
+
 import DashboardSummaryCard from "@/components/dashboard/DashboardSummaryCard";
+import { GoalsType } from "@/components/settings/GoalSettings";
 import { useClockifySummaryReport } from "@/lib/clockify";
 import { secToTime, secToHours } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
-import { GoalsType } from "@/components/settings/GoalSettings";
 
 export default function DashboardSummaryCards() {
     const { user, isLoaded } = useUser();

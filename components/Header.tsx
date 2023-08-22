@@ -1,6 +1,3 @@
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import {
     UserButton,
     ClerkLoading,
@@ -11,13 +8,18 @@ import {
     SignUpButton,
 } from "@clerk/clerk-react";
 import { Menu, X } from "lucide-react";
-import { TypographyH4 } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
-import NavLink from "./NavLink";
-import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
 import RefetchData from "@/components/RefetchData";
-import { Separator } from "@/components/ui/separator";
 import ThemeChanger from "@/components/ThemeChanger";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { TypographyH4 } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
+
+import NavLink from "./NavLink";
 
 const navLinks = [
     { title: "Dashboard", path: "/" },

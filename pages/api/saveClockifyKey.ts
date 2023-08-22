@@ -1,6 +1,7 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { saveClockifyKey } from "@/lib/clerk";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { saveClockifyKey } from "@/lib/clerk";
 
 export default async function handler(
     req: NextApiRequest,

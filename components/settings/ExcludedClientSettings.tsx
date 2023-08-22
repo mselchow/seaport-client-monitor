@@ -1,14 +1,11 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useUser } from "@clerk/nextjs";
-import { useClockifyData } from "@/lib/clockify";
-import ClockifyProject from "@/lib/clockifyProject";
-import { ClockifyJSON } from "@/lib/clockifyProject";
 
 import SettingsPage from "@/components/settings/SettingsPage";
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -19,6 +16,8 @@ import {
     FormItem,
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+import { useClockifyData } from "@/lib/clockify";
+import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 
 const ExcludedClientSettings = () => {
     const { user, isLoaded } = useUser();

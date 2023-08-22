@@ -1,8 +1,9 @@
+import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
+
 import Table from "@/components/Table";
 import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
-import { useUser } from "@clerk/nextjs";
 
 const Tables = () => {
     const tableHeaders = [

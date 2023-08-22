@@ -1,8 +1,9 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { getClockifyKey } from "@/lib/clerk";
-import { format, startOfWeek, endOfWeek } from "date-fns";
 import { captureMessage } from "@sentry/nextjs";
+import { format, startOfWeek, endOfWeek } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import { getClockifyKey } from "@/lib/clerk";
 import { parseDayNumber } from "@/lib/utils";
 
 export default async function handler(

@@ -1,13 +1,12 @@
 import { useUser } from "@clerk/nextjs";
-import { useClockifyWeeklyReport, useClockifyData } from "@/lib/clockify";
-
-import { secToTime, secToHours } from "@/lib/utils";
-import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 import { format, parse } from "date-fns";
 
-import DashboardSummaryCards from "@/components/dashboard/DashboardSummaryCards";
 import DashboardChart from "@/components/dashboard/DashboardChart";
+import DashboardSummaryCards from "@/components/dashboard/DashboardSummaryCards";
 import Table from "@/components/Table";
+import { useClockifyWeeklyReport, useClockifyData } from "@/lib/clockify";
+import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
+import { secToTime, secToHours } from "@/lib/utils";
 
 interface WeeklyReportType {
     date: string;

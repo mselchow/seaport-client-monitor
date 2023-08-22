@@ -1,9 +1,10 @@
-import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
+import Head from "next/head";
+
+import Chart from "@/components/Chart";
 import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
-import Chart from "@/components/Chart";
 
 const Charts = () => {
     const result = useClockifyData();

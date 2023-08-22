@@ -1,8 +1,8 @@
 import { useQueryClient, useIsFetching } from "@tanstack/react-query";
-import { cn } from "@/lib/utils";
+import { RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { RefreshCw } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface RefetchDataProps {
     queryKey: string[];

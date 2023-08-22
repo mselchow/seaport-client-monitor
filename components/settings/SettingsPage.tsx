@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
+
 import { Separator } from "@/components/ui/separator";
-import { TypographyH3, TypographyP } from "@/components/ui/typography";
 
 interface SettingsPageProps {
     title: string;

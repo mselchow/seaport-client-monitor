@@ -1,5 +1,5 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { getClockifyKey } from "@/lib/clerk";
+import { captureMessage } from "@sentry/nextjs";
 import {
     startOfDay,
     endOfDay,
@@ -12,10 +12,11 @@ import {
     subWeeks,
     subMonths,
 } from "date-fns";
-import { NextApiRequest, NextApiResponse } from "next";
-import { captureMessage } from "@sentry/nextjs";
-import { parseDayNumber } from "@/lib/utils";
 import { utcToZonedTime, format } from "date-fns-tz";
+import { NextApiRequest, NextApiResponse } from "next";
+
+import { getClockifyKey } from "@/lib/clerk";
+import { parseDayNumber } from "@/lib/utils";
 
 export default async function handler(
     req: NextApiRequest,

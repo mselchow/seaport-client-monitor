@@ -1,7 +1,12 @@
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
 import SettingsPage from "@/components/settings/SettingsPage";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
@@ -10,14 +15,8 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
-import { useEffect } from "react";
 
 export interface GoalsType {
     daily: number;
