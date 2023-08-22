@@ -89,7 +89,6 @@ export default function GoalSettings() {
 
         // if save was successful, invalidate Clockify data query to refetch
         if (result) {
-            form.reset();
             toast({
                 title: "Success!",
                 description: "Goals saved.",
@@ -108,7 +107,6 @@ export default function GoalSettings() {
             });
         }
 
-        console.log(values);
         setFormPending(false);
     }
 
