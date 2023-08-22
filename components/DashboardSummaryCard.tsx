@@ -7,22 +7,23 @@ interface DashboardSummaryCardProps {
     cardTitle: string;
     cardContent: string;
     isLoading: boolean;
-    progress?: number | typeof NaN;
+    progress?: number | null;
 }
 
 export default function DashboardSummaryCard({
     cardTitle,
     cardContent,
     isLoading = false,
-    progress = NaN,
+    progress = 0,
 }: DashboardSummaryCardProps) {
-    const badgeElement = !isNaN(progress) ? (
+    const badgeElement = progress !== null && progress >= 0 && (
         <Badge variant="default">{progress + "%"}</Badge>
-    ) : null;
+    );
+    console.log(cardTitle, progress);
 
-    const progressContent = !isNaN(progress) ? (
+    const progressContent = progress !== null && progress >= 0 && (
         <Progress value={progress} className="mt-3" />
-    ) : null;
+    );
 
     return (
         <Card>

@@ -26,7 +26,7 @@ export interface GoalsType {
     yearly: number;
 }
 
-const formMinValueErrorMessage = "Goal must be a number greater than 0.";
+const formMinValueErrorMessage = "Goal must be a positive number.";
 const formInvalidTypeErrorMessage = "Goal must be a number.";
 
 const formSchema = z.object({
@@ -34,29 +34,25 @@ const formSchema = z.object({
         .number({
             invalid_type_error: formInvalidTypeErrorMessage,
         })
-        .nonnegative()
-        .min(1, formInvalidTypeErrorMessage)
+        .nonnegative(formMinValueErrorMessage)
         .optional(),
     weekly: z.coerce
         .number({
             invalid_type_error: formInvalidTypeErrorMessage,
         })
-        .nonnegative()
-        .min(1, formMinValueErrorMessage)
+        .nonnegative(formMinValueErrorMessage)
         .optional(),
     monthly: z.coerce
         .number({
             invalid_type_error: formInvalidTypeErrorMessage,
         })
-        .nonnegative()
-        .min(1, formMinValueErrorMessage)
+        .nonnegative(formMinValueErrorMessage)
         .optional(),
     yearly: z.coerce
         .number({
             invalid_type_error: formInvalidTypeErrorMessage,
         })
-        .nonnegative()
-        .min(1, formMinValueErrorMessage)
+        .nonnegative(formMinValueErrorMessage)
         .optional(),
 });
 
@@ -68,10 +64,10 @@ export default function GoalSettings() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            daily: NaN,
-            weekly: NaN,
-            monthly: NaN,
-            yearly: NaN,
+            daily: 0,
+            weekly: 0,
+            monthly: 0,
+            yearly: 0,
         },
     });
 
