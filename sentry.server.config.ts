@@ -5,9 +5,15 @@
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-    // Adjust this value in production, or use tracesSampler for greater control
-    tracesSampleRate: 1,
+  dsn: "https://ce80df46a42843219381d89344c9fcdf@o4505273796657152.ingest.us.sentry.io/4505273814876160",
 
-    // Setting this option to true will print useful information to the console while you're setting up Sentry.
-    debug: false,
+  // Adjust this value in production, or use tracesSampler for greater control
+  tracesSampleRate: 1,
+
+  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  debug: false,
+
+  // Uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: process.env.NODE_ENV === 'development',
+  
 });
