@@ -1,5 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import React from "react";
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <Layout>
                         <ErrorBoundary>
                             <Component {...pageProps} />
+                            <SpeedInsights />
                         </ErrorBoundary>
                     </Layout>
                     <Toaster />
