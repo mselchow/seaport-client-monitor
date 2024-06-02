@@ -1,3 +1,5 @@
+"use client";
+
 import { useUser } from "@clerk/nextjs";
 import { format, parse } from "date-fns";
 
@@ -13,7 +15,7 @@ interface WeeklyReportType {
     duration: number;
 }
 
-export default function Home() {
+export default function HomePage() {
     const clockifyData = useClockifyData();
     const { user, isLoaded } = useUser();
 

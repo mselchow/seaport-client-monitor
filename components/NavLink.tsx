@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 interface NavLinkProps {
     title: string;
@@ -12,22 +11,20 @@ interface NavLinkProps {
 }
 
 export default function NavLink({ title, path }: NavLinkProps) {
-    const router = useRouter();
-    const pathname = router.asPath;
+    const pathname = usePathname();
     let isActive = false;
 
-    if (path.startsWith("/settings")) {
-        isActive = pathname.startsWith("/settings");
+    if (pathname?.startsWith("/settings")) {
+        isActive = true;
     } else {
         isActive = pathname === path;
     }
 
-    const highlightActive = isActive ? "bg-secondary" : "";
-    const boldActive = isActive ? "font-bold" : "font-normal";
+    const highlightActive = isActive ? "bg-secondary font-bold" : "font-normal";
 
     return (
         <Button variant="ghost" className="lg:w-28 xl:w-36" asChild>
-            <Link href={path} className={cn(boldActive, highlightActive)}>
+            <Link href={path} className={highlightActive}>
                 {title}
             </Link>
         </Button>

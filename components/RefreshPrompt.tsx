@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -26,7 +26,7 @@ export default function RefreshPrompt() {
                 <p>{alertMessage}</p>
             </CardContent>
             <CardFooter>
-                <Button className="" onClick={() => router.reload()}>
+                <Button className="" onClick={() => router.refresh()}>
                     Reload
                 </Button>
             </CardFooter>
