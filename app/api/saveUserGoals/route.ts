@@ -3,6 +3,10 @@ import { clerkClient, auth } from "@clerk/nextjs";
 export async function PUT(request: Request) {
     const { userId } = auth();
 
+    if (userId === null) {
+        return new Response("User ID not found", { status: 400 });
+    }
+
     // get data from request
     const goals = await request.json();
 
