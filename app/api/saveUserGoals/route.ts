@@ -1,6 +1,6 @@
 import { clerkClient, auth } from "@clerk/nextjs";
 
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
     const { userId } = auth();
 
     if (userId === null) {
@@ -16,10 +16,11 @@ export async function PUT(request: Request) {
             status: 400,
         });
     }
+    console.log(goals);
 
     const result = await clerkClient.users.updateUserMetadata(userId, {
         publicMetadata: {
-            goals,
+            goals: goals.goals,
         },
     });
 

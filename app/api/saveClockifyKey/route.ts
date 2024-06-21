@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 
 import { saveClockifyKey } from "@/lib/clerk";
 
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
     const userAuth = auth();
 
     // get data from request
