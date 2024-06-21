@@ -1,43 +1,39 @@
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
 import { format, startOfWeek, endOfWeek } from "date-fns";
-import { NextApiRequest, NextApiResponse } from "next";
 
 import { getClockifyKey } from "@/lib/clerk";
 import { parseDayNumber } from "@/lib/utils";
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
-    const auth = getAuth(req);
-    const body = req.body;
+export async function POST(request: Request) {
+    const userAuth = auth();
+    const body = await request.json();
 
     // this shouldn't ever happen because of Clerk's middleware, but good to be safe
-    if (!auth.userId) {
-        return res.status(401);
+    if (!userAuth.userId) {
+        return new Response("Unauthorized", { status: 401 });
     }
 
     // check for request body parameters
     if (!body) {
-        return res.status(400).json({ message: "Request body missing." });
+        return new Response("Request body missing.", { status: 400 });
     } else if (!body.clockifyUserId) {
-        return res.status(400).json({
-            message: "Request body missing value for 'clockifyUserId'.",
-        });
+        return new Response(
+            "Request body missing value for 'clockifyUserId'.",
+            { status: 400 }
+        );
     } else if (!body.weekStart) {
-        return res.status(400).json({
-            message: "Request body missing value 'weekStart'.",
+        return new Response("Request body missing value 'weekStart'.", {
+            status: 400,
         });
     }
 
-    const clockifyKey = await getClockifyKey(auth);
+    const clockifyKey = await getClockifyKey(userAuth);
 
     if (clockifyKey === null) {
-        res.status(400).json({
-            message: "Clockify API key not found for user.",
+        return new Response("Clockify API key not found for user.", {
+            status: 400,
         });
-        return;
     }
 
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
@@ -90,5 +86,5 @@ export default async function handler(
         throw new Error(error);
     }
 
-    res.status(200).json(data);
+    return Response.json(data);
 }
