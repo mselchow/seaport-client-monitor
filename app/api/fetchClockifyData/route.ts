@@ -39,5 +39,5 @@ export async function GET() {
         throw new Error(error);
     }
 
-    return new Response(data.json, { status: 200 });
+    return Response.json(data);
 }
