@@ -12,11 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import "@/styles/globals.css";
 
-export default function ClientLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = React.useState(() => new QueryClient());
 
     return (

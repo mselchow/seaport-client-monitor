@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import ClientLayout from "@/app/ClientLayout";
+import Providers from "@/app/providers";
 
 export const metadata: Metadata = {
     title: {
@@ -17,7 +17,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className="overflow-y-scroll">
-                <ClientLayout>{children}</ClientLayout>
+                <Providers>{children}</Providers>
             </body>
         </html>
     );
