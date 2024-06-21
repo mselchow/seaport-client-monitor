@@ -1,33 +1,26 @@
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
-import { NextApiRequest, NextApiResponse } from "next";
 
 import { getClockifyKey } from "@/lib/clerk";
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
-    const auth = getAuth(req);
+export async function GET() {
+    const userAuth = auth();
 
     // this shouldn't ever happen because of Clerk's middleware, but good to be safe
-    if (!auth.userId) {
-        res.status(401);
-        return;
+    if (!userAuth.userId) {
+        return new Response("Unauthorized", { status: 401 });
     }
 
-    const clockifyKey = await getClockifyKey(auth);
-
+    const clockifyKey = await getClockifyKey(userAuth);
     if (clockifyKey === null) {
-        res.status(400).json({
-            message:
-                "Clockify API key not found for user. Go to the Settings page to add your API key.",
-        });
-        return;
+        return new Response(
+            "Clockify API key not found for user. Go to the Settings page to add your API key.",
+            { status: 400 }
+        );
     }
 
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
-    const excludedClients = "633a35abf0cbc914c037991c";
+    const excludedClients = "633a35abf0cbc914c037991c"; //internal Seaport client
 
     const apiURL =
         "https://api.clockify.me/api/v1/workspaces/" +
@@ -36,11 +29,8 @@ export default async function handler(
         excludedClients +
         "&contains-client=false" +
         "&page-size=500";
-
     const apiHeaders = { "X-Api-Key": clockifyKey };
-
     const apiRes = await fetch(apiURL, { headers: apiHeaders });
-
     const data = await apiRes.json();
 
     if (!apiRes.ok) {
@@ -49,5 +39,5 @@ export default async function handler(
         throw new Error(error);
     }
 
-    res.status(200).json(data);
+    return new Response(data.json, { status: 200 });
 }
