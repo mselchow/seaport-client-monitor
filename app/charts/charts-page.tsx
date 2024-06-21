@@ -1,6 +1,7 @@
+"use client";
+
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
-import Head from "next/head";
 
 import Chart from "@/components/Chart";
 import { useClockifyData } from "@/lib/clockify";
@@ -43,9 +44,6 @@ const Charts = () => {
 
     return (
         <>
-            <Head>
-                <title>Charts | Seaport Client Monitor</title>
-            </Head>
             <div className="flex w-full flex-col lg:px-[10%] xl:px-[15%]">
                 {result.isError || result.data?.message !== undefined ? (
                     <div className="text-center">
