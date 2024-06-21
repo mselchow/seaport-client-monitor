@@ -1,7 +1,6 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import Head from "next/head";
 
 import Table from "@/components/Table";
 import { useClockifyData } from "@/lib/clockify";
@@ -59,9 +58,6 @@ const Tables = () => {
 
     return (
         <>
-            <Head>
-                <title>Tables | Seaport Client Monitor</title>
-            </Head>
             {result.isError || result.data?.message !== undefined ? (
                 <div className="text-center">
                     <p>We countered an error fetching Clockify data.</p>

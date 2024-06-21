@@ -1,7 +1,6 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import Head from "next/head";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -71,9 +70,6 @@ export default function Settings() {
 
     return (
         <>
-            <Head>
-                <title>Settings | Seaport Client Monitor</title>
-            </Head>
             <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="text-2xl">Settings</CardTitle>
