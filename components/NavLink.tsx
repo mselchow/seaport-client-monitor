@@ -14,7 +14,7 @@ export default function NavLink({ title, path }: NavLinkProps) {
     const pathname = usePathname();
     let isActive = false;
 
-    if (pathname?.startsWith("/settings")) {
+    if (pathname?.startsWith("/settings") && path.startsWith("/settings")) {
         isActive = true;
     } else {
         isActive = pathname === path;
