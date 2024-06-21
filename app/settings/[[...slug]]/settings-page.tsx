@@ -1,3 +1,5 @@
+"use client";
+
 import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import Link from "next/link";
@@ -25,7 +27,7 @@ interface SettingsNavType {
     disabled: boolean;
 }
 
-export default function Page() {
+export default function Settings() {
     const pathname = usePathname();
     const { user, isLoaded } = useUser();
 
