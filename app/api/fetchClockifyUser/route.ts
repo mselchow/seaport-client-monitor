@@ -6,11 +6,6 @@ import { getClockifyKey } from "@/lib/clerk";
 export async function GET() {
     const userAuth = auth();
 
-    // this shouldn't ever happen because of Clerk's middleware, but good to be safe
-    if (!userAuth.userId) {
-        return new Response("Unauthorized", { status: 401 });
-    }
-
     const clockifyKey = await getClockifyKey(userAuth);
     if (clockifyKey === null) {
         return new Response(

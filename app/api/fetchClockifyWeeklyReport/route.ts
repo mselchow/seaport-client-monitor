@@ -9,11 +9,6 @@ export async function POST(request: Request) {
     const userAuth = auth();
     const body = await request.json();
 
-    // this shouldn't ever happen because of Clerk's middleware, but good to be safe
-    if (!userAuth.userId) {
-        return new Response("Unauthorized", { status: 401 });
-    }
-
     // check for request body parameters
     if (!body) {
         return new Response("Request body missing.", { status: 400 });
