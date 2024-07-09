@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -10,8 +10,8 @@ export default function RefreshPrompt() {
 
     let buildId = null;
 
-    if (buildData.isFetched) {
-        buildId = buildData.data.buildId;
+    if (buildData.isSuccess) {
+        buildId = buildData.data?.buildId ?? null;
     }
 
     const alertMessage =
@@ -26,7 +26,7 @@ export default function RefreshPrompt() {
                 <p>{alertMessage}</p>
             </CardContent>
             <CardFooter>
-                <Button className="" onClick={() => router.reload()}>
+                <Button className="" onClick={() => router.refresh()}>
                     Reload
                 </Button>
             </CardFooter>

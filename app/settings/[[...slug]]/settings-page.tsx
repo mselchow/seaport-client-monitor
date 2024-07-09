@@ -1,7 +1,8 @@
+"use client";
+
 import { useUser } from "@clerk/nextjs";
-import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 import ClockifySettings from "@/components/settings/ClockifySettings";
 import DisplaySettings from "@/components/settings/DisplaySettings";
@@ -25,8 +26,8 @@ interface SettingsNavType {
     disabled: boolean;
 }
 
-export default function Page() {
-    const router = useRouter();
+export default function Settings() {
+    const pathname = usePathname();
     const { user, isLoaded } = useUser();
 
     const userHasClockifyKey =
@@ -63,15 +64,12 @@ export default function Page() {
         },
     ];
 
-    const page = settingsNav.find(({ href }) => href === router.asPath);
+    const page = settingsNav.find(({ href }) => href === pathname);
     const pageContent =
         page !== undefined ? page.content : "That settings page doesn't exist!";
 
     return (
         <>
-            <Head>
-                <title>Settings | Seaport Client Monitor</title>
-            </Head>
             <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="text-2xl">Settings</CardTitle>
@@ -91,7 +89,7 @@ export default function Page() {
                                         variant="ghost"
                                         key={nav.href}
                                         className={cn(
-                                            router.asPath === nav.href
+                                            pathname === nav.href
                                                 ? "bg-muted hover:bg-muted"
                                                 : "hover:bg-transparent",
                                             nav.disabled

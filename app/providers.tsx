@@ -1,7 +1,8 @@
+"use client";
+
 import { ClerkProvider } from "@clerk/nextjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import React from "react";
 
@@ -11,16 +12,16 @@ import { Toaster } from "@/components/ui/toaster";
 
 import "@/styles/globals.css";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = React.useState(() => new QueryClient());
 
     return (
         <ThemeProvider attribute="class">
-            <ClerkProvider {...pageProps}>
+            <ClerkProvider>
                 <QueryClientProvider client={queryClient}>
                     <Layout>
                         <ErrorBoundary>
-                            <Component {...pageProps} />
+                            {children}
                             <SpeedInsights />
                         </ErrorBoundary>
                     </Layout>

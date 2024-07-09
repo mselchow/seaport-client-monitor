@@ -82,6 +82,7 @@ const Header = () => {
                             className="h-9 dark:hidden"
                             height="36"
                             width="36"
+                            priority={true}
                         />
                         <Image
                             src="/seaport-logo-dark.png"
@@ -89,6 +90,7 @@ const Header = () => {
                             className="hidden h-9 dark:inline"
                             height="36"
                             width="36"
+                            priority={true}
                         />
                     </Link>
                     <Link href="/" className="self-center" passHref>

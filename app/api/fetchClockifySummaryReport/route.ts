@@ -1,4 +1,4 @@
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
 import {
     startOfDay,
@@ -13,56 +13,43 @@ import {
     subMonths,
 } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
-import { NextApiRequest, NextApiResponse } from "next";
 
 import { getClockifyKey } from "@/lib/clerk";
 import { parseDayNumber } from "@/lib/utils";
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
-    const auth = getAuth(req);
-    const body = req.body;
-
-    // this shouldn't ever happen because of Clerk's middleware, but good to be safe
-    if (!auth.userId) {
-        res.status(401);
-    }
+export async function POST(request: Request) {
+    const userAuth = auth();
+    const body = await request.json();
 
     // check for request body parameters
     if (!body) {
-        res.status(400).json({ message: "Request body missing." });
+        return new Response("Request body missing.", { status: 400 });
     } else if (!body.clockifyUserId) {
-        res.status(400).json({
-            message: "Request body missing value for 'clockifyUserId'.",
-        });
-        return;
+        return new Response(
+            "Request body missing value for 'clockifyUserId'.",
+            { status: 400 }
+        );
     } else if (!body.timeframe) {
-        res.status(400).json({
-            message:
-                "Request body missing value for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
-        });
-        return;
+        return new Response(
+            "Request body missing value for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
+            { status: 400 }
+        );
     } else if (!body.weekStart) {
-        res.status(400).json({
-            message: "Request body missing value 'weekStart'.",
+        return new Response("Request body missing value 'weekStart'.", {
+            status: 400,
         });
-        return;
     } else if (!body.timezone) {
-        res.status(400).json({
-            message: "Request body missing value for 'timezone'.",
+        return new Response("Request body missing value for 'timezone'.", {
+            status: 400,
         });
-        return;
     }
 
-    const clockifyKey = await getClockifyKey(auth);
+    const clockifyKey = await getClockifyKey(userAuth);
 
     if (clockifyKey === null) {
-        res.status(400).json({
-            message: "Clockify API key not found for user.",
+        return new Response("Clockify API key not found for user.", {
+            status: 400,
         });
-        return;
     }
 
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
@@ -110,11 +97,10 @@ export default async function handler(
             dateRangeEnd = endOfYear(new Date());
             break;
         default:
-            res.status(400).json({
-                message:
-                    "Invalid value provided for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
-            });
-            return;
+            return new Response(
+                "Invalid value provided for 'timeframe'. Valid options are one of: TODAY, THIS_WEEK, LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_YEAR",
+                { status: 400 }
+            );
     }
 
     dateRangeStart = utcToZonedTime(dateRangeStart, clockifyTimezone);
@@ -163,5 +149,5 @@ export default async function handler(
         throw new Error(error);
     }
 
-    res.status(200).json(data);
+    return Response.json(data);
 }

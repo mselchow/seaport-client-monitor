@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { TypographyH3 } from "@/components/ui/typography";
 
-export default function Custom404() {
+export default function NotFound() {
     return (
         <div className="flex flex-col place-items-center justify-center gap-5">
             <TypographyH3>Where ya goin&apos;?</TypographyH3>
