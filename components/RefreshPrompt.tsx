@@ -11,7 +11,7 @@ export default function RefreshPrompt() {
     let buildId = null;
 
     if (buildData.isSuccess) {
-        buildId = buildData.data?.buildId ?? false;
+        buildId = buildData.data?.buildId ?? null;
     }
 
     const alertMessage =
