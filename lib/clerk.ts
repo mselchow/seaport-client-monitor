@@ -26,7 +26,7 @@ export const getClockifyKey = async (
 
     return userClockifyKey === null
         ? userClockifyKey
-        : simpleCrypto.decrypt(userClockifyKey);
+        : (simpleCrypto.decrypt(userClockifyKey) as string);
 };
 
 export const saveClockifyKey = async (
