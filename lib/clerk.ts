@@ -48,7 +48,7 @@ export const saveClockifyKey = async (
     // TODO: check status of save on Settings page
     const response = await clerkClient.users.updateUserMetadata(user.id, {
         privateMetadata: {
-            encryptedKey,
+            clockifyKey: encryptedKey,
         },
         publicMetadata: {
             hasClockifyKey: true,
