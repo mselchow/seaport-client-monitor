@@ -15,13 +15,18 @@ export const getClockifyKey = async (
         throw new Error("Clerk userId missing");
     }
 
-    const clockifyEncryptionKey = process.env.CLOCKIFY_ENCRYPTION_KEY;
+    const clockifyEncryptionKey =
+        process.env.CLOCKIFY_ENCRYPTION_KEY + auth.userId;
+    const simpleCrypto = new SimpleCrypto(clockifyEncryptionKey);
+
     const user = await clerkClient.users.getUser(auth.userId);
 
     const userClockifyKey =
         ((await user.privateMetadata.clockifyKey) as string) || null;
 
-    return userClockifyKey;
+    return userClockifyKey === null
+        ? userClockifyKey
+        : simpleCrypto.decrypt(userClockifyKey);
 };
 
 export const saveClockifyKey = async (
