@@ -5,6 +5,7 @@ import type {
 
 import { clerkClient } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
+import SimpleCrypto from "simple-crypto-js";
 
 export const getClockifyKey = async (
     auth: SignedInAuthObject | SignedOutAuthObject
@@ -14,12 +15,18 @@ export const getClockifyKey = async (
         throw new Error("Clerk userId missing");
     }
 
+    const clockifyEncryptionKey =
+        process.env.CLOCKIFY_ENCRYPTION_KEY + auth.userId;
+    const simpleCrypto = new SimpleCrypto(clockifyEncryptionKey);
+
     const user = await clerkClient.users.getUser(auth.userId);
 
     const userClockifyKey =
         ((await user.privateMetadata.clockifyKey) as string) || null;
 
-    return userClockifyKey;
+    return userClockifyKey === null
+        ? userClockifyKey
+        : (simpleCrypto.decrypt(userClockifyKey) as string);
 };
 
 export const saveClockifyKey = async (
@@ -31,12 +38,17 @@ export const saveClockifyKey = async (
         throw new Error("Clerk userId missing");
     }
 
+    const clockifyEncryptionKey =
+        process.env.CLOCKIFY_ENCRYPTION_KEY + auth.userId;
+    const simpleCrypto = new SimpleCrypto(clockifyEncryptionKey);
+    const encryptedKey = simpleCrypto.encrypt(clockifyKey);
+
     const user = await clerkClient.users.getUser(auth.userId);
 
     // TODO: check status of save on Settings page
     const response = await clerkClient.users.updateUserMetadata(user.id, {
         privateMetadata: {
-            clockifyKey,
+            encryptedKey,
         },
         publicMetadata: {
             hasClockifyKey: true,
