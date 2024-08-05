@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Lock, Unlock, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -37,6 +38,7 @@ const ClockifySettings = () => {
     const { user, isLoaded } = useUser();
     const [formPending, setFormPending] = useState(false);
     const { toast } = useToast();
+    const router = useRouter();
 
     const userHasClockifyKey =
         isLoaded && user
@@ -72,7 +74,8 @@ const ClockifySettings = () => {
             form.reset();
             toast({
                 title: "Success!",
-                description: "Clockify API key saved.",
+                description:
+                    "Clockify API key saved. The page will be refreshed in 5 seconds.",
                 duration: 5000,
                 variant: "primary",
             });
@@ -80,6 +83,11 @@ const ClockifySettings = () => {
                 user.reload();
             }
             queryClient.invalidateQueries(["clockify"]);
+            setTimeout(() => {
+                router.prefetch("/");
+                router.refresh();
+                router.push("/");
+            }, 5000);
         } else {
             toast({
                 title: "Error!",
