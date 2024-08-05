@@ -91,6 +91,12 @@ const ExcludedClientSettings = () => {
         setFormPending(false);
     }
 
+    function handleUserKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (e.key === "Enter") {
+            form.handleSubmit(onSubmit)();
+        }
+    }
+
     return (
         <SettingsPage
             title="Excluded Clients"
@@ -127,6 +133,9 @@ const ExcludedClientSettings = () => {
                                                                     client.clientId
                                                                 }
                                                                 className="flex items-center gap-2 space-y-0 rounded-md px-2 py-1 hover:bg-muted"
+                                                                onKeyDown={
+                                                                    handleUserKeyPress
+                                                                }
                                                             >
                                                                 <FormControl>
                                                                     <Checkbox
