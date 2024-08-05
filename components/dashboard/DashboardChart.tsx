@@ -1,13 +1,12 @@
-import {
-    ResponsiveContainer,
-    BarChart,
-    XAxis,
-    YAxis,
-    Bar,
-    LabelList,
-} from "recharts";
+import { Bar, BarChart, XAxis, LabelList } from "recharts";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ChartDataType {
@@ -22,6 +21,13 @@ interface DashboardChartProps {
     isLoading: boolean;
 }
 
+const chartConfig = {
+    hours: {
+        label: "Hours",
+        color: "#214E5F",
+    },
+} satisfies ChartConfig;
+
 export default function DashboardChart({
     title,
     data,
@@ -32,7 +38,7 @@ export default function DashboardChart({
             <CardHeader>
                 <CardTitle className="text-xl">{title}</CardTitle>
             </CardHeader>
-            <CardContent className="px-2">
+            <CardContent className="h-5/6 px-2">
                 {isLoading ? (
                     <div className="flex items-end justify-around">
                         <Skeleton className="h-[125px] w-[11%]" />
@@ -44,31 +50,34 @@ export default function DashboardChart({
                         <Skeleton className="h-[125px] w-[11%]" />
                     </div>
                 ) : (
-                    <ResponsiveContainer width="100%" height={500}>
-                        <BarChart data={data} margin={{ top: 20 }}>
+                    <ChartContainer
+                        config={chartConfig}
+                        className="h-full min-h-[500px] w-full"
+                    >
+                        <BarChart accessibilityLayer data={data}>
                             <XAxis
                                 dataKey="day"
-                                interval={0}
-                                fontSize={12}
                                 tickLine={false}
+                                tickMargin={10}
                                 axisLine={false}
+                                tickFormatter={(value) => value.slice(0, 3)}
                             />
-                            <YAxis hide={true} domain={[0, "dataMax"]} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
                             <Bar
                                 dataKey="hours"
-                                fill="#214E5F"
-                                radius={[4, 4, 0, 0]}
+                                fill="var(--color-hours)"
+                                radius={4}
                             >
                                 <LabelList
-                                    dataKey="label"
                                     position="top"
+                                    dataKey="label"
+                                    offset={12}
                                     className="fill-primary"
-                                    fontSize="14"
-                                    offset={10}
+                                    fontSize={14}
                                 />
                             </Bar>
                         </BarChart>
-                    </ResponsiveContainer>
+                    </ChartContainer>
                 )}
             </CardContent>
         </Card>
