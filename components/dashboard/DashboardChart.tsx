@@ -24,7 +24,7 @@ interface DashboardChartProps {
 const chartConfig = {
     hours: {
         label: "Hours",
-        color: "#214E5F",
+        color: "hsl(var(--primary))",
     },
 } satisfies ChartConfig;
 
