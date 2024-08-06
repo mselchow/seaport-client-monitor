@@ -1,4 +1,5 @@
-import { format, parse } from "date-fns";
+import { format, parse as parseDate } from "date-fns";
+import { parse as parseTime } from "tinyduration";
 
 /**
  * Wrapper for Clockify project data. Centralizes parsing of JSON data
@@ -26,7 +27,7 @@ export default class ClockifyProject {
 
             if (rawDate) {
                 const formattedDate = format(
-                    parse(rawDate[0], "MM-yyyy", new Date()),
+                    parseDate(rawDate[0], "MM-yyyy", new Date()),
                     "MMM ''yy"
                 );
 
@@ -64,20 +65,14 @@ export default class ClockifyProject {
     // Total hours on the project
     // NOTE: a little wonky for MS as this is the cumulative amount
     get totalHours() {
-        const hours = Number(
-            getStringBetween(this._data.timeEstimate.estimate, "PT", "H")
-        );
+        const hours = parseTime(this._data.timeEstimate.estimate).hours ?? 0;
         return hours;
     }
 
     // Number of hours logged to project as decimal
     get hoursLogged() {
-        const hoursLogged = Number(
-            getStringBetween(this._data.duration, "PT", "H")
-        );
-        const minsLogged = Number(
-            getStringBetween(this._data.duration, "H", "M")
-        );
+        const hoursLogged = parseTime(this._data.duration).hours ?? 0;
+        const minsLogged = parseTime(this._data.duration).minutes ?? 0;
 
         return hoursLogged + minsLogged / 60;
     }
@@ -89,7 +84,11 @@ export default class ClockifyProject {
 
     // Percent of hours logged against total
     get pctHoursUsed() {
-        return Math.round((this.hoursLogged / this.totalHours) * 100);
+        if (this.totalHours == 0) {
+            return 0;
+        } else {
+            return Math.round((this.hoursLogged / this.totalHours) * 100);
+        }
     }
 }
 
@@ -110,13 +109,4 @@ export interface ClockifyJSON {
             value: string;
         }
     ];
-}
-
-/**
- * Helper method to parse Clockify time strings. Returns the string found
- * between "start" and "end."
- */
-function getStringBetween(str: string, start: string, end: string) {
-    const result = str.match(new RegExp(start + "(.*)" + end));
-    return result === null ? 0 : result[1];
 }
