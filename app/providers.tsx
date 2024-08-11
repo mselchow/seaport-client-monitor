@@ -16,7 +16,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = React.useState(() => new QueryClient());
 
     return (
-        <ThemeProvider attribute="class">
+        <ThemeProvider attribute="class" enableSystem={true}>
             <ClerkProvider>
                 <QueryClientProvider client={queryClient}>
                     <Layout>
