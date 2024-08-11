@@ -3,7 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 
-import Chart from "@/components/Chart";
+import BarChart from "@/components/BarChart";
 import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 
@@ -64,11 +64,11 @@ const Charts = () => {
                         </p>
                     </div>
                 ) : (
-                    <>
-                        <Chart title="Managed Services" data={msData} />
-                        <Chart title="Block Hours" data={blockData} />
-                        <Chart title="Projects" data={projData} />
-                    </>
+                    <div className="flex flex-grow flex-col gap-4">
+                        <BarChart title="Managed Services" data={msData} />
+                        <BarChart title="Block Hours" data={blockData} />
+                        <BarChart title="Projects" data={projData} />
+                    </div>
                 )}
             </div>
         </>
