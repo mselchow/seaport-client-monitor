@@ -1,3 +1,24 @@
+## 0.3.0 (2024-08-25)
+
+### BREAKING CHANGE
+
+- rename Chart component to BarChart, change props and chart structure
+
+### Feat
+
+- **charts-page**: replace charts component with ApexCharts
+
+### Fix
+
+- **apex-chart**: refactor apex chart import to dynamically-imported component to fix 'window' references errors on build
+- **NextTheme**: explicitly enable system theme capability
+
+### Refactor
+
+- **dashboard**: refactor chart config to its own file specific to the dashboard
+- **charts-page**: refactor chart config to its own file specific to 'hours used' page
+- **DashboardChart.tsx**: swap chart color from explicit color to existing CSS var for 'primary'
+
 ## 0.2.0 (2024-08-25)
 
 ### BREAKING CHANGE
