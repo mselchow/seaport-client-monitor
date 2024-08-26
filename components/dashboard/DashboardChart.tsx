@@ -1,6 +1,11 @@
-import { useTheme } from "next-themes";
+"use client";
 
-import ApexChart from "@/components/ApexChart";
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+    ssr: false,
+});
+
 import getDashboardChartOptions from "@/components/dashboard/DashboardChartOptions";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -59,7 +64,7 @@ export default function DashboardChart({
                         <Skeleton className="h-[125px] w-[11%]" />
                     </div>
                 ) : (
-                    <ApexChart
+                    <ReactApexChart
                         options={chartOptions}
                         series={series}
                         type="bar"

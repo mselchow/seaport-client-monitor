@@ -1,6 +1,11 @@
-import { useTheme } from "next-themes";
+"use client";
 
-import ApexChart from "@/components/ApexChart";
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+    ssr: false,
+});
+
 import getBarChartOptions from "@/components/BarChartOptions";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import ClockifyProject from "@/lib/clockifyProject";
@@ -41,7 +46,7 @@ export default function BarChart({ title, data }: ChartProps) {
                 <CardTitle className="text-xl">{title}</CardTitle>
             </CardHeader>
             <CardContent className={`h-[${chartHeight}px]`}>
-                <ApexChart
+                <ReactApexChart
                     options={chartOptions}
                     series={series}
                     type="bar"
