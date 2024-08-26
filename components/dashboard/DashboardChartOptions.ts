@@ -80,7 +80,7 @@ export default function getDashboardChartOptions(
                 fontSize: dataLabelFontSize,
                 fontWeight: "normal",
                 fontFamily: fontFamily,
-                colors: [resolvedTheme === "light" ? "#0f172a" : "#f8fafc"],
+                colors: [chartColor],
             },
         },
 
