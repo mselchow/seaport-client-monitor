@@ -17,6 +17,18 @@ export function secToTime(seconds: number) {
     return `${hours}h ${minutes}m`;
 }
 
+export function hoursToTime(hours: number) {
+    if (hours === undefined) {
+        return "0h 0m";
+    }
+
+    const time = hours.toString().split(".");
+    console.log(hours - Number(time[0]));
+    const minutes = (hours - Number(time[0])) * 60;
+
+    return `${time[0]}h ${minutes}m`;
+}
+
 export function secToHours(seconds: number) {
     if (seconds === undefined) {
         return 0;

@@ -1,12 +1,12 @@
-import {
-    ResponsiveContainer,
-    BarChart,
-    XAxis,
-    YAxis,
-    Bar,
-    LabelList,
-} from "recharts";
+"use client";
 
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+    ssr: false,
+});
+
+import getDashboardChartOptions from "@/components/dashboard/DashboardChartOptions";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -27,12 +27,32 @@ export default function DashboardChart({
     data,
     isLoading = false,
 }: DashboardChartProps) {
+    const { resolvedTheme } = useTheme();
+
+    if (!resolvedTheme) {
+        return null;
+    }
+
+    const chartOptions = getDashboardChartOptions(resolvedTheme);
+
+    const dataMap = data.map(({ day, hours }) => ({
+        x: day,
+        y: hours,
+    }));
+
+    const series = [
+        {
+            name: "Hours Logged",
+            data: dataMap,
+        },
+    ];
+
     return (
         <Card>
             <CardHeader>
                 <CardTitle className="text-xl">{title}</CardTitle>
             </CardHeader>
-            <CardContent className="px-2">
+            <CardContent className="h-5/6">
                 {isLoading ? (
                     <div className="flex items-end justify-around">
                         <Skeleton className="h-[125px] w-[11%]" />
@@ -44,31 +64,13 @@ export default function DashboardChart({
                         <Skeleton className="h-[125px] w-[11%]" />
                     </div>
                 ) : (
-                    <ResponsiveContainer width="100%" height={500}>
-                        <BarChart data={data} margin={{ top: 20 }}>
-                            <XAxis
-                                dataKey="day"
-                                interval={0}
-                                fontSize={12}
-                                tickLine={false}
-                                axisLine={false}
-                            />
-                            <YAxis hide={true} domain={[0, "dataMax"]} />
-                            <Bar
-                                dataKey="hours"
-                                fill="#214E5F"
-                                radius={[4, 4, 0, 0]}
-                            >
-                                <LabelList
-                                    dataKey="label"
-                                    position="top"
-                                    className="fill-primary"
-                                    fontSize="14"
-                                    offset={10}
-                                />
-                            </Bar>
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <ReactApexChart
+                        options={chartOptions}
+                        series={series}
+                        type="bar"
+                        height="500px"
+                        width="100%"
+                    />
                 )}
             </CardContent>
         </Card>
