@@ -1,17 +1,11 @@
 import { ApexOptions } from "apexcharts";
 
-type formatterType = (val: unknown) => string | number;
+export default function getBarChartOptions(resolvedTheme: string): ApexOptions {
+    const fontFamily = "ui-sans-serif, system-ui, sans-serif";
+    const dataLabelFontSize = "12px";
+    const color = resolvedTheme === "light" ? "#0f172a" : "#f8fafc";
+    const yaxisFontSize = "14px";
 
-const fontFamily = "ui-sans-serif, system-ui, sans-serif";
-const dataLabelFontSize = "12px";
-
-export const getApexChartOptions = (
-    theme: string,
-    isHorizontal = false,
-    yaxisFontSize = "12px",
-    dataLabelsFormatter: formatterType,
-    color: string
-): ApexOptions => {
     const chartOptions: ApexOptions = {
         chart: {
             type: "bar",
@@ -30,11 +24,15 @@ export const getApexChartOptions = (
             },
         },
 
+        grid: {
+            show: true,
+        },
+
         colors: [color],
 
         plotOptions: {
             bar: {
-                horizontal: isHorizontal,
+                horizontal: true,
                 borderRadius: 4,
                 dataLabels: {
                     position: "top",
@@ -43,8 +41,7 @@ export const getApexChartOptions = (
         },
 
         yaxis: {
-            min: 0,
-            max: 120,
+            show: true,
             labels: {
                 style: {
                     fontSize: yaxisFontSize,
@@ -61,6 +58,23 @@ export const getApexChartOptions = (
             marker: {
                 show: false,
             },
+        },
+
+        dataLabels: {
+            enabled: true,
+            offsetX: 35,
+            offsetY: 0,
+            formatter: (val: unknown) => val + "%",
+            style: {
+                fontSize: dataLabelFontSize,
+                fontWeight: "normal",
+                fontFamily: fontFamily,
+                colors: [color],
+            },
+        },
+
+        theme: {
+            mode: resolvedTheme as "light" | "dark",
         },
 
         responsive: [
@@ -82,8 +96,6 @@ export const getApexChartOptions = (
                         },
                     },
                     yaxis: {
-                        min: 0,
-                        max: 120,
                         labels: {
                             style: {
                                 fontSize: "11px",
@@ -93,23 +105,7 @@ export const getApexChartOptions = (
                 },
             },
         ],
-
-        dataLabels: {
-            enabled: true,
-            offsetX: 35,
-            formatter: dataLabelsFormatter,
-            style: {
-                fontSize: dataLabelFontSize,
-                fontWeight: "normal",
-                fontFamily: fontFamily,
-                colors: [color],
-            },
-        },
-
-        theme: {
-            mode: theme as "light" | "dark",
-        },
     };
 
     return chartOptions;
-};
+}

@@ -1,8 +1,8 @@
 import { useTheme } from "next-themes";
 import ReactApexChart from "react-apexcharts";
 
+import getBarChartOptions from "@/components/BarChartOptions";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { getApexChartOptions } from "@/lib/apexChartConfig";
 import ClockifyProject from "@/lib/clockifyProject";
 
 interface ChartProps {
@@ -21,13 +21,7 @@ export default function BarChart({ title, data }: ChartProps) {
 
     const chartHeight = 100 + data.length * CHART_HEIGHT_MULTIPLIER;
 
-    const chartOptions = getApexChartOptions(
-        resolvedTheme,
-        true,
-        "14px",
-        (val: unknown) => val + "%",
-        resolvedTheme === "light" ? "#0f172a" : "#f8fafc"
-    );
+    const chartOptions = getBarChartOptions(resolvedTheme);
 
     const dataMap = data.map(({ name, pctHoursUsed }) => ({
         x: name,
