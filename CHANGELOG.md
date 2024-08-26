@@ -1,3 +1,10 @@
+## 0.3.1 (2024-08-26)
+
+### Refactor
+
+- **apexcharts**: refactor dynamic import to fix app theme breaking
+- **DashboardChart**: refactor to use chart color var instead of hard coding
+
 ## 0.3.0 (2024-08-25)
 
 ### BREAKING CHANGE
