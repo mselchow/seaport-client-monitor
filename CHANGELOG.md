@@ -1,3 +1,13 @@
+## 0.4.0 (2024-08-27)
+
+### Feat
+
+- **footer**: remove feedback link; replace github link with icon
+
+### Refactor
+
+- remove console.log statements
+
 ## 0.3.1 (2024-08-26)
 
 ### Refactor
