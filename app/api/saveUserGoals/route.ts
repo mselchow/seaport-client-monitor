@@ -16,7 +16,6 @@ export async function POST(request: Request) {
             status: 400,
         });
     }
-    console.log(goals);
 
     const result = await clerkClient.users.updateUserMetadata(userId, {
         publicMetadata: {
