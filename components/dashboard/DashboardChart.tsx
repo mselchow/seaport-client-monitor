@@ -3,12 +3,13 @@
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+    loading: () => <DashboardChartSkeleton />,
     ssr: false,
 });
 
 import getDashboardChartOptions from "@/components/dashboard/DashboardChartOptions";
+import DashboardChartSkeleton from "@/components/dashboard/DashboardChartSkeleton";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ChartDataType {
     day: string;
@@ -30,7 +31,16 @@ export default function DashboardChart({
     const { resolvedTheme } = useTheme();
 
     if (!resolvedTheme) {
-        return null;
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-xl">{title}</CardTitle>
+                </CardHeader>
+                <CardContent className="h-5/6">
+                    <DashboardChartSkeleton />
+                </CardContent>
+            </Card>
+        );
     }
 
     const chartOptions = getDashboardChartOptions(resolvedTheme);
@@ -54,15 +64,7 @@ export default function DashboardChart({
             </CardHeader>
             <CardContent className="h-5/6">
                 {isLoading ? (
-                    <div className="flex items-end justify-around">
-                        <Skeleton className="h-[125px] w-[11%]" />
-                        <Skeleton className="h-[250px] w-[11%]" />
-                        <Skeleton className="h-[425px] w-[11%]" />
-                        <Skeleton className="h-[500px] w-[11%]" />
-                        <Skeleton className="h-[425px] w-[11%]" />
-                        <Skeleton className="h-[250px] w-[11%]" />
-                        <Skeleton className="h-[125px] w-[11%]" />
-                    </div>
+                    <DashboardChartSkeleton />
                 ) : (
                     <ReactApexChart
                         options={chartOptions}
