@@ -21,18 +21,16 @@ export default class ClockifyProject {
     get nameWithDate() {
         const name = this.name;
 
-        if (this.type === "Block Hours") {
-            const fullName = this.fullName;
-            const rawDate = fullName.match(/\d{1,2}-\d{4}/g);
+        const fullName = this.fullName;
+        const rawDate = fullName.match(/\d{1,2}-\d{4}/g);
 
-            if (rawDate) {
-                const formattedDate = format(
-                    parseDate(rawDate[0], "MM-yyyy", new Date()),
-                    "MMM ''yy"
-                );
+        if (rawDate) {
+            const formattedDate = format(
+                parseDate(rawDate[0], "MM-yyyy", new Date()),
+                "LL-yyyy"
+            );
 
-                return `${name} (${formattedDate})`;
-            }
+            return `${name} (${formattedDate})`;
         }
         return name;
     }

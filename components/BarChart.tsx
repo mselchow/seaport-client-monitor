@@ -28,8 +28,8 @@ export default function BarChart({ title, data }: ChartProps) {
 
     const chartOptions = getBarChartOptions(resolvedTheme);
 
-    const dataMap = data.map(({ name, pctHoursUsed }) => ({
-        x: name,
+    const dataMap = data.map(({ nameWithDate, pctHoursUsed }) => ({
+        x: nameWithDate,
         y: pctHoursUsed,
     }));
 
