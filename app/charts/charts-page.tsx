@@ -1,7 +1,6 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { Loader2 } from "lucide-react";
 
 import BarChart from "@/components/BarChart";
 import { useClockifyData } from "@/lib/clockify";
@@ -53,8 +52,6 @@ const Charts = () => {
                             saved your Clockify API in under Settings.
                         </p>
                     </div>
-                ) : result.isLoading || !isLoaded ? (
-                    <Loader2 className="h-8 w-8 animate-spin place-self-center" />
                 ) : result.isError ? (
                     <div className="text-center">
                         <p>We countered an error fetching Clockify data.</p>
@@ -65,9 +62,21 @@ const Charts = () => {
                     </div>
                 ) : (
                     <div className="flex flex-grow flex-col gap-4">
-                        <BarChart title="Managed Services" data={msData} />
-                        <BarChart title="Block Hours" data={blockData} />
-                        <BarChart title="Projects" data={projData} />
+                        <BarChart
+                            title="Managed Services"
+                            data={msData}
+                            isLoading={result.isLoading} //NOTE: do we need (result.isLoading || !isLoaded) which is what we had before
+                        />
+                        <BarChart
+                            title="Block Hours"
+                            data={blockData}
+                            isLoading={result.isLoading}
+                        />
+                        <BarChart
+                            title="Projects"
+                            data={projData}
+                            isLoading={result.isLoading}
+                        />
                     </div>
                 )}
             </div>

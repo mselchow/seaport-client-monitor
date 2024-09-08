@@ -7,17 +7,24 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 import getBarChartOptions from "@/components/BarChartOptions";
+import HorizontalBarSkeleton from "@/components/skeletons/HorizontalBarSkeleton";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import ClockifyProject from "@/lib/clockifyProject";
+import { CHART_HEIGHT_MULTIPLIER } from "@/lib/consts";
 
 interface ChartProps {
     title: string;
     data: ClockifyProject[] | null;
+    isLoading?: boolean;
+    expectedRows?: number;
 }
 
-const CHART_HEIGHT_MULTIPLIER = 40;
-
-export default function BarChart({ title, data }: ChartProps) {
+export default function BarChart({
+    title,
+    data,
+    isLoading = false,
+    expectedRows = 5,
+}: ChartProps) {
     const { resolvedTheme } = useTheme();
 
     if (!data || !resolvedTheme) {
@@ -45,14 +52,20 @@ export default function BarChart({ title, data }: ChartProps) {
             <CardHeader>
                 <CardTitle className="text-xl">{title}</CardTitle>
             </CardHeader>
-            <CardContent className={`h-[${chartHeight}px]`}>
-                <ReactApexChart
-                    options={chartOptions}
-                    series={series}
-                    type="bar"
-                    height={chartHeight}
-                />
-            </CardContent>
+            {isLoading ? (
+                <CardContent>
+                    <HorizontalBarSkeleton expectedRows={expectedRows} />
+                </CardContent>
+            ) : (
+                <CardContent className={`h-[${chartHeight}px]`}>
+                    <ReactApexChart
+                        options={chartOptions}
+                        series={series}
+                        type="bar"
+                        height={chartHeight}
+                    />
+                </CardContent>
+            )}
         </Card>
     );
 }
