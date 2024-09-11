@@ -23,7 +23,7 @@ export function hoursToTime(hours: number) {
     }
 
     const time = hours.toString().split(".");
-    const minutes = (hours - Number(time[0])) * 60;
+    const minutes = ((hours - Number(time[0])) * 60).toFixed(0);
 
     return `${time[0]}h ${minutes}m`;
 }
