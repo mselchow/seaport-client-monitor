@@ -3,7 +3,7 @@
 This is a side project built to surface/summarize Clockify data on hours usage for clients/projects. It is built in React on NextJS.
 
 * Authentication through [Clerk](https://clerk.com)
-* Charts built with [Recharts](https://recharts.org)
+* Charts built with [Apex Charts](https://apexcharts.com/)
 * Components from [shadcn/ui](https://ui.shadcn.com/) and styled with [TailwindCSS](https://tailwindcss.com/)
 * Automatic deployments through [Vercel](https://vercel.com)
 * Error logging/reporting through [Sentry](https://sentry.io)
