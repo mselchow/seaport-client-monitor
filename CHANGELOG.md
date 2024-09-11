@@ -1,4 +1,11 @@
 
+## 0.6.0 (2024-08-28)
+
+### Fix
+
+- **dashboard-chart**: correct hydration error caused by dynamic import of chart component
+- **charts**: fix minutes not rounding correctly on data labels
+
 ## 0.5.0 (2024-09-11)
 
 ### Feat
