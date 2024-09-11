@@ -1,4 +1,14 @@
 
+## 0.5.0 (2024-09-11)
+
+### Feat
+
+- **client-labels**: add start date to client labels
+
+### Fix
+
+- **utils**: correct rounding issue on chart data labels
+
 ## 0.4.0 (2024-08-28)
 
 ### Feat
