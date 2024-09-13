@@ -110,7 +110,7 @@ export default function HomePage() {
                             data={tableData}
                             headers={tableHeaders}
                             isLoading={clockifyData.isLoading}
-                            expectedRows={11}
+                            expectedRows={10}
                         />
                     </div>
                 </>

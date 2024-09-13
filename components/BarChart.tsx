@@ -9,13 +9,12 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 import getBarChartOptions from "@/components/BarChartOptions";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import ClockifyProject from "@/lib/clockifyProject";
+import { CHART_HEIGHT_MULTIPLIER } from "@/lib/consts";
 
 interface ChartProps {
     title: string;
     data: ClockifyProject[] | null;
 }
-
-const CHART_HEIGHT_MULTIPLIER = 40;
 
 export default function BarChart({ title, data }: ChartProps) {
     const { resolvedTheme } = useTheme();

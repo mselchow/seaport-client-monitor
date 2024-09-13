@@ -1,8 +1,8 @@
 import { ChevronsUpDown, ChevronUp, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 
+import HorizontalBarSkeleton from "@/components/skeletons/HorizontalBarSkeleton";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
     Table as Table2,
     TableHeader,
@@ -99,11 +99,6 @@ const Table = ({
         }
     };
 
-    const skeletonLoader = [];
-    for (let i = 0; i < expectedRows; i++) {
-        skeletonLoader[i] = i;
-    }
-
     return (
         <div className="">
             <Card id={title} className="h-full">
@@ -112,12 +107,7 @@ const Table = ({
                 </CardHeader>
                 <CardContent>
                     {isLoading ? (
-                        <div className="space-y-1">
-                            <Skeleton className="h-10 w-full" />
-                            {skeletonLoader.map((i) => (
-                                <Skeleton key={i} className="h-9 w-full" />
-                            ))}
-                        </div>
+                        <HorizontalBarSkeleton expectedRows={expectedRows} />
                     ) : (
                         <Table2>
                             <TableHeader>
