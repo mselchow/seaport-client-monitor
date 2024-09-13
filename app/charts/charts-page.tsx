@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 
 import BarChart from "@/components/BarChart";
+import HorizontalBarSkeleton from "@/components/skeletons/HorizontalBarSkeleton";
 import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 
@@ -60,23 +61,17 @@ const Charts = () => {
                             saved your Clockify API in under Settings.
                         </p>
                     </div>
+                ) : result.isLoading || !isLoaded ? (
+                    <div className="flex flex-grow flex-col gap-4">
+                        <HorizontalBarSkeleton expectedRows={6} />
+                        <HorizontalBarSkeleton expectedRows={6} />
+                        <HorizontalBarSkeleton expectedRows={6} />
+                    </div>
                 ) : (
                     <div className="flex flex-grow flex-col gap-4">
-                        <BarChart
-                            title="Managed Services"
-                            data={msData}
-                            isLoading={result.isLoading} //NOTE: do we need (result.isLoading || !isLoaded) which is what we had before
-                        />
-                        <BarChart
-                            title="Block Hours"
-                            data={blockData}
-                            isLoading={result.isLoading}
-                        />
-                        <BarChart
-                            title="Projects"
-                            data={projData}
-                            isLoading={result.isLoading}
-                        />
+                        <BarChart title="Managed Services" data={msData} />
+                        <BarChart title="Block Hours" data={blockData} />
+                        <BarChart title="Projects" data={projData} />
                     </div>
                 )}
             </div>

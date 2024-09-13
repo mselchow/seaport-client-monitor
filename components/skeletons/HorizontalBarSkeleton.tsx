@@ -1,5 +1,5 @@
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CHART_HEIGHT_MULTIPLIER } from "@/lib/consts";
 
 interface HorizontalBarSkeletonProps {
     expectedRows?: number;
@@ -14,13 +14,19 @@ export default function HorizontalBarSkeleton({
     }
 
     return (
-        <div className="space-y-1">
-            {skeletonLoader.map((i) => (
-                <Skeleton
-                    key={i}
-                    className={`h-[${CHART_HEIGHT_MULTIPLIER}px] w-full`}
-                />
-            ))}
-        </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    <Skeleton className="h-[35px] w-full" />
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="flex flex-col space-y-1">
+                    {skeletonLoader.map((i) => (
+                        <Skeleton key={i} className="h-[35px] w-full" />
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
     );
 }
