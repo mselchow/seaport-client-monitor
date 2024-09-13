@@ -1,4 +1,28 @@
-## 0.5.0 (2024-08-28)
+## 0.7.0 (2024-09-13)
+
+### Feat
+
+-   **skeleton-loaders**: add horizontal bar skeleton loader component
+-   **charts-page**: replace spinning loader with skeleton loader
+-   **chart-page**: add skeleton loaders to the charts page
+
+### Fix
+
+-   **home-page**: reduce number of skeleton loader rows for home page table to match table size
+
+### Refactor
+
+-   **consts**: refactor constant values into separate file
+-   **tables-page**: replace existing skeleton loader with new component
+
+## 0.6.0 (2024-08-28)
+
+### Fix
+
+-   **dashboard-chart**: correct hydration error caused by dynamic import of chart component
+-   **charts**: fix minutes not rounding correctly on data labels
+
+## 0.5.0 (2024-09-11)
 
 ### Feat
 
