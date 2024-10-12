@@ -19,9 +19,14 @@ export default function DashboardSummaryCard({
     const displayGoal =
         progress !== null && progress >= 0 && progress !== Infinity;
 
-    const badgeElement = displayGoal && (
-        <Badge variant="default">{progress + "%"}</Badge>
-    );
+    const badgeComplete = progress !== null && progress >= 100;
+    const badgeElement =
+        displayGoal &&
+        (badgeComplete ? (
+            <Badge variant="complete">{progress + "%"}</Badge>
+        ) : (
+            <Badge variant="default">{progress + "%"}</Badge>
+        ));
 
     const progressContent = displayGoal && (
         <Progress value={progress} className="mt-3" />
