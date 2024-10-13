@@ -1,3 +1,5 @@
+import { CheckCircle } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -35,9 +37,12 @@ export default function DashboardSummaryCard({
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
+                <CardTitle className="h-5 text-sm font-medium">
                     {cardTitle}
                 </CardTitle>
+                {badgeComplete ? (
+                    <CheckCircle className="h-5 w-5 text-seaportaccent" />
+                ) : null}
             </CardHeader>
             <CardContent>
                 {isLoading ? (
