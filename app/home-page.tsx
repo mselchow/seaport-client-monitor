@@ -35,19 +35,19 @@ export default function HomePage() {
             label: "Client",
             accessor: "nameWithDate" as keyof ClockifyProject,
             dataType: "string",
-            sortable: false,
+            sortable: true,
         },
         {
             label: "Type",
             accessor: "type" as keyof ClockifyProject,
             dataType: "string",
-            sortable: false,
+            sortable: true,
         },
         {
             label: "Hours Remaining",
             accessor: "hoursRemaining" as keyof ClockifyProject,
             dataType: "number",
-            sortable: false,
+            sortable: true,
         },
     ];
 
