@@ -106,7 +106,7 @@ export default function HomePage() {
                             isLoading={reportWeekly.isLoading}
                         />
                         <Table
-                            title="Hours Remaining"
+                            title="Fewest Hours Remaining (Top 10)"
                             data={tableData}
                             headers={tableHeaders}
                             isLoading={clockifyData.isLoading}
