@@ -22,7 +22,7 @@
         "@radix-ui/react-separator": "^1.0.3",
         "@radix-ui/react-slot": "^1.1.0",
         "@radix-ui/react-toast": "^1.1.5",
-        "@sentry/nextjs": "^8.7.0",
+        "@sentry/nextjs": "^8.55.0",
         "@tanstack/react-query": "^4.29.19",
         "@vercel/speed-insights": "^1.0.11",
         "apexcharts": "^3.52.0",
