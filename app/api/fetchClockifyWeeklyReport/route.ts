@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
 import { format, startOfWeek, endOfWeek } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 import { getClockifyKey } from "@/lib/clerk";
 import { parseDayNumber } from "@/lib/utils";
@@ -21,6 +22,10 @@ export async function POST(request: Request) {
         return new Response("Request body missing value 'weekStart'.", {
             status: 400,
         });
+    } else if (!body.timezone) {
+        return new Response("Request body missing value for 'timezone'.", {
+            status: 400,
+        });
     }
 
     const clockifyKey = await getClockifyKey(userAuth);
@@ -36,14 +41,23 @@ export async function POST(request: Request) {
     const clockifyWeekStart = body.weekStart
         ? (parseDayNumber(body.weekStart) as unknown as Day)
         : 0;
+    const clockifyTimezone = body.timezone ? body.timezone : "UTC";
+
+    const nowInTimezone = utcToZonedTime(new Date(), clockifyTimezone);
+    const weekStartInTimezone = startOfWeek(nowInTimezone, {
+        weekStartsOn: clockifyWeekStart,
+    });
+    const weekEndInTimezone = endOfWeek(nowInTimezone, {
+        weekStartsOn: clockifyWeekStart,
+    });
 
     const dateRangeStart = format(
-        startOfWeek(new Date(), { weekStartsOn: clockifyWeekStart }),
-        "yyyy-MM-dd'T'00:00:00"
+        zonedTimeToUtc(weekStartInTimezone, clockifyTimezone),
+        "yyyy-MM-dd'T'HH:mm:ss'Z'"
     );
     const dateRangeEnd = format(
-        endOfWeek(new Date(), { weekStartsOn: clockifyWeekStart }),
-        "yyyy-MM-dd'T'23:59:59"
+        zonedTimeToUtc(weekEndInTimezone, clockifyTimezone),
+        "yyyy-MM-dd'T'HH:mm:ss'Z'"
     );
 
     const apiURL =
@@ -61,6 +75,7 @@ export async function POST(request: Request) {
             amountShown: "HIDE_AMOUNT",
             dateRangeStart: dateRangeStart,
             dateRangeEnd: dateRangeEnd,
+            timeZone: clockifyTimezone,
             users: {
                 contains: "CONTAINS",
                 ids: [clockifyUserId],
