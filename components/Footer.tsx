@@ -2,7 +2,6 @@ import { GithubIcon } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { TypographySmall } from "@/components/ui/typography";
 
 const Footer = () => {
     return (

@@ -42,7 +42,25 @@ module.exports = {
         "@typescript-eslint",
     ],
     rules: {
-        "react-refresh/only-export-components": "warn",
+        "react-refresh/only-export-components": [
+            "warn",
+            {
+                allowConstantExport: true,
+                allowExportNames: [
+                    "metadata",
+                    "generateMetadata",
+                    "viewport",
+                    "generateViewport",
+                    "dynamic",
+                    "dynamicParams",
+                    "revalidate",
+                    "fetchCache",
+                    "runtime",
+                    "preferredRegion",
+                    "maxDuration",
+                ],
+            },
+        ],
         "react/prop-types": 0,
         "react/react-in-jsx-scope": 0,
         "import/no-unresolved": "error",
