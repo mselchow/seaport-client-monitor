@@ -3,7 +3,7 @@ import type {
     SignedOutAuthObject,
 } from "@clerk/nextjs/server";
 
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
 import SimpleCrypto from "simple-crypto-js";
 

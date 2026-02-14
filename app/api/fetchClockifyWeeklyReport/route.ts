@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { captureMessage } from "@sentry/nextjs";
 import { format, startOfWeek, endOfWeek } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
@@ -7,7 +7,7 @@ import { getClockifyKey } from "@/lib/clerk";
 import { parseDayNumber } from "@/lib/utils";
 
 export async function POST(request: Request) {
-    const userAuth = await auth();
+    const userAuth = auth();
     const body = await request.json();
 
     // check for request body parameters

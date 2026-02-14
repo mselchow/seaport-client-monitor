@@ -1,9 +1,9 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 
 import { saveClockifyKey } from "@/lib/clerk";
 
 export async function POST(request: Request) {
-    const userAuth = await auth();
+    const userAuth = auth();
 
     // get data from request
     const body = await request.json();

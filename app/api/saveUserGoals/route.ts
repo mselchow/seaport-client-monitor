@@ -1,7 +1,7 @@
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient, auth } from "@clerk/nextjs";
 
 export async function POST(request: Request) {
-    const { userId } = await auth();
+    const { userId } = auth();
 
     if (userId === null) {
         return new Response("User ID not found", { status: 400 });
