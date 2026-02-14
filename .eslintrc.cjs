@@ -7,7 +7,6 @@ module.exports = {
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:jsx-a11y/recommended",
-        "plugin:react-hooks/recommended",
         "plugin:@typescript-eslint/recommended",
         "next/core-web-vitals",
         "prettier",
