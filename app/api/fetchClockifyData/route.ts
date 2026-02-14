@@ -1,10 +1,10 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { captureMessage } from "@sentry/nextjs";
 
 import { getClockifyKey } from "@/lib/clerk";
 
 export async function GET() {
-    const userAuth = auth();
+    const userAuth = await auth();
 
     const clockifyKey = await getClockifyKey(userAuth);
     if (clockifyKey === null) {
