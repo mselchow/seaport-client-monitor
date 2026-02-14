@@ -11,7 +11,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "@clerk/nextjs": "^6.37.4",
+        "@clerk/nextjs": "^4.31.8",
         "@hookform/resolvers": "^3.4.2",
         "@radix-ui/react-checkbox": "^1.0.4",
         "@radix-ui/react-dialog": "^1.0.5",
