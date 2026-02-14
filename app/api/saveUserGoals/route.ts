@@ -17,7 +17,13 @@ export async function POST(request: Request) {
         });
     }
 
-    const result = await clerkClient.users.updateUserMetadata(userId, {
+    const maybeClient = clerkClient as unknown;
+    const client =
+        typeof maybeClient === "function"
+            ? await (maybeClient as () => Promise<typeof clerkClient>)()
+            : (maybeClient as typeof clerkClient);
+
+    const result = await client.users.updateUserMetadata(userId, {
         publicMetadata: {
             goals: goals.goals,
         },

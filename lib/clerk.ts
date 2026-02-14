@@ -7,6 +7,13 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { captureMessage } from "@sentry/nextjs";
 import SimpleCrypto from "simple-crypto-js";
 
+const getClerkClient = async () => {
+    const maybeClient = clerkClient as unknown;
+    return typeof maybeClient === "function"
+        ? await (maybeClient as () => Promise<typeof clerkClient>)()
+        : (maybeClient as typeof clerkClient);
+};
+
 export const getClockifyKey = async (
     auth: SignedInAuthObject | SignedOutAuthObject
 ) => {
@@ -19,7 +26,8 @@ export const getClockifyKey = async (
         process.env.CLOCKIFY_ENCRYPTION_KEY + auth.userId;
     const simpleCrypto = new SimpleCrypto(clockifyEncryptionKey);
 
-    const user = await clerkClient.users.getUser(auth.userId);
+    const client = await getClerkClient();
+    const user = await client.users.getUser(auth.userId);
 
     const userClockifyKey =
         ((await user.privateMetadata.clockifyKey) as string) || null;
@@ -43,10 +51,11 @@ export const saveClockifyKey = async (
     const simpleCrypto = new SimpleCrypto(clockifyEncryptionKey);
     const encryptedKey = simpleCrypto.encrypt(clockifyKey);
 
-    const user = await clerkClient.users.getUser(auth.userId);
+    const client = await getClerkClient();
+    const user = await client.users.getUser(auth.userId);
 
     // TODO: check status of save on Settings page
-    const response = await clerkClient.users.updateUserMetadata(user.id, {
+    const response = await client.users.updateUserMetadata(user.id, {
         privateMetadata: {
             clockifyKey: encryptedKey,
         },
@@ -67,9 +76,10 @@ export const saveExcludedClients = async (
         throw new Error("Clerk userId missing");
     }
 
-    const user = await clerkClient.users.getUser(auth.userId);
+    const client = await getClerkClient();
+    const user = await client.users.getUser(auth.userId);
 
-    const response = await clerkClient.users.updateUserMetadata(user.id, {
+    const response = await client.users.updateUserMetadata(user.id, {
         publicMetadata: {
             excludedClients: excludedClientData,
         },
