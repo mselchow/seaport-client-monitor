@@ -2,30 +2,31 @@ import { useUser } from "@clerk/nextjs";
 
 import DashboardSummaryCard from "@/components/dashboard/DashboardSummaryCard";
 import { GoalsType } from "@/components/settings/GoalSettings";
-import { useClockifySummaryReport } from "@/lib/clockify";
+import { useClockifySummaryReports } from "@/lib/clockify";
 import { secToTime, secToHours } from "@/lib/utils";
 
 export default function DashboardSummaryCards() {
     const { user, isLoaded } = useUser();
 
     // get summary data from Clockify
-    const reportToday = useClockifySummaryReport("TODAY");
-    const reportWeek = useClockifySummaryReport("THIS_WEEK");
-    const reportMonth = useClockifySummaryReport("THIS_MONTH");
-    const reportYear = useClockifySummaryReport("THIS_YEAR");
+    const summaryReports = useClockifySummaryReports();
+    const reportToday = summaryReports.data?.TODAY;
+    const reportWeek = summaryReports.data?.THIS_WEEK;
+    const reportMonth = summaryReports.data?.THIS_MONTH;
+    const reportYear = summaryReports.data?.THIS_YEAR;
 
     // convert time to display format 0h 0m
-    const timeToday = reportToday.isFetched
-        ? secToTime(reportToday.data?.totals[0]?.totalTime)
+    const timeToday = summaryReports.isFetched
+        ? secToTime(reportToday?.totals?.[0]?.totalTime)
         : "";
-    const timeWeek = reportWeek.isFetched
-        ? secToTime(reportWeek.data?.totals[0]?.totalTime)
+    const timeWeek = summaryReports.isFetched
+        ? secToTime(reportWeek?.totals?.[0]?.totalTime)
         : "";
-    const timeMonth = reportMonth.isFetched
-        ? secToTime(reportMonth.data?.totals[0]?.totalTime)
+    const timeMonth = summaryReports.isFetched
+        ? secToTime(reportMonth?.totals?.[0]?.totalTime)
         : "";
-    const timeYear = reportYear.isFetched
-        ? secToTime(reportYear.data?.totals[0]?.totalTime)
+    const timeYear = summaryReports.isFetched
+        ? secToTime(reportYear?.totals?.[0]?.totalTime)
         : "";
 
     // get goals metadata from Clerk (if it exists)
@@ -36,22 +37,22 @@ export default function DashboardSummaryCards() {
     const goalProgress = goals
         ? {
               daily: Math.round(
-                  (secToHours(reportToday.data?.totals[0]?.totalTime) /
+                  (secToHours(reportToday?.totals?.[0]?.totalTime) /
                       goals.daily) *
                       100
               ),
               weekly: Math.round(
-                  (secToHours(reportWeek.data?.totals[0]?.totalTime) /
+                  (secToHours(reportWeek?.totals?.[0]?.totalTime) /
                       goals.weekly) *
                       100
               ),
               monthly: Math.round(
-                  (secToHours(reportMonth.data?.totals[0]?.totalTime) /
+                  (secToHours(reportMonth?.totals?.[0]?.totalTime) /
                       goals.monthly) *
                       100
               ),
               yearly: Math.round(
-                  (secToHours(reportYear.data?.totals[0]?.totalTime) /
+                  (secToHours(reportYear?.totals?.[0]?.totalTime) /
                       goals.yearly) *
                       100
               ),
@@ -63,25 +64,25 @@ export default function DashboardSummaryCards() {
             <DashboardSummaryCard
                 cardTitle="Today"
                 cardContent={timeToday}
-                isLoading={reportToday.isLoading}
+                isLoading={summaryReports.isLoading}
                 progress={goalProgress?.daily}
             />
             <DashboardSummaryCard
                 cardTitle="This Week"
                 cardContent={timeWeek}
-                isLoading={reportWeek.isLoading}
+                isLoading={summaryReports.isLoading}
                 progress={goalProgress?.weekly}
             />
             <DashboardSummaryCard
                 cardTitle="This Month"
                 cardContent={timeMonth}
-                isLoading={reportMonth.isLoading}
+                isLoading={summaryReports.isLoading}
                 progress={goalProgress?.monthly}
             />
             <DashboardSummaryCard
                 cardTitle="This Year"
                 cardContent={timeYear}
-                isLoading={reportYear.isLoading}
+                isLoading={summaryReports.isLoading}
                 progress={goalProgress?.yearly}
             />
         </>

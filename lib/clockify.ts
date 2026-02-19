@@ -8,6 +8,21 @@ interface ClockifyUserJSON {
     };
 }
 
+interface ClockifySummaryReports {
+    TODAY: {
+        totals?: Array<{ totalTime?: number }>;
+    };
+    THIS_WEEK: {
+        totals?: Array<{ totalTime?: number }>;
+    };
+    THIS_MONTH: {
+        totals?: Array<{ totalTime?: number }>;
+    };
+    THIS_YEAR: {
+        totals?: Array<{ totalTime?: number }>;
+    };
+}
+
 export function useClockifyData() {
     const result = useQuery(
         ["clockify", "data"],
@@ -23,8 +38,8 @@ export function useClockifyData() {
         {
             cacheTime: Infinity,
             staleTime: 5 * 60 * 1000,
-            refetchInterval: 5 * 60 * 1000,
-            refetchOnWindowFocus: true,
+            refetchOnWindowFocus: false,
+            retry: 1,
         }
     );
 
@@ -49,18 +64,19 @@ export function useClockifyUser() {
             cacheTime: Infinity,
             staleTime: Infinity,
             refetchOnWindowFocus: false,
+            retry: 1,
         }
     );
 
     return result;
 }
 
-export function useClockifySummaryReport(timeframe: string) {
+export function useClockifySummaryReports() {
     const clockifyUserData = useClockifyUser();
     const clockifyUser: ClockifyUserJSON = clockifyUserData?.data;
 
-    const result = useQuery(
-        ["clockify", "data", "summaryReport", timeframe],
+    const result = useQuery<ClockifySummaryReports>(
+        ["clockify", "data", "summaryReports"],
         async () => {
             const options = {
                 method: "POST",
@@ -69,18 +85,17 @@ export function useClockifySummaryReport(timeframe: string) {
                 },
                 body: JSON.stringify({
                     clockifyUserId: clockifyUser.id,
-                    timeframe: timeframe,
                     weekStart: clockifyUser?.settings?.weekStart || null,
                     timezone: clockifyUser?.settings?.timeZone || null,
                 }),
             };
             const response = await fetch(
-                "/api/fetchClockifySummaryReport",
+                "/api/fetchClockifySummaryReports",
                 options
             );
             if (!response.ok) {
                 throw new Error(
-                    "Something went wrong fetching Clockify summary report data."
+                    "Something went wrong fetching Clockify summary reports."
                 );
             }
             const data = await response.json();
@@ -90,9 +105,9 @@ export function useClockifySummaryReport(timeframe: string) {
         {
             cacheTime: Infinity,
             staleTime: 5 * 60 * 1000,
-            refetchInterval: 5 * 60 * 1000,
-            refetchOnWindowFocus: true,
+            refetchOnWindowFocus: false,
             enabled: !!clockifyUser,
+            retry: 1,
         }
     );
 
@@ -133,9 +148,9 @@ export function useClockifyWeeklyReport() {
         {
             cacheTime: Infinity,
             staleTime: 5 * 60 * 1000,
-            refetchInterval: 5 * 60 * 1000,
-            refetchOnWindowFocus: true,
+            refetchOnWindowFocus: false,
             enabled: !!clockifyUser,
+            retry: 1,
         }
     );
 
