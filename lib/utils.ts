@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function secToTime(seconds: number) {
+export function secToTime(seconds: number | undefined) {
     if (seconds === undefined) {
         return "0h 0m";
     }
@@ -28,7 +28,7 @@ export function hoursToTime(hours: number) {
     return `${time[0]}h ${minutes}m`;
 }
 
-export function secToHours(seconds: number) {
+export function secToHours(seconds: number | undefined) {
     if (seconds === undefined) {
         return 0;
     }

@@ -1,7 +1,7 @@
-import { clerkClient, auth } from "@clerk/nextjs";
+import { clerkClient, auth } from "@clerk/nextjs/server";
 
 export async function POST(request: Request) {
-    const { userId } = auth();
+    const { userId } = await auth();
 
     if (userId === null) {
         return new Response("User ID not found", { status: 400 });
@@ -17,7 +17,8 @@ export async function POST(request: Request) {
         });
     }
 
-    const result = await clerkClient.users.updateUserMetadata(userId, {
+    const client = await clerkClient();
+    const result = await client.users.updateUserMetadata(userId, {
         publicMetadata: {
             goals: goals.goals,
         },

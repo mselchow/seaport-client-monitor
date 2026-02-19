@@ -104,7 +104,7 @@ const Header = () => {
 
                 <div className="hidden lg:flex lg:h-2/3 lg:items-center lg:space-x-2 lg:justify-self-end">
                     <SignedIn>
-                        <RefetchData queryKey={["clockify", "data"]} />
+                        <RefetchData queryKey={["clockify"]} />
                         <ThemeChanger />
                         <Separator orientation="vertical" />
                         {clerkUserAvatar}
@@ -117,7 +117,7 @@ const Header = () => {
 
                 <div className="flex h-2/3 items-center gap-3 justify-self-end lg:hidden">
                     <SignedIn>
-                        <RefetchData queryKey={["clockify", "data"]} />
+                        <RefetchData queryKey={["clockify"]} />
                         <ThemeChanger />
                         <Separator orientation="vertical" />
                     </SignedIn>

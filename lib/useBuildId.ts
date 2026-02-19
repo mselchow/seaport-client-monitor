@@ -12,7 +12,8 @@ export function useBuildId() {
             cacheTime: Infinity,
             staleTime: 15 * 60 * 1000,
             refetchInterval: 15 * 60 * 1000,
-            refetchOnWindowFocus: true,
+            refetchOnWindowFocus: false,
+            retry: 1,
         }
     );
 
