@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { captureMessage } from "@sentry/nextjs";
-import { format, startOfWeek, endOfWeek } from "date-fns";
-import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { startOfWeek, endOfWeek } from "date-fns";
+import { utcToZonedTime, format } from "date-fns-tz";
 
 import { getClockifyKey } from "@/lib/clerk";
 import { parseDayNumber } from "@/lib/utils";
@@ -44,21 +44,22 @@ export async function POST(request: Request) {
     const clockifyTimezone = body.timezone ? body.timezone : "UTC";
 
     const nowInTimezone = utcToZonedTime(new Date(), clockifyTimezone);
-    const weekStartInTimezone = startOfWeek(nowInTimezone, {
+    let dateRangeStart = startOfWeek(nowInTimezone, {
         weekStartsOn: clockifyWeekStart,
     });
-    const weekEndInTimezone = endOfWeek(nowInTimezone, {
+    let dateRangeEnd = endOfWeek(nowInTimezone, {
         weekStartsOn: clockifyWeekStart,
     });
 
-    const dateRangeStart = format(
-        zonedTimeToUtc(weekStartInTimezone, clockifyTimezone),
-        "yyyy-MM-dd'T'HH:mm:ss'Z'"
-    );
-    const dateRangeEnd = format(
-        zonedTimeToUtc(weekEndInTimezone, clockifyTimezone),
-        "yyyy-MM-dd'T'HH:mm:ss'Z'"
-    );
+    dateRangeStart = utcToZonedTime(dateRangeStart, clockifyTimezone);
+    dateRangeEnd = utcToZonedTime(dateRangeEnd, clockifyTimezone);
+
+    const dateStartString = format(dateRangeStart, "yyyy-MM-dd'T'HH:mm:ss", {
+        timeZone: clockifyTimezone,
+    });
+    const dateEndString = format(dateRangeEnd, "yyyy-MM-dd'T'HH:mm:ss", {
+        timeZone: clockifyTimezone,
+    });
 
     const apiURL =
         "https://reports.api.clockify.me/v1/workspaces/" +
@@ -73,8 +74,8 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
             amountShown: "HIDE_AMOUNT",
-            dateRangeStart: dateRangeStart,
-            dateRangeEnd: dateRangeEnd,
+            dateRangeStart: dateStartString,
+            dateRangeEnd: dateEndString,
             timeZone: clockifyTimezone,
             users: {
                 contains: "CONTAINS",
@@ -88,13 +89,17 @@ export async function POST(request: Request) {
     };
 
     const apiRes = await fetch(apiURL, requestOptions);
-    const data = await apiRes.json();
+    const responseText = await apiRes.text();
 
     if (!apiRes.ok) {
-        const error = `error communicating with Clockify ${apiRes.status}: ${apiRes.statusText}`;
+        const error = `error communicating with Clockify ${apiRes.status}: ${apiRes.statusText}${responseText ? ` - ${responseText}` : ""}`;
         captureMessage(error);
-        throw new Error(error);
+        return new Response(responseText || error, {
+            status: apiRes.status,
+        });
     }
+
+    const data = responseText ? JSON.parse(responseText) : null;
 
     return Response.json(data);
 }
