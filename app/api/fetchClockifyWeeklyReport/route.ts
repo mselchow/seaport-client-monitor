@@ -4,7 +4,6 @@ import { startOfWeek, endOfWeek } from "date-fns";
 import { utcToZonedTime, format } from "date-fns-tz";
 
 import { getClockifyKey } from "@/lib/clerk";
-import { parseDayNumber } from "@/lib/utils";
 
 export async function POST(request: Request) {
     const userAuth = await auth();
@@ -18,10 +17,6 @@ export async function POST(request: Request) {
             "Request body missing value for 'clockifyUserId'.",
             { status: 400 }
         );
-    } else if (!body.weekStart) {
-        return new Response("Request body missing value 'weekStart'.", {
-            status: 400,
-        });
     } else if (!body.timezone) {
         return new Response("Request body missing value for 'timezone'.", {
             status: 400,
@@ -38,17 +33,15 @@ export async function POST(request: Request) {
 
     const clockifyWorkspaceId = process.env.CLOCKIFY_WORKSPACE_ID;
     const clockifyUserId = body.clockifyUserId;
-    const clockifyWeekStart = body.weekStart
-        ? (parseDayNumber(body.weekStart) as unknown as Day)
-        : 0;
     const clockifyTimezone = body.timezone ? body.timezone : "UTC";
+    const dashboardWeekStart = 0;
 
     const nowInTimezone = utcToZonedTime(new Date(), clockifyTimezone);
     let dateRangeStart = startOfWeek(nowInTimezone, {
-        weekStartsOn: clockifyWeekStart,
+        weekStartsOn: dashboardWeekStart,
     });
     let dateRangeEnd = endOfWeek(nowInTimezone, {
-        weekStartsOn: clockifyWeekStart,
+        weekStartsOn: dashboardWeekStart,
     });
 
     dateRangeStart = utcToZonedTime(dateRangeStart, clockifyTimezone);
