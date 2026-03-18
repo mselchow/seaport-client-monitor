@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { format, parse } from "date-fns";
+import { getDay, parse } from "date-fns";
 
 import DashboardChart from "@/components/dashboard/DashboardChart";
 import DashboardSummaryCards from "@/components/dashboard/DashboardSummaryCards";
@@ -15,19 +15,36 @@ interface WeeklyReportType {
     duration: number;
 }
 
+const dashboardWeekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+];
+
 export default function HomePage() {
     const clockifyData = useClockifyData();
     const { user, isLoaded } = useUser();
 
     const reportWeekly = useClockifyWeeklyReport();
     const hoursByDay = reportWeekly.isFetched
-        ? reportWeekly.data?.totalsByDay.map(
-              ({ date, duration }: WeeklyReportType) => ({
-                  day: format(parse(date, "yyyy-MM-dd", new Date()), "EEEE"),
+        ? dashboardWeekdays.map((day, dayIndex) => {
+              const matchingDay = reportWeekly.data?.totalsByDay.find(
+                  ({ date }: WeeklyReportType) =>
+                      getDay(parse(date, "yyyy-MM-dd", new Date())) ===
+                      dayIndex
+              );
+              const duration = matchingDay?.duration;
+
+              return {
+                  day,
                   hours: secToHours(duration),
                   label: secToTime(duration),
-              })
-          )
+              };
+          })
         : [];
 
     const tableHeaders = [
