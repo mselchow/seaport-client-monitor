@@ -1,4 +1,4 @@
-import { AlertTriangle, CheckCircle2, OctagonAlert } from "lucide-react";
+import { AlertOctagon, AlertTriangle, CheckCircle2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { EngagementHealth } from "@/lib/clockifyProject";
@@ -24,7 +24,7 @@ export default function HealthBadge({
                 "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900/70 dark:bg-amber-950/40 dark:text-amber-300",
         },
         critical: {
-            icon: OctagonAlert,
+            icon: AlertOctagon,
             className:
                 "border-red-200 bg-red-50 text-red-800 dark:border-red-900/70 dark:bg-red-950/40 dark:text-red-300",
         },
