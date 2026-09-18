@@ -1,15 +1,15 @@
 "use client";
 
-import { Sun, Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
-    DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 export default function ThemeChanger() {
@@ -18,7 +18,13 @@ export default function ThemeChanger() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="px-0">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="px-0"
+                    aria-label="Change color theme"
+                    title="Change color theme"
+                >
                     <Sun className="h-4 w-4 scale-100 dark:scale-0" />
                     <Moon className="absolute h-4 w-4 scale-0 dark:scale-100" />
                 </Button>
