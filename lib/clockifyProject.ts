@@ -85,16 +85,6 @@ export default class ClockifyProject {
         return this._data.customFields[0]?.value ?? "Project";
     }
 
-    get typeLabel() {
-        if (this.type === "Managed Services") {
-            return "Managed Services";
-        }
-        if (this.type === "Block Hours") {
-            return "Block Hours";
-        }
-        return "Project";
-    }
-
     get typeShortLabel() {
         if (this.type === "Managed Services") {
             return "MS";
@@ -131,13 +121,17 @@ export default class ClockifyProject {
         const days = parsed.days ?? 0;
         const hours = parsed.hours ?? 0;
         const minutes = parsed.minutes ?? 0;
+        const seconds = parsed.seconds ?? 0;
 
-        return days * 24 + hours + minutes / 60;
+        return days * 24 + hours + minutes / 60 + seconds / 3600;
     }
 
-    // Current accrued/project budget in Clockify.
-    // For MS this is expected to be the cumulative entitlement through
-    // the current service month, not the full future contract value.
+    /**
+     * Clockify estimate for the project.
+     *
+     * For Block Hours and Projects this is the full purchased/project budget.
+     * For Managed Services this is the full 12-month agreement allocation.
+     */
     get totalHours() {
         return this.durationToHours(this._data.timeEstimate.estimate);
     }
@@ -147,8 +141,48 @@ export default class ClockifyProject {
         return this.durationToHours(this._data.duration);
     }
 
+    // MS agreements renew annually. Count only service months that have
+    // actually arrived; future months do not contribute available hours.
+    get accruedMonths() {
+        if (this.type !== "Managed Services" || !this.startDate) {
+            return null;
+        }
+
+        const elapsed =
+            differenceInCalendarMonths(
+                startOfMonth(new Date()),
+                startOfMonth(this.startDate)
+            ) + 1;
+
+        return Math.max(1, Math.min(MS_AGREEMENT_MONTHS, elapsed));
+    }
+
+    // The Clockify estimate for MS is the annual allocation, so infer the
+    // monthly entitlement from the 12-month agreement total.
+    get monthlyAllotment() {
+        if (this.type !== "Managed Services" || this.totalHours <= 0) {
+            return null;
+        }
+
+        return this.totalHours / MS_AGREEMENT_MONTHS;
+    }
+
+    // Budget that is actually available as of the current service month.
+    // Non-MS engagement types have their entire purchased budget available.
+    get accruedHours() {
+        if (
+            this.type === "Managed Services" &&
+            this.monthlyAllotment !== null &&
+            this.accruedMonths !== null
+        ) {
+            return this.monthlyAllotment * this.accruedMonths;
+        }
+
+        return this.totalHours;
+    }
+
     get hoursRemainingValue() {
-        return this.totalHours - this.hoursLogged;
+        return this.accruedHours - this.hoursLogged;
     }
 
     // Number of hours remaining to project as decimal string.
@@ -169,55 +203,24 @@ export default class ClockifyProject {
             : `${duration} remaining`;
     }
 
-    // Percent of hours logged against the currently accrued/project total.
+    // Percent used against the amount that is actually available today.
     get pctHoursUsed() {
-        if (this.totalHours <= 0) {
+        if (this.accruedHours <= 0) {
             return 0;
         }
 
-        return Math.round((this.hoursLogged / this.totalHours) * 100);
+        return Math.round((this.hoursLogged / this.accruedHours) * 100);
     }
 
     get pctHoursRemaining() {
-        if (this.totalHours <= 0) {
+        if (this.accruedHours <= 0) {
             return 0;
         }
 
         return Math.max(
             0,
-            Math.round((this.hoursRemainingValue / this.totalHours) * 100)
+            Math.round((this.hoursRemainingValue / this.accruedHours) * 100)
         );
-    }
-
-    // MS agreements renew annually. Capping at 12 keeps a previous agreement
-    // that overlaps briefly with its renewal from artificially shrinking the
-    // inferred monthly allotment.
-    get accruedMonths() {
-        if (this.type !== "Managed Services" || !this.startDate) {
-            return null;
-        }
-
-        const elapsed =
-            differenceInCalendarMonths(
-                startOfMonth(new Date()),
-                startOfMonth(this.startDate)
-            ) + 1;
-
-        return Math.max(1, Math.min(MS_AGREEMENT_MONTHS, elapsed));
-    }
-
-    // Clockify stores MS estimates cumulatively as each monthly entitlement
-    // accrues. Infer the monthly allotment from the current cumulative estimate.
-    get monthlyAllotment() {
-        if (
-            this.type !== "Managed Services" ||
-            !this.accruedMonths ||
-            this.totalHours <= 0
-        ) {
-            return null;
-        }
-
-        return this.totalHours / this.accruedMonths;
     }
 
     get rolloverMultiple() {
