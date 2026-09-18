@@ -36,7 +36,7 @@ function balanceContext(project: ClockifyProject) {
         const monthly = project.monthlyAllotment;
         const rollover = project.rolloverMultiple;
 
-        if (monthly && rollover !== null) {
+        if (monthly && rollover !== null && rollover >= 0) {
             return `${formatHoursCompact(monthly)}/mo · ${rollover.toFixed(
                 1
             )}× banked`;
@@ -152,7 +152,9 @@ export default function EngagementMonitor({
                                 type="button"
                                 size="sm"
                                 variant={attentionOnly ? "secondary" : "ghost"}
-                                onClick={() => setAttentionOnly((value) => !value)}
+                                onClick={() =>
+                                    setAttentionOnly((value) => !value)
+                                }
                                 aria-pressed={attentionOnly}
                                 className="gap-1.5"
                             >
@@ -168,7 +170,9 @@ export default function EngagementMonitor({
                             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                                 value={query}
-                                onChange={(event) => setQuery(event.target.value)}
+                                onChange={(event) =>
+                                    setQuery(event.target.value)
+                                }
                                 placeholder="Search clients or projects"
                                 className="pl-9"
                             />
