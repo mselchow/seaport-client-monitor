@@ -20,11 +20,17 @@ export default function NavLink({ title, path }: NavLinkProps) {
         isActive = pathname === path;
     }
 
-    const highlightActive = isActive ? "bg-secondary font-bold" : "font-normal";
+    const highlightActive = isActive
+        ? "bg-secondary font-semibold shadow-sm ring-1 ring-seaportaccent"
+        : "font-normal";
 
     return (
         <Button variant="ghost" className="lg:w-28 xl:w-36" asChild>
-            <Link href={path} className={highlightActive}>
+            <Link
+                href={path}
+                className={highlightActive}
+                aria-current={isActive ? "page" : undefined}
+            >
                 {title}
             </Link>
         </Button>

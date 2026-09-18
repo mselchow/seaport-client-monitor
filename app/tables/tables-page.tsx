@@ -2,26 +2,11 @@
 
 import { useUser } from "@clerk/nextjs";
 
-import Table from "@/components/Table";
+import EngagementMonitor from "@/components/monitoring/EngagementMonitor";
 import { useClockifyData } from "@/lib/clockify";
 import ClockifyProject, { ClockifyJSON } from "@/lib/clockifyProject";
 
 const Tables = () => {
-    const tableHeaders = [
-        {
-            label: "Client",
-            accessor: "nameWithDate" as keyof ClockifyProject,
-            dataType: "string",
-            sortable: true,
-        },
-        {
-            label: "Hours Remaining",
-            accessor: "hoursRemaining" as keyof ClockifyProject,
-            dataType: "number",
-            sortable: true,
-        },
-    ];
-
     const result = useClockifyData();
     const { user, isLoaded } = useUser();
 
@@ -32,63 +17,50 @@ const Tables = () => {
     if (excludedClients === undefined) {
         excludedClients = [];
     }
-    let clockifyData: ClockifyProject[],
-        msData: ClockifyProject[] | null = null,
-        blockData: ClockifyProject[] | null = null,
-        projData: ClockifyProject[] | null = null;
 
-    // Map Clockify data to wrapper, then filter out excluded clients
-    if (result.isError || result.data?.message !== undefined) {
-        // We had an error, show error message below
-    } else if (!result.isLoading && isLoaded) {
-        clockifyData = result.data.map(
-            (data: ClockifyJSON) => new ClockifyProject(data)
-        );
+    const hasClockifyError =
+        result.isError || result.data?.message !== undefined;
 
-        clockifyData = clockifyData.filter((proj) => {
-            if (!excludedClients.includes(proj.clientId)) {
-                return proj;
-            }
-        });
+    let clockifyData: ClockifyProject[] | null = null;
 
-        msData = clockifyData.filter((proj) => proj.type == "Managed Services");
-        blockData = clockifyData.filter((proj) => proj.type == "Block Hours");
-        projData = clockifyData.filter((proj) => proj.type == "Project");
+    if (!hasClockifyError && !result.isLoading && isLoaded) {
+        clockifyData = Array.isArray(result.data)
+            ? result.data
+                  .map((data: ClockifyJSON) => new ClockifyProject(data))
+                  .filter(
+                      (project: ClockifyProject) =>
+                          !excludedClients.includes(project.clientId)
+                  )
+            : [];
     }
 
     return (
-        <>
-            {result.isError || result.data?.message !== undefined ? (
-                <div className="text-center">
-                    <p>We countered an error fetching Clockify data.</p>
-                    <p>
-                        Please try again later, or make sure that you have saved
-                        your Clockify API in under Settings.
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-2xl font-bold tracking-tight">Hours left</h1>
+                <p className="mt-1 text-sm text-muted-foreground">
+                    Review every active engagement by normalized balance and
+                    health, regardless of billing model.
+                </p>
+            </div>
+
+            {hasClockifyError ? (
+                <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-6 py-5">
+                    <p className="font-semibold">
+                        We encountered an error fetching Clockify data.
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Try refreshing, or confirm that your Clockify API key is
+                        saved under Settings.
                     </p>
                 </div>
             ) : (
-                <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    <Table
-                        title="Managed Services"
-                        data={msData}
-                        headers={tableHeaders}
-                        isLoading={result.isLoading}
-                    />
-                    <Table
-                        title="Block Hours"
-                        data={blockData}
-                        headers={tableHeaders}
-                        isLoading={result.isLoading}
-                    />
-                    <Table
-                        title="Projects"
-                        data={projData}
-                        headers={tableHeaders}
-                        isLoading={result.isLoading}
-                    />
-                </div>
+                <EngagementMonitor
+                    data={clockifyData}
+                    isLoading={result.isLoading || !isLoaded}
+                />
             )}
-        </>
+        </div>
     );
 };
 

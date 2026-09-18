@@ -1,15 +1,22 @@
-import { CheckCircle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatHoursCompact } from "@/lib/utils";
 
 interface DashboardSummaryCardProps {
     cardTitle: string;
     cardContent: string;
     isLoading: boolean;
     progress?: number | null;
+    target?: number | null;
+    context?: string | null;
 }
 
 export default function DashboardSummaryCard({
@@ -17,48 +24,54 @@ export default function DashboardSummaryCard({
     cardContent,
     isLoading = false,
     progress = null,
+    target = null,
+    context = null,
 }: DashboardSummaryCardProps) {
     const displayGoal =
-        progress !== null && progress >= 0 && progress !== Infinity;
-
-    const badgeComplete = progress !== null && progress >= 100;
-    const badgeElement =
-        displayGoal &&
-        (badgeComplete ? (
-            <Badge variant="complete">{progress + "%"}</Badge>
-        ) : (
-            <Badge variant="default">{progress + "%"}</Badge>
-        ));
-
-    const progressContent = displayGoal && (
-        <Progress value={progress} className="mt-3" />
-    );
+        progress !== null && Number.isFinite(progress) && progress >= 0;
+    const goalComplete = displayGoal && progress >= 100;
 
     return (
-        <Card>
+        <Card className="overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="h-5 text-sm font-medium">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                     {cardTitle}
                 </CardTitle>
-                {badgeComplete ? (
-                    <CheckCircle className="h-5 w-5 text-seaportaccent" />
+                {goalComplete ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                ) : displayGoal ? (
+                    <span className="text-xs font-semibold tabular-nums text-muted-foreground">
+                        {progress}%
+                    </span>
                 ) : null}
             </CardHeader>
             <CardContent>
                 {isLoading ? (
                     <>
-                        <Skeleton className="h-8 w-auto" />
-                        <Skeleton className="mt-2 h-4 w-auto" />
+                        <Skeleton className="h-8 w-28" />
+                        <Skeleton className="mt-3 h-2 w-full" />
+                        <Skeleton className="mt-3 h-4 w-36" />
                     </>
                 ) : (
                     <>
-                        <div className="flex flex-row items-center justify-between">
-                            <div className="text-2xl font-bold">
+                        <div className="flex items-baseline gap-1.5">
+                            <div className="text-2xl font-bold tracking-tight tabular-nums">
                                 {cardContent}
                             </div>
-                            {badgeElement}
+                            {target ? (
+                                <div className="text-xs text-muted-foreground tabular-nums">
+                                    / {formatHoursCompact(target)}
+                                </div>
+                            ) : null}
                         </div>
-                        <div>{progressContent}</div>
+
+                        {displayGoal ? (
+                            <Progress value={progress} className="mt-3 h-1.5" />
+                        ) : null}
+
+                        <div className="mt-3 min-h-5 text-xs font-medium text-muted-foreground">
+                            {context ?? "Set a goal in Settings to track pace."}
+                        </div>
                     </>
                 )}
             </CardContent>

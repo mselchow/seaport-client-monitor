@@ -22,10 +22,32 @@ export function hoursToTime(hours: number) {
         return "0h 0m";
     }
 
-    const time = hours.toString().split(".");
-    const minutes = ((hours - Number(time[0])) * 60).toFixed(0);
+    const sign = hours < 0 ? "-" : "";
+    const totalMinutes = Math.round(Math.abs(hours) * 60);
+    const wholeHours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
 
-    return `${time[0]}h ${minutes}m`;
+    return `${sign}${wholeHours}h ${minutes}m`;
+}
+
+export function formatHoursCompact(hours: number) {
+    if (!Number.isFinite(hours)) {
+        return "0h";
+    }
+
+    const totalMinutes = Math.round(Math.abs(hours) * 60);
+    const wholeHours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    if (wholeHours === 0) {
+        return `${minutes}m`;
+    }
+
+    if (minutes === 0) {
+        return `${wholeHours}h`;
+    }
+
+    return `${wholeHours}h ${minutes}m`;
 }
 
 export function secToHours(seconds: number | undefined) {
