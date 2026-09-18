@@ -9,7 +9,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import ClockifyProject from "@/lib/clockifyProject";
-import { formatHoursCompact } from "@/lib/utils";
 
 interface DashboardAttentionProps {
     data: ClockifyProject[] | null;
@@ -19,19 +18,20 @@ interface DashboardAttentionProps {
 function secondaryMetric(project: ClockifyProject) {
     if (
         project.type === "Managed Services" &&
-        project.rolloverMultiple !== null
+        project.rolloverMultiple !== null &&
+        project.rolloverMultiple >= 0
     ) {
         return `${project.rolloverMultiple.toFixed(1)}× monthly allocation`;
     }
 
-    return `${project.pctHoursUsed}% of budget used`;
+    return `${project.pctHoursUsed}% of ${project.type === "Managed Services" ? "accrued hours" : "budget"} used`;
 }
 
 export default function DashboardAttention({
     data,
     isLoading,
 }: DashboardAttentionProps) {
-    const attention = (data ?? [])
+    const allAttention = (data ?? [])
         .filter((project) => project.health.level !== "healthy")
         .sort((a, b) => {
             if (b.health.rank !== a.health.rank) {
@@ -39,8 +39,8 @@ export default function DashboardAttention({
             }
 
             return a.name.localeCompare(b.name);
-        })
-        .slice(0, 6);
+        });
+    const attention = allAttention.slice(0, 6);
 
     return (
         <Card className="overflow-hidden">
@@ -55,10 +55,7 @@ export default function DashboardAttention({
                     {!isLoading && attention.length > 0 ? (
                         <div className="text-sm font-medium text-muted-foreground">
                             {attention.length}
-                            {data && data.filter((p) => p.health.level !== "healthy").length >
-                            attention.length
-                                ? "+"
-                                : ""}{" "}
+                            {allAttention.length > attention.length ? "+" : ""}{" "}
                             flagged
                         </div>
                     ) : null}
@@ -115,7 +112,10 @@ export default function DashboardAttention({
                                 </div>
 
                                 <div className="sm:justify-self-end sm:text-right">
-                                    <HealthBadge health={project.health} compact />
+                                    <HealthBadge
+                                        health={project.health}
+                                        compact
+                                    />
                                     <div className="mt-1 text-xs text-muted-foreground">
                                         {project.health.reason}
                                     </div>
