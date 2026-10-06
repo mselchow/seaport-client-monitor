@@ -24,6 +24,15 @@ To get started, just clone the repository and run `npm install && npm run dev`:
 
 To build locally, copy `.env` to `.env.local` and paste it in the requisite keys from Clerk and your Clockify workspace. This app was customized based on our Clockify configuration, so you will likely need to adjust the data model in `clockifyProject.js`.
 
+### Clerk Configuration
+
+Below is a high-level summary of the currently configured Clerk application:
+
+* User & authentication --> SSO connections --> enabled for Google
+* User & authentication --> Access mode --> Allowlist --> enabled for company domain
+* Sessions --> Sessions --> Customize session token --> Claims --> `{ "hasClockifyKey": "{{user.public_metadata.hasClockifyKey}}" }`
+* 
+
 ## License
 
 This code is released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html). 
