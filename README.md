@@ -31,7 +31,6 @@ Below is a high-level summary of the currently configured Clerk application:
 * User & authentication --> SSO connections --> enabled for Google
 * User & authentication --> Access mode --> Allowlist --> enabled for company domain
 * Sessions --> Sessions --> Customize session token --> Claims --> `{ "hasClockifyKey": "{{user.public_metadata.hasClockifyKey}}" }`
-* 
 
 ## License
 
